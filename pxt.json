@@ -1,0 +1,24 @@
+{
+  "name": "ml",
+  "version": "0.1.0",
+  "description": "Machine learning with the micro:bit",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": ["main.blocks", "main.ts", "README.md"],
+  "targetVersions": {
+    "branch": "v6.0.26",
+    "tag": "v6.0.26",
+    "commits": "https://github.com/microsoft/pxt-microbit/commits/0ba979dd8a8f411c37c20b5fd4faba5b43ef51aa",
+    "target": "6.0.26",
+    "targetId": "microbit",
+    "pxt": "9.0.17"
+  },
+  "supportedTargets": ["microbit"],
+  "public": false,
+  "preferredEditor": "blocksprj",
+  "extension": {
+    "label": "Add data",
+    "localUrl": "http://localhost:3000/"
+  }
+}
