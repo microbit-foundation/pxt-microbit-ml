@@ -1,11 +1,11 @@
 {
   "name": "machineLearningPoc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Machine learning with the micro:bit experimental extension",
   "dependencies": {
     "core": "*"
   },
-  "files": ["main.ts", "README.md"],
+  "files": ["machineLearningPoc.ts", "README.md"],
   "targetVersions": {
     "branch": "v6.0.26",
     "tag": "v6.0.26",
