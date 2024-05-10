@@ -3,5 +3,8 @@ namespace machineLearningPoc {
   //% block="test block"
   export function doesNothing() {}
 
-  export function pass() {}
+  export function logData(data: string) {
+    console.log("=== Data passed to function from editor extension ===");
+    console.log(data);
+  }
 }
