@@ -2,4 +2,6 @@
 namespace machineLearningPoc {
   //% block="test block"
   export function doesNothing() {}
+
+  export function pass() {}
 }
