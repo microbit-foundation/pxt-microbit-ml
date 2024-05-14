@@ -59,10 +59,4 @@ namespace machineLearningPoc {
   export function parseData(data: string): PersistantGestureData[] {
     return JSON.parse(data);
   }
-
-  export function checkTensorflow() {
-    // Trying this with npmDependencies defined in pxt.json.
-    // Fully expect it to be undefined.
-    console.log(tf);
-  }
 }

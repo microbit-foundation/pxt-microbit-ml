@@ -27,8 +27,5 @@
         "group": "Data",
         "label": "Import data",
         "localUrl": "http://localhost:3000/"
-    },
-    "npmDependencies": {
-        "tf": "@tensorflow/tfjs"
     }
 }
