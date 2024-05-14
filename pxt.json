@@ -25,8 +25,10 @@
     "extension": {
         "namespace": "machineLearningPoc",
         "group": "Data",
-        "label": "Add data",
-        "url": "https://dan4p.github.io/ml-gestures/",
+        "label": "Import data",
         "localUrl": "http://localhost:3000/"
+    },
+    "npmDependencies": {
+        "tf": "@tensorflow/tfjs"
     }
 }
