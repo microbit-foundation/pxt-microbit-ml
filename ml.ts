@@ -77,6 +77,7 @@ namespace machineLearningPoc {
   interface EventHandlers {
     [key: number]: () => void;
   }
+
   export const eventHandlers: EventHandlers = {};
 
   export function triggerGesture(mlGesture: number) {
@@ -86,9 +87,11 @@ namespace machineLearningPoc {
     }
   }
 
-  control.simmessages.onReceived("machineLearningPoc", (buf) => {
-    const s = buf.toString();
-    const mlGesture = JSON.parse(s) as number;
-    machineLearningPoc.triggerGesture(mlGesture);
-  });
+  export function handleMessage(msg: Buffer) {
+    const s = msg.toString();
+    const mlGesture = JSON.parse(s);
+    triggerGesture(mlGesture.value);
+  }
+
+  control.simmessages.onReceived("machineLearningPoc", handleMessage);
 }
