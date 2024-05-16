@@ -59,4 +59,36 @@ namespace machineLearningPoc {
   export function parseData(data: string): PersistantGestureData[] {
     return JSON.parse(data);
   }
+
+  export function createSimulator(data: string): void {
+    const parsedData: PersistantGestureData[] = JSON.parse(data);
+    const gestureLabels = parsedData.map((d, i) => ({
+      name: d.name,
+      value: i,
+    }));
+    const msg = {
+      type: "init",
+      data: gestureLabels,
+    };
+    const payload = Buffer.fromUTF8(JSON.stringify(msg));
+    control.simmessages.send("machineLearningPoc", payload, false);
+  }
+
+  interface EventHandlers {
+    [key: number]: () => void;
+  }
+  export const eventHandlers: EventHandlers = {};
+
+  export function triggerGesture(mlGesture: number) {
+    const handler = eventHandlers[mlGesture];
+    if (handler) {
+      handler();
+    }
+  }
+
+  control.simmessages.onReceived("machineLearningPoc", (buf) => {
+    const s = buf.toString();
+    const mlGesture = JSON.parse(s) as number;
+    machineLearningPoc.triggerGesture(mlGesture);
+  });
 }
