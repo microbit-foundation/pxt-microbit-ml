@@ -48,28 +48,55 @@ namespace machineLearningPoc {
     confidence: Confidence;
   };
 
+  type MachineLearningPocMessageType =
+    | "register"
+    | "init"
+    | "data"
+    | "request_data"
+    | "trigger_gesture";
+
+  interface MachineLearningPocMessage {
+    type: MachineLearningPocMessageType;
+    data?: any;
+  }
+
   //% block="test block"
   export function doesNothing() {}
 
-  export function logData(data: string) {
-    console.log("=== Data passed to function from editor extension ===");
-    console.log(data);
+  export let mlGestureData: PersistantGestureData[] | undefined;
+
+  export function setData(data: string) {
+    mlGestureData = JSON.parse(data) as PersistantGestureData[];
+    simulatorRegister();
   }
 
-  export function parseData(data: string): PersistantGestureData[] {
-    return JSON.parse(data);
+  export function simulatorRegister(): void {
+    const msg: MachineLearningPocMessage = {
+      type: "register",
+    };
+    simulatorSendMessage(msg);
   }
 
-  export function createSimulator(data: string): void {
-    const parsedData: PersistantGestureData[] = JSON.parse(data);
-    const gestureLabels = parsedData.map((d, i) => ({
+  export function simulatorInit(): void {
+    const msg: MachineLearningPocMessage = {
+      type: "init",
+    };
+    simulatorSendMessage(msg);
+  }
+
+  export function simulatorSendData(): void {
+    const gestureLabels = mlGestureData.map((d, i) => ({
       name: d.name,
       value: i,
     }));
-    const msg = {
-      type: "init",
+    const msg: MachineLearningPocMessage = {
+      type: "data",
       data: gestureLabels,
     };
+    simulatorSendMessage(msg);
+  }
+
+  export function simulatorSendMessage(msg: MachineLearningPocMessage): void {
     const payload = Buffer.fromUTF8(JSON.stringify(msg));
     control.simmessages.send("machineLearningPoc", payload, false);
   }
@@ -87,10 +114,17 @@ namespace machineLearningPoc {
     }
   }
 
-  export function handleMessage(msg: Buffer) {
-    const s = msg.toString();
-    const mlGesture = JSON.parse(s);
-    triggerGesture(mlGesture.value);
+  export function handleMessage(buffer: Buffer) {
+    const msg: MachineLearningPocMessage = JSON.parse(buffer.toString());
+    switch (msg.type) {
+      case "request_data": {
+        simulatorSendData();
+        break;
+      }
+      case "trigger_gesture": {
+        triggerGesture(msg.data);
+      }
+    }
   }
 
   control.simmessages.onReceived("machineLearningPoc", handleMessage);
