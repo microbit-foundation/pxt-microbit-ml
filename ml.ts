@@ -70,11 +70,13 @@ namespace machineLearningPoc {
     simulatorRegister();
   }
 
+  //% shim=TD_NOOP
   export function simulatorRegister(): void {
     const msg: MachineLearningPocMessage = {
       type: "register",
     };
     simulatorSendMessage(msg);
+    control.simmessages.onReceived("machineLearningPoc", handleMessage);
   }
 
   export function simulatorInit(): void {
@@ -96,6 +98,7 @@ namespace machineLearningPoc {
     simulatorSendMessage(msg);
   }
 
+  //% shim=TD_NOOP
   export function simulatorSendMessage(msg: MachineLearningPocMessage): void {
     const payload = Buffer.fromUTF8(JSON.stringify(msg));
     control.simmessages.send("machineLearningPoc", payload, false);
@@ -126,6 +129,4 @@ namespace machineLearningPoc {
       }
     }
   }
-
-  control.simmessages.onReceived("machineLearningPoc", handleMessage);
 }
