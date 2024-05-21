@@ -122,7 +122,7 @@ namespace machineLearningPoc {
         break;
       }
       case "trigger_gesture": {
-        triggerGesture(msg.data);
+        triggerGesture(msg.data.value);
       }
     }
   }
