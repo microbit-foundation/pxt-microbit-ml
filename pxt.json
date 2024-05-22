@@ -1,26 +1,32 @@
 {
-  "name": "Machine Learning POC",
-  "version": "0.1.17",
-  "description": "Machine learning with the micro:bit experimental extension",
-  "dependencies": {
-    "core": "*"
-  },
-  "files": ["ml.ts", "ml.cpp", "README.md"],
-  "public": false,
-  "targetVersions": {
-    "branch": "v6.0.26",
-    "tag": "v6.0.26",
-    "commits": "https://github.com/microsoft/pxt-microbit/commits/0ba979dd8a8f411c37c20b5fd4faba5b43ef51aa",
-    "target": "6.0.26",
-    "targetId": "microbit",
-    "pxt": "9.0.17"
-  },
-  "supportedTargets": ["microbit"],
-  "preferredEditor": "blocksprj",
-  "extension": {
-    "namespace": "machineLearningPoc",
-    "group": "Data",
-    "label": "Import data",
-    "localUrl": "http://localhost:3000/"
-  }
+    "name": "Machine Learning POC",
+    "version": "0.1.18",
+    "description": "Machine learning with the micro:bit experimental extension",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "ml.ts",
+        "ml.cpp",
+        "README.md"
+    ],
+    "public": false,
+    "targetVersions": {
+        "branch": "v6.0.26",
+        "tag": "v6.0.26",
+        "commits": "https://github.com/microsoft/pxt-microbit/commits/0ba979dd8a8f411c37c20b5fd4faba5b43ef51aa",
+        "target": "6.0.26",
+        "targetId": "microbit",
+        "pxt": "9.0.17"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj",
+    "extension": {
+        "namespace": "machineLearningPoc",
+        "group": "Data",
+        "label": "Import data",
+        "localUrl": "http://localhost:3000/"
+    }
 }
