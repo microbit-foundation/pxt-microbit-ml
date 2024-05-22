@@ -129,17 +129,4 @@ namespace machineLearningPoc {
       }
     }
   }
-
-  enum MlAction {
-    wave = 0,
-    twist = 1,
-    still = 2,
-  }
-
-  //% block="on|%NAME|action estimated"
-  //% icon="\uf192" blockGap=8
-  //% shim=machineLearningPoc::onActionEstimated
-  export function onActionEstimated(action: MlAction, body: () => void): void {
-    eventHandlers[action] = body;
-  }
 }
