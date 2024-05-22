@@ -63,6 +63,13 @@ namespace machineLearningPoc {
   //% block="test block"
   export function doesNothing() {}
 
+  //% blockId=poc_test
+  //% block="poc test"
+  //% shim=machineLearningPoc::emit_ml_event
+  export function emitMlEvent(): void {
+    console.log("testing");
+  }
+
   let mlActionData: ActionData[] | undefined;
 
   export function setData(data: string) {
