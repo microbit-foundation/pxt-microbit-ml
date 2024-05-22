@@ -65,7 +65,7 @@ namespace machineLearningPoc {
 
   let mlActionData: ActionData[] | undefined;
 
-  function setData(data: string) {
+  export function setData(data: string) {
     mlActionData = JSON.parse(data) as ActionData[];
     simulatorRegister();
   }
@@ -108,7 +108,7 @@ namespace machineLearningPoc {
     [key: number]: () => void;
   }
 
-  const eventHandlers: EventHandlers = {};
+  export const eventHandlers: EventHandlers = {};
 
   function simulateAction(mlAction: number) {
     const handler = eventHandlers[mlAction];
