@@ -1,8 +1,8 @@
 #include "pxt.h"
 using namespace pxt;
 namespace machineLearningPoc {
-    //% block="test block"
-    void doesNothing() {
+    //% blockId="test block"
+    void shim_test() {
         uBit.display.scroll("Shim works!");
     }
 }
