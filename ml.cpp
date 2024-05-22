@@ -2,9 +2,9 @@
 
 // Hard coded for now.
 enum class MlAction {
-    wave,
-    twist,
-    still,
+    wave = 0,
+    twist = 1,
+    still = 2,
 };
 
 //% block="Machine Learning"
