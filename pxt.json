@@ -6,7 +6,6 @@
     "core": "*"
   },
   "files": ["ml.ts", "ml.cpp", "README.md", "shims.d.ts", "enums.d.ts"],
-  "public": true,
   "targetVersions": {
     "branch": "v6.0.26",
     "tag": "v6.0.26",
