@@ -40,7 +40,7 @@ namespace machineLearningPoc {
     isConfident: boolean;
   }
 
-  export type PersistantGestureData = {
+  type ActionData = {
     ID: GestureID;
     name: string;
     recordings: RecordingData[];
@@ -53,7 +53,7 @@ namespace machineLearningPoc {
     | "init"
     | "data"
     | "request_data"
-    | "trigger_gesture";
+    | "trigger_action";
 
   interface MachineLearningPocMessage {
     type: MachineLearningPocMessageType;
@@ -63,15 +63,15 @@ namespace machineLearningPoc {
   //% block="test block"
   export function doesNothing() {}
 
-  export let mlGestureData: PersistantGestureData[] | undefined;
+  let mlActionData: ActionData[] | undefined;
 
-  export function setData(data: string) {
-    mlGestureData = JSON.parse(data) as PersistantGestureData[];
+  function setData(data: string) {
+    mlActionData = JSON.parse(data) as ActionData[];
     simulatorRegister();
   }
 
   //% shim=TD_NOOP
-  export function simulatorRegister(): void {
+  function simulatorRegister(): void {
     const msg: MachineLearningPocMessage = {
       type: "register",
     };
@@ -79,27 +79,27 @@ namespace machineLearningPoc {
     control.simmessages.onReceived("machineLearningPoc", handleMessage);
   }
 
-  export function simulatorInit(): void {
+  function simulatorInit(): void {
     const msg: MachineLearningPocMessage = {
       type: "init",
     };
     simulatorSendMessage(msg);
   }
 
-  export function simulatorSendData(): void {
-    const gestureLabels = mlGestureData.map((d, i) => ({
+  function simulatorSendData(): void {
+    const actionLabels = mlActionData.map((d, i) => ({
       name: d.name,
       value: i,
     }));
     const msg: MachineLearningPocMessage = {
       type: "data",
-      data: gestureLabels,
+      data: actionLabels,
     };
     simulatorSendMessage(msg);
   }
 
   //% shim=TD_NOOP
-  export function simulatorSendMessage(msg: MachineLearningPocMessage): void {
+  function simulatorSendMessage(msg: MachineLearningPocMessage): void {
     const payload = Buffer.fromUTF8(JSON.stringify(msg));
     control.simmessages.send("machineLearningPoc", payload, false);
   }
@@ -108,24 +108,24 @@ namespace machineLearningPoc {
     [key: number]: () => void;
   }
 
-  export const eventHandlers: EventHandlers = {};
+  const eventHandlers: EventHandlers = {};
 
-  export function triggerGesture(mlGesture: number) {
-    const handler = eventHandlers[mlGesture];
+  function simulateAction(mlAction: number) {
+    const handler = eventHandlers[mlAction];
     if (handler) {
       handler();
     }
   }
 
-  export function handleMessage(buffer: Buffer) {
+  function handleMessage(buffer: Buffer) {
     const msg: MachineLearningPocMessage = JSON.parse(buffer.toString());
     switch (msg.type) {
       case "request_data": {
         simulatorSendData();
         break;
       }
-      case "trigger_gesture": {
-        triggerGesture(msg.data.value);
+      case "trigger_action": {
+        simulateAction(msg.data.value);
       }
     }
   }
