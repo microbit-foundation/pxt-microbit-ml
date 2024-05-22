@@ -60,13 +60,8 @@ namespace machineLearningPoc {
     data?: any;
   }
 
-  //% blockId=test_block
   //% block="test block"
-  //% shim=machineLearningPoc::shim_test
-  export function doesNothing() {
-    console.log("This block does nothing");
-    return;
-  }
+  export function doesNothing() {}
 
   let mlActionData: ActionData[] | undefined;
 
