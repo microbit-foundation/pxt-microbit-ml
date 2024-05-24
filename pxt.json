@@ -1,6 +1,6 @@
 {
     "name": "Machine Learning POC",
-    "version": "0.1.22",
+    "version": "0.1.23",
     "description": "Machine learning with the micro:bit experimental extension",
     "dependencies": {
         "core": "*"
