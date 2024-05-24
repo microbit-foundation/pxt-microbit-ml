@@ -1,53 +1,5 @@
 //% block="Machine Learning"
 namespace machineLearningPoc {
-  type GestureID = number;
-
-  type RecordingData = {
-    ID: number;
-    data: {
-      x: number[];
-      y: number[];
-      z: number[];
-    };
-  };
-
-  enum PinTurnOnState {
-    ALL_TIME,
-    X_TIME,
-  }
-
-  type UsableIOPin = 0 | 1 | 2;
-
-  type GestureOutput = {
-    matrix?: boolean[];
-    sound?: SoundData;
-    outputPin?: {
-      pin: UsableIOPin;
-      pinState: PinTurnOnState;
-      turnOnTime: number;
-    };
-  };
-
-  type SoundData = {
-    name: string;
-    id: string;
-    path: string;
-  };
-
-  interface Confidence {
-    currentConfidence: number;
-    requiredConfidence: number;
-    isConfident: boolean;
-  }
-
-  type ActionData = {
-    ID: GestureID;
-    name: string;
-    recordings: RecordingData[];
-    output: GestureOutput;
-    confidence: Confidence;
-  };
-
   type MachineLearningPocMessageType =
     | "register"
     | "init"
@@ -63,15 +15,11 @@ namespace machineLearningPoc {
   //% block="test block"
   export function doesNothing() {}
 
-  let mlActionData: ActionData[] | undefined;
-
-  export function setData(data: string) {
-    mlActionData = JSON.parse(data) as ActionData[];
-    simulatorRegister();
-  }
+  export let actions: string[];
+  export let modelBlob: Buffer | undefined;
 
   //% shim=TD_NOOP
-  function simulatorRegister(): void {
+  export function simulatorRegister(): void {
     const msg: MachineLearningPocMessage = {
       type: "register",
     };
@@ -79,16 +27,9 @@ namespace machineLearningPoc {
     control.simmessages.onReceived("machineLearningPoc", handleMessage);
   }
 
-  function simulatorInit(): void {
-    const msg: MachineLearningPocMessage = {
-      type: "init",
-    };
-    simulatorSendMessage(msg);
-  }
-
   function simulatorSendData(): void {
-    const actionLabels = mlActionData.map((d, i) => ({
-      name: d.name,
+    const actionLabels = actions.map((action, i) => ({
+      name: action,
       value: i,
     }));
     const msg: MachineLearningPocMessage = {
