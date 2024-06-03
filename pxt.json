@@ -31,5 +31,12 @@
         "group": "Data",
         "label": "Import data",
         "localUrl": "http://localhost:3000/"
+    },
+    "yotta": {
+        "config": {
+            "codal": {
+                "MLRUNNER_USE_EXAMPLE_MODEL": 0
+            }
+        }
     }
 }
