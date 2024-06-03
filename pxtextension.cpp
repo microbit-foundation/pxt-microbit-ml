@@ -10,14 +10,16 @@ enum MlRunnerIds {
 
 enum MlRunnerError {
     ErrorModelNotPresent = 800,
-    ErrorInputLength = 801,
-    ErrorMemAlloc = 802,
-    ErrorModelInference = 803,
+    ErrorSamplesLength,
+    ErrorSamplesDimension,
+    ErrorSamplesPeriod,
+    ErrorInputLength,
+    ErrorMemAlloc,
+    ErrorModelInference,
 };
 
 static bool initialised = false;
 
-static const CODAL_TIMESTAMP ML_CODAL_TIMER_PERIOD = 25;
 static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 // Enable/disable debug print to serial, can be set in pxt.json
@@ -56,8 +58,16 @@ namespace mlrunner {
     void recordAccData(MicroBitEvent) {
         if (!initialised) return;
 
-        mlDataProcessor.recordAccData(
-            uBit.accelerometer.getX(), uBit.accelerometer.getY(), uBit.accelerometer.getZ());
+        const float accData[3] = {
+            uBit.accelerometer.getX() / 1000.0f,
+            uBit.accelerometer.getY() / 1000.0f,
+            uBit.accelerometer.getZ() / 1000.0f,
+        };
+        bool success = mlDataProcessor.recordAccData(accData, 3);
+        if (!success) {
+            DEBUG_PRINT("Failed to record accelerometer data\n");
+            return;
+        }
 
         if (mlDataProcessor.isDataReady()) {
             // Stop firing timer events while running model and resume after
@@ -95,25 +105,42 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorModelNotPresent);
         }
 
+        const int samplesLen = ml_getSamplesLength();
+        DEBUG_PRINT("\tModel samples length: %d\n", samplesLen);
+        if (samplesLen <= 0) {
+            DEBUG_PRINT("Model samples length invalid\n");
+            uBit.panic(MlRunnerError::ErrorSamplesLength);
+        }
+
+        const int sampleDimensions = ml_getSampleDimensions();
+        DEBUG_PRINT("\tModel sample dimensions: %d\n", sampleDimensions);
+        if (sampleDimensions != 3) {
+            DEBUG_PRINT("Model sample dimensions invalid\n");
+            uBit.panic(MlRunnerError::ErrorSamplesDimension);
+        }
+
+        const int samplesPeriodMillisec = ml_getSamplesPeriod();
+        DEBUG_PRINT("\tModel samples period: %d\n", samplesPeriodMillisec);
+        if (samplesPeriodMillisec <= 0) {
+            DEBUG_PRINT("Model samples period invalid\n");
+            uBit.panic(MlRunnerError::ErrorSamplesPeriod);
+        }
+
         const int inputLen = ml_getInputLength();
+        DEBUG_PRINT("\tModel input length: %d\n", inputLen);
         if (inputLen <= 0) {
             DEBUG_PRINT("Model input length invalid\n");
             uBit.panic(MlRunnerError::ErrorInputLength);
         }
-        if (inputLen % 3 != 0) {
-            DEBUG_PRINT("Model input length not divisible by 3\n");
-            uBit.panic(MlRunnerError::ErrorInputLength);
-        }
-        DEBUG_PRINT("\tModel input length: %d\n", inputLen);
 
-        bool success = mlDataProcessor.init(inputLen / 3);
+        bool success = mlDataProcessor.init(samplesLen, sampleDimensions, inputLen);
         if (!success) {
             uBit.panic(MlRunnerError::ErrorMemAlloc);
         }
 
         // Set up background timer to collect data and run model
         uBit.messageBus.listen(MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE, &recordAccData, MESSAGE_BUS_LISTENER_DROP_IF_BUSY);
-        uBit.timer.eventEvery(ML_CODAL_TIMER_PERIOD, MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE);
+        uBit.timer.eventEvery(samplesPeriodMillisec, MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE);
 
         initialised = true;
 

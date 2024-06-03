@@ -12,9 +12,6 @@
 
 #if DEVICE_MLRUNNER_USE_EXAMPLE_MODEL != 2
 
-// To represent the accelerometer data x, y, z
-static const int DATA_AXIS = 3;
-
 // Order is important for the outputData as set in:
 // https://github.com/microbit-foundation/ml-trainer/blob/v0.6.0/src/script/stores/mlStore.ts#L122-L131
 static float (*filters[])(float*, int) = {
@@ -27,82 +24,106 @@ static float (*filters[])(float*, int) = {
     filterZcr,
     filterRms,
 };
+static const int filterSize = sizeof(filters) / sizeof(filters[0]);
 
-static float *accDataX;
-static float *accDataY;
-static float *accDataZ;
-static float *outputData;
-static int filterSize;
-static int accSamples;
-static int accDataIndex;
+
+static float **input_samples = NULL;
+static int sample_dimensions = 0;
+static int sample_length = 0;
+static int sample_index = 0;
+static float *output_data = NULL;
 static bool initialised = false;
 
-bool pxtDataProcessor_init(int samples) {
-    initialised = false;
-    accDataX = (float*)malloc(samples * sizeof(float));
-    if (accDataX == NULL) {
+
+static bool pxtDataProcessor_init(const int samples, const int dimensions, const int output_length);
+static void pxtDataProcessor_deinit();
+static bool pxtDataProcessor_recordAccData(const float *sample, const int sample_dimensions);
+static bool pxtDataProcessor_isDataReady();
+static float* pxtDataProcessor_getModelInputData();
+
+
+bool pxtDataProcessor_init(const int samples, const int dimensions, const int output_length) {
+    if (samples <= 0 || dimensions <= 0 || output_length <= 0) {
+        pxtDataProcessor_deinit();
         return false;
     }
-    accDataY = (float*)malloc(samples * sizeof(float));
-    if (accDataY == NULL) {
-        free(accDataX);
+    if (output_length != (filterSize * dimensions)) {
+        pxtDataProcessor_deinit();
         return false;
     }
-    accDataZ = (float*)malloc(samples * sizeof(float));
-    if (accDataZ == NULL) {
-        free(accDataX);
-        free(accDataY);
+
+    if (initialised) {
+        pxtDataProcessor_deinit();
+    }
+
+    input_samples = (float**)malloc(dimensions * sizeof(float*));
+    if (input_samples == NULL) {
+        pxtDataProcessor_deinit();
         return false;
     }
-    accSamples = samples;
-    accDataIndex = 0;
-    filterSize = sizeof(filters) / sizeof(filters[0]);
-    outputData = (float*)malloc(filterSize * DATA_AXIS * sizeof(float));
-    if (outputData == NULL) {
-        free(accDataX);
-        free(accDataY);
-        free(accDataZ);
+    for (int i = 0; i < dimensions; i++) {
+        input_samples[i] = (float*)malloc(samples * sizeof(float));
+        if (input_samples[i] == NULL) {
+            pxtDataProcessor_deinit();
+            return false;
+        }
+    }
+    output_data = (float*)malloc(output_length * sizeof(float));
+    if (output_data == NULL) {
+        pxtDataProcessor_deinit();
         return false;
     }
+    sample_dimensions = dimensions;
+    sample_length = samples;
+    sample_index = 0;
     initialised = true;
     return true;
 }
 
 void pxtDataProcessor_deinit() {
-    free(accDataX);
-    free(accDataY);
-    free(accDataZ);
-    free(outputData);
+    initialised = false;
+    for (int i = 0; i < sample_dimensions; i++) {
+        free(input_samples[i]);
+    }
+    free(input_samples);
+    free(output_data);
+    input_samples = NULL;
+    output_data = NULL;
+    sample_dimensions = 0;
+    sample_length = 0;
+    sample_index = 0;
 }
 
-void pxtDataProcessor_recordAccData(int x, int y, int z) {
-    if (!initialised) return;
+bool pxtDataProcessor_recordAccData(const float* sample, const int dimensions) {
+    if (!initialised) return false;
+    if (sample_dimensions != dimensions) return false;
 
-    accDataX[accDataIndex] = x / 1000.0f;
-    accDataY[accDataIndex] = y / 1000.0f;
-    accDataZ[accDataIndex] = z / 1000.0f;
-    accDataIndex++;
-    if (accDataIndex >= accSamples) {
-        accDataIndex = 0;
+    for (int i = 0; i < sample_dimensions; i++) {
+        input_samples[i][sample_index] = sample[i];
     }
+    sample_index++;
+    if (sample_index >= sample_length) {
+        sample_index = 0;
+    }
+    return true;
 }
 
 bool pxtDataProcessor_isDataReady() {
     if (!initialised) return false;
 
-    return accDataIndex == 0;
+    return sample_index == 0;
 }
 
 float* pxtDataProcessor_getModelInputData() {
     if (!initialised) return NULL;
 
-    // Apply all filter to outputData
+    // Run all filters and save their output to output_data
     for (int i = 0; i < filterSize; i++) {
-        outputData[i*DATA_AXIS + 0] = filters[i](accDataX, accSamples);
-        outputData[i*DATA_AXIS + 1] = filters[i](accDataY, accSamples);
-        outputData[i*DATA_AXIS + 2] = filters[i](accDataZ, accSamples);
+        for (int j = 0; j < sample_dimensions; j++) {
+            output_data[i*sample_dimensions + j] = filters[i](input_samples[j], sample_length);
+        }
     }
-    return outputData;
+    return output_data;
 }
 
 MlDataProcessor_t mlDataProcessor = {
