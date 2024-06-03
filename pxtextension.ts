@@ -16,19 +16,13 @@ namespace mlrunner {
     data?: any;
   }
 
-  let simulatorRegistered = false;
-
   //% shim=TD_NOOP
   export function simulatorRegister(): void {
-    if (!simulatorRegistered) {
-      return;
-    }
     const msg: MlRunnerSimMessage = {
       type: "register",
     };
     control.simmessages.onReceived("machineLearningPoc", handleMessage);
     simulatorSendMessage(msg);
-    simulatorRegistered = true;
   }
 
   function simulatorSendData(): void {
