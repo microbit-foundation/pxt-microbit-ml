@@ -9,7 +9,6 @@
         "README.md",
         "shims.d.ts",
         "enums.d.ts",
-        "test.ts",
         "pxtextension.ts",
         "pxtextension.cpp",
         "pxtdataprocessor.cpp"
