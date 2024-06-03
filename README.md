@@ -2,6 +2,29 @@
 
 This extension is experimental and is being used for testing purposes.
 
+## Build flags
+
+### Built-in ML model
+
+The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:
+https://github.com/microbit-foundation/pxt-ml-runner-poc#built-in-ml-model
+
+### Debug messages
+
+To enable debug print from this extension, add the following into your
+pxt.json file:
+
+```json
+{
+    "yotta": {
+        "config": {
+            "ML_DEBUG_PRINT": 1
+        }
+    }
+}
+```
+
+
 ## License
 
 This software made available under the MIT open source license.
