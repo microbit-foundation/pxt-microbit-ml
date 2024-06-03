@@ -29,6 +29,7 @@
         "namespace": "mlrunner",
         "group": "Data",
         "label": "Import data",
+        "url": "https://makecode-ml-editor-extension-poc.pages.dev/",
         "localUrl": "http://localhost:3000/"
     },
     "yotta": {
