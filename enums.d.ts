@@ -9,9 +9,12 @@
 
     declare const enum MlRunnerError {
     ErrorModelNotPresent = 800,
-    ErrorInputLength = 801,
-    ErrorMemAlloc = 802,
-    ErrorModelInference = 803,
+    ErrorSamplesLength = 801,
+    ErrorSamplesDimension = 802,
+    ErrorSamplesPeriod = 803,
+    ErrorInputLength = 804,
+    ErrorMemAlloc = 805,
+    ErrorModelInference = 806,
     }
 
 // Auto-generated. Do not edit. Really.

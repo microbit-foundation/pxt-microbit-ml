@@ -3,8 +3,7 @@
     "version": "0.1.23",
     "description": "Machine learning with the micro:bit experimental extension",
     "dependencies": {
-        "core": "*",
-        "ml-runner": "github:microbit-foundation/pxt-ml-runner-poc#v0.2.4"
+        "core": "*"
     },
     "files": [
         "README.md",
