@@ -1,3 +1,8 @@
+enum MlRunnerBaseLabel {
+  None,
+}
+enum MlRunnerModelLabels {}
+
 let actions: string[];
 let getModelBlob: () => Buffer;
 
@@ -73,6 +78,7 @@ namespace mlrunner {
   }
   // End simulator code.
 
+  type MlRunnerLabels = MlRunnerBaseLabel | MlRunnerModelLabels;
   /**
    * Run this code when the model detects the input label has been predicted.
    *
