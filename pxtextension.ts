@@ -31,7 +31,7 @@ namespace mlrunner {
     }
     const actionLabels = actions.map((action, i) => ({
       name: action,
-      value: i,
+      value: i + 1,
     }));
     const msg: MlRunnerSimMessage = {
       type: "data",
