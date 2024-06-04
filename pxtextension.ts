@@ -138,4 +138,6 @@ namespace mlrunner {
   export function isRunning(): boolean {
     return false;
   }
+
+  simulatorRegister();
 }

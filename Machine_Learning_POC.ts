@@ -16,8 +16,4 @@ getModelBlob = (): Buffer => {
   return result;
 };
 
-namespace mlrunner {
-  simulatorRegister();
-}
-
 // Auto-generated. Do not edit. Really.
