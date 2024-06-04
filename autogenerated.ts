@@ -17,24 +17,6 @@ getModelBlob = (): Buffer => {
 };
 
 namespace mlrunner {
-  /**
-   * Run this code when the model detects the input label has been predicted.
-   *
-   * This automatically starts running the ML model in the background.
-   * When the model predicts the indicated label, an event is raised to
-   * trigger this handler.
-   *
-   * @param mlEvent The label event that triggers this code to run.
-   * @param body The code to run when the model predicts the label.
-   */
-  //% blockId=mlrunner_on_ml_event
-  //% block="on ML event %value"
-  export function onMlEvent(mlEvent: MlRunnerLabels, body: () => void): void {
-    eventHandlers[mlEvent] = body;
-    startRunning();
-    control.onEvent(MlRunnerIds.MlRunnerInference, mlEvent, body);
-  }
-
   simulatorRegister();
 }
 

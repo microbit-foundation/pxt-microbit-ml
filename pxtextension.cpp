@@ -24,10 +24,10 @@ static bool initialised = false;
 static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 // Enable/disable debug print to serial, can be set in pxt.json
-#ifndef ML_DEBUG_PRINT
-#define ML_DEBUG_PRINT 1
+#ifndef DEVICE_ML_DEBUG_PRINT
+#define DEVICE_ML_DEBUG_PRINT 0
 #endif
-#if ML_DEBUG_PRINT
+#if DEVICE_ML_DEBUG_PRINT
 #define DEBUG_PRINT(...) uBit.serial.printf(__VA_ARGS__)
 #else
 #define DEBUG_PRINT(...)
