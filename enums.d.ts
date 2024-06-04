@@ -15,6 +15,7 @@
     ErrorInputLength = 804,
     ErrorMemAlloc = 805,
     ErrorModelInference = 806,
+    ErrorDataProcessing = 807,
     }
 
 // Auto-generated. Do not edit. Really.

@@ -1,7 +1,7 @@
 #include <pxt.h>
-#include "mlrunner/mlrunner.h"
-#include "mlrunner/mldataprocessor.h"
-#include "mlrunner/example_model1.h"
+#include "mlrunner.h"
+#include "mldataprocessor.h"
+#include "example_model1.h"
 
 enum MlRunnerIds {
     MlRunnerInference = 71,
@@ -16,6 +16,7 @@ enum MlRunnerError {
     ErrorInputLength,
     ErrorMemAlloc,
     ErrorModelInference,
+    ErrorDataProcessing,
 };
 
 static bool initialised = false;
@@ -23,10 +24,10 @@ static bool initialised = false;
 static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 // Enable/disable debug print to serial, can be set in pxt.json
-#ifndef ML_DEBUG_PRINT
-#define ML_DEBUG_PRINT 0
+#ifndef DEVICE_ML_DEBUG_PRINT
+#define DEVICE_ML_DEBUG_PRINT 0
 #endif
-#if ML_DEBUG_PRINT
+#if DEVICE_ML_DEBUG_PRINT
 #define DEBUG_PRINT(...) uBit.serial.printf(__VA_ARGS__)
 #else
 #define DEBUG_PRINT(...)
@@ -34,11 +35,31 @@ static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 namespace mlrunner {
 
+    // Order is important for the outputData as set in:
+    // https://github.com/microbit-foundation/ml-trainer/blob/v0.6.0/src/script/stores/mlStore.ts#L122-L131
+    static const MlDataFilters_t mlDataFilters[] = {
+        {1, filterMax},
+        {1, filterMean},
+        {1, filterMin},
+        {1, filterStdDev},
+        {1, filterPeaks},
+        {1, filterTotalAcc},
+        {1, filterZcr},
+        {1, filterRms},
+    };
+    static const int mlDataFiltersLen = sizeof(mlDataFilters) / sizeof(mlDataFilters[0]);
+
     void runModel() {
         if (!initialised) return;
 
-        ml_prediction_t* predictions = ml_predict(mlDataProcessor.getModelInputData());
+        float *modelData = mlDataProcessor.getProcessedData();
+        if (modelData == NULL) {
+            DEBUG_PRINT("Failed to processed data for the model\n");
+            uBit.panic(MlRunnerError::ErrorDataProcessing);
+        }
+        ml_prediction_t* predictions = ml_predict(modelData);
         if (predictions == NULL) {
+            DEBUG_PRINT("Failed to run model\n");
             uBit.panic(MlRunnerError::ErrorModelInference);
         }
 
@@ -63,8 +84,8 @@ namespace mlrunner {
             uBit.accelerometer.getY() / 1000.0f,
             uBit.accelerometer.getZ() / 1000.0f,
         };
-        bool success = mlDataProcessor.recordAccData(accData, 3);
-        if (!success) {
+        MldpReturn_t recordDataResult = mlDataProcessor.recordAccData(accData, 3);
+        if (recordDataResult != MLDP_SUCCESS) {
             DEBUG_PRINT("Failed to record accelerometer data\n");
             return;
         }
@@ -120,21 +141,30 @@ namespace mlrunner {
         }
 
         const int samplesPeriodMillisec = ml_getSamplesPeriod();
-        DEBUG_PRINT("\tModel samples period: %d\n", samplesPeriodMillisec);
+        DEBUG_PRINT("\tModel samples period: %d ms\n", samplesPeriodMillisec);
         if (samplesPeriodMillisec <= 0) {
             DEBUG_PRINT("Model samples period invalid\n");
             uBit.panic(MlRunnerError::ErrorSamplesPeriod);
         }
 
-        const int inputLen = ml_getInputLength();
-        DEBUG_PRINT("\tModel input length: %d\n", inputLen);
-        if (inputLen <= 0) {
+        const int modelInputLen = ml_getInputLength();
+        DEBUG_PRINT("\tModel input length: %d\n", modelInputLen);
+        if (modelInputLen <= 0) {
             DEBUG_PRINT("Model input length invalid\n");
             uBit.panic(MlRunnerError::ErrorInputLength);
         }
 
-        bool success = mlDataProcessor.init(samplesLen, sampleDimensions, inputLen);
-        if (!success) {
+        const MlDataProcessorConfig_t mlDataConfig = {
+            .samples = samplesLen,
+            .dimensions = sampleDimensions,
+            .output_length = modelInputLen,
+            .filter_size = mlDataFiltersLen,
+            .filters = mlDataFilters,
+        };
+        MldpReturn_t mlInitResult = mlDataProcessor.init(&mlDataConfig);
+        if (mlInitResult != MLDP_SUCCESS) {
+            DEBUG_PRINT("Failed to initialise ML data processor (%d)\n", mlInitResult);
+            // TODO: Check error type and set panic value accordingly
             uBit.panic(MlRunnerError::ErrorMemAlloc);
         }
 
