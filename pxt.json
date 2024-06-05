@@ -33,7 +33,7 @@
         "namespace": "mlrunner",
         "group": "Data",
         "label": "Import data",
-        "url": "https://makecode-ml-editor-extension-poc.pages.dev/",
+        "url": "https://microbit-foundation.github.io/makecode-ml-editor-extension-poc/",
         "localUrl": "http://localhost:3000/"
     },
     "yotta": {
