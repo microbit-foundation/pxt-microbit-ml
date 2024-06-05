@@ -73,7 +73,7 @@ namespace mlrunner {
         }
         DEBUG_PRINT("\n\n");
 
-        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictions->max_index + 1);
+        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictions->max_index + 2);
     }
 
     void recordAccData(MicroBitEvent) {

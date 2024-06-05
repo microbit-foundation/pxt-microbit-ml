@@ -1,8 +1,3 @@
-enum MlRunnerLabels {
-  None = 0,
-}
-
-let actions: string[];
 let getModelBlob: () => Buffer;
 
 //% color=#2b64c3 weight=100 icon="\uf108" block="ML Runner" advanced=false
@@ -30,12 +25,12 @@ namespace mlrunner {
   }
 
   export function simulatorSendData(): void {
-    if (!actions) {
+    if (!Action.actions) {
       return;
     }
-    const actionLabels = actions.map((action, i) => ({
-      name: action,
-      value: i + 1,
+    const actionLabels = Action.actions.map((action) => ({
+      name: action.eventLabel,
+      value: action.eventValue,
     }));
     const msg: MlRunnerSimMessage = {
       type: "data",
@@ -56,8 +51,8 @@ namespace mlrunner {
 
   export const eventHandlers: EventHandlers = {};
 
-  function simulateAction(mlAction: number) {
-    const handler = eventHandlers[mlAction];
+  function simulateAction(eventValue: number) {
+    const handler = eventHandlers[eventValue];
     if (handler) {
       handler();
     }
@@ -75,7 +70,19 @@ namespace mlrunner {
       }
     }
   }
-  // End simulator code.
+}
+// End simulator code.
+
+//% fixedInstances
+//% blockNamespace=mlrunner
+class MlEvent {
+  eventValue: number;
+  eventLabel: string;
+
+  constructor(value: number, label: string) {
+    this.eventValue = value;
+    this.eventLabel = label;
+  }
 
   /**
    * Run this code when the model detects the input label has been predicted.
@@ -88,11 +95,19 @@ namespace mlrunner {
    * @param body The code to run when the model predicts the label.
    */
   //% blockId=mlrunner_on_ml_event
-  //% block="on ML event %value"
-  export function onMlEvent(mlEvent: MlRunnerLabels, body: () => void): void {
-    eventHandlers[mlEvent] = body;
-    startRunning();
-    control.onEvent(MlRunnerIds.MlRunnerInference, mlEvent, body);
+  //% block="on ML event $this"
+  onEvent(body: () => void): void {
+    mlrunner.eventHandlers[this.eventValue] = body;
+    mlrunner.startRunning();
+    control.onEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
+  }
+}
+
+namespace mlrunner {
+  export namespace Action {
+    //% fixedInstance
+    export const None = new MlEvent(1, "None");
+    export let actions = [None];
   }
 
   /**
@@ -144,4 +159,5 @@ namespace mlrunner {
   }
 
   simulatorRegister();
+  simulatorSendData();
 }
