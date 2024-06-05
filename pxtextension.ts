@@ -1,4 +1,3 @@
-let actions: string[];
 let getModelBlob: () => Buffer;
 
 //% color=#2b64c3 weight=100 icon="\uf108" block="ML Runner" advanced=false
@@ -26,12 +25,12 @@ namespace mlrunner {
   }
 
   export function simulatorSendData(): void {
-    if (!actions) {
+    if (!Action.actions) {
       return;
     }
-    const actionLabels = actions.map((action, i) => ({
-      name: action,
-      value: i + 2,
+    const actionLabels = Action.actions.map((action) => ({
+      name: action.eventLabel,
+      value: action.eventValue,
     }));
     const msg: MlRunnerSimMessage = {
       type: "data",
@@ -52,8 +51,8 @@ namespace mlrunner {
 
   export const eventHandlers: EventHandlers = {};
 
-  function simulateAction(mlAction: number) {
-    const handler = eventHandlers[mlAction];
+  function simulateAction(eventValue: number) {
+    const handler = eventHandlers[eventValue];
     if (handler) {
       handler();
     }
@@ -74,7 +73,6 @@ namespace mlrunner {
 }
 // End simulator code.
 
-
 //% fixedInstances
 //% blockNamespace=mlrunner
 class MlEvent {
@@ -82,8 +80,8 @@ class MlEvent {
   eventLabel: string;
 
   constructor(value: number, label: string) {
-      this.eventValue = value;
-      this.eventLabel = label;
+    this.eventValue = value;
+    this.eventLabel = label;
   }
 
   /**
@@ -109,6 +107,7 @@ namespace mlrunner {
   export namespace Action {
     //% fixedInstance
     export const None = new MlEvent(1, "None");
+    export let actions = [None];
   }
 
   /**
@@ -160,4 +159,5 @@ namespace mlrunner {
   }
 
   simulatorRegister();
+  simulatorSendData();
 }
