@@ -39,7 +39,7 @@
     "yotta": {
         "config": {
             "codal": {
-                "MLRUNNER_USE_EXAMPLE_MODEL": 1,
+                "MLRUNNER_USE_EXAMPLE_MODEL": 0,
                 "ML_DEBUG_PRINT": 1
             }
         }
