@@ -8,14 +8,17 @@ input.onButtonPressed(Button.B, function () {
         mlrunner.startRunning()
     }
 })
-mlrunner.onMlEvent(MlRunnerLabels.Shake, function () {
+mlrunner.Action.Shake.onEvent(function () {
     basic.showString("S")
 })
-mlrunner.onMlEvent(MlRunnerLabels.Still, function () {
+mlrunner.Action.Still.onEvent(function () {
     basic.showIcon(IconNames.Asleep)
 })
-mlrunner.onMlEvent(MlRunnerLabels.Circle, function () {
+mlrunner.Action.Circle.onEvent( function () {
     basic.showString("C")
+})
+mlrunner.Action.None.onEvent(function () {
+    basic.clearScreen()
 })
 basic.forever(function () {
 	
