@@ -1,7 +1,6 @@
 #include <pxt.h>
 #include "mlrunner.h"
 #include "mldataprocessor.h"
-#include "example_model1.h"
 
 enum MlRunnerIds {
     MlRunnerInference = 71,
@@ -14,14 +13,11 @@ enum MlRunnerError {
     ErrorSamplesDimension,
     ErrorSamplesPeriod,
     ErrorInputLength,
+    ErrorActions,
     ErrorMemAlloc,
     ErrorModelInference,
     ErrorDataProcessing,
 };
-
-static bool initialised = false;
-
-static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 // Enable/disable debug print to serial, can be set in pxt.json
 #ifndef DEVICE_ML_DEBUG_PRINT
@@ -35,9 +31,14 @@ static const uint16_t ML_CODAL_TIMER_VALUE = 1;
 
 namespace mlrunner {
 
+    static bool initialised = false;
+    static const uint16_t ML_CODAL_TIMER_VALUE = 1;
+    static ml_actions_t *actions = NULL;
+    static ml_predictions_t *predictions = NULL;
+
     // Order is important for the outputData as set in:
     // https://github.com/microbit-foundation/ml-trainer/blob/v0.6.0/src/script/stores/mlStore.ts#L122-L131
-    static const MlDataFilters_t mlDataFilters[] = {
+    static const MlDataFilters_t mlTrainerDataFilters[] = {
         {1, filterMax},
         {1, filterMean},
         {1, filterMin},
@@ -47,33 +48,42 @@ namespace mlrunner {
         {1, filterZcr},
         {1, filterRms},
     };
-    static const int mlDataFiltersLen = sizeof(mlDataFilters) / sizeof(mlDataFilters[0]);
+    static const int mlTrainerDataFiltersLen = sizeof(mlTrainerDataFilters) / sizeof(mlTrainerDataFilters[0]);
 
     void runModel() {
         if (!initialised) return;
+        unsigned int time_start = uBit.systemTime();
 
         float *modelData = mlDataProcessor.getProcessedData();
         if (modelData == NULL) {
             DEBUG_PRINT("Failed to processed data for the model\n");
             uBit.panic(MlRunnerError::ErrorDataProcessing);
         }
-        ml_prediction_t* predictions = ml_predict(modelData);
-        if (predictions == NULL) {
+
+        bool success = ml_predict(
+            modelData, mlDataProcessor.getProcessedDataSize(), actions, predictions);
+        if (!success) {
             DEBUG_PRINT("Failed to run model\n");
             uBit.panic(MlRunnerError::ErrorModelInference);
         }
 
-        DEBUG_PRINT("Max prediction: %d %s\nPredictions: ",
-                    predictions->max_index,
-                    predictions->labels[predictions->max_index]);
-        for (size_t i = 0; i < predictions->num_labels; i++) {
+        DEBUG_PRINT("Prediction (%d ms): ", uBit.systemTime() - time_start);
+        if (predictions->index >= 0) {
+            DEBUG_PRINT("%d - %s\n",
+                        predictions->index,
+                        actions->action[predictions->index].label);
+        } else {
+            DEBUG_PRINT("None\n");
+        }
+        DEBUG_PRINT("\tIndividual:");
+        for (size_t i = 0; i < actions->len; i++) {
             DEBUG_PRINT(" %s[%d]",
-                        predictions->labels[i],
-                        (int)(predictions->predictions[i] * 100));
+                        actions->action[i].label,
+                        (int)(predictions->prediction[i] * 100));
         }
         DEBUG_PRINT("\n\n");
 
-        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictions->max_index + 2);
+        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictions->index + 2);
     }
 
     void recordAccData(MicroBitEvent) {
@@ -84,7 +94,7 @@ namespace mlrunner {
             uBit.accelerometer.getY() / 1000.0f,
             uBit.accelerometer.getZ() / 1000.0f,
         };
-        MldpReturn_t recordDataResult = mlDataProcessor.recordAccData(accData, 3);
+        MldpReturn_t recordDataResult = mlDataProcessor.recordData(accData, 3);
         if (recordDataResult != MLDP_SUCCESS) {
             DEBUG_PRINT("Failed to record accelerometer data\n");
             return;
@@ -108,17 +118,12 @@ namespace mlrunner {
 #endif
         if (initialised) return;
 
-#if DEVICE_MLRUNNER_USE_EXAMPLE_MODEL != 0
-        DEBUG_PRINT("Using example model... ");
-        void *model_address = (void *)example_model;
-#else
         DEBUG_PRINT("Using embedded model...\n");
         if (model_str == NULL || model_str->length <= 0 || model_str->data == NULL) {
             DEBUG_PRINT("Model string not present\n");
             uBit.panic(MlRunnerError::ErrorModelNotPresent);
         }
         void *model_address = (void *)model_str->data;
-#endif
 
         const bool setModelSuccess = ml_setModel(model_address);
         if (!setModelSuccess) {
@@ -154,12 +159,37 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorInputLength);
         }
 
+        if (actions != NULL) {
+            free(actions);
+        }
+        actions = ml_allocateActions();
+        if (actions == NULL) {
+            DEBUG_PRINT("Failed to allocate memory for actions\n");
+            uBit.panic(MlRunnerError::ErrorMemAlloc);
+        }
+        const bool actionsSuccess = ml_getActions(actions);
+        if (!actionsSuccess) {
+            DEBUG_PRINT("Failed to retrieve actions\n");
+            uBit.panic(MlRunnerError::ErrorActions);
+        }
+        DEBUG_PRINT("\tActions (%d):\n", actions->len);
+        for (size_t i = 0; i < actions->len; i++) {
+            DEBUG_PRINT("\t\tAction '%s' ", actions->action[i].label);
+            DEBUG_PRINT("threshold = %d %%\n", (int)(actions->action[i].threshold * 100));
+        }
+
+        predictions = ml_allocatePredictions();
+        if (predictions == NULL) {
+            DEBUG_PRINT("Failed to allocate memory for predictions\n");
+            uBit.panic(MlRunnerError::ErrorMemAlloc);
+        }
+
         const MlDataProcessorConfig_t mlDataConfig = {
             .samples = samplesLen,
             .dimensions = sampleDimensions,
             .output_length = modelInputLen,
-            .filter_size = mlDataFiltersLen,
-            .filters = mlDataFilters,
+            .filter_size = mlTrainerDataFiltersLen,
+            .filters = mlTrainerDataFilters,
         };
         MldpReturn_t mlInitResult = mlDataProcessor.init(&mlDataConfig);
         if (mlInitResult != MLDP_SUCCESS) {
@@ -174,7 +204,7 @@ namespace mlrunner {
 
         initialised = true;
 
-        DEBUG_PRINT("\tModel loaded\n");
+        DEBUG_PRINT("\tModel loaded\n\n");
     }
 
     //% blockId=mlrunner_stop_model_running
@@ -194,6 +224,8 @@ namespace mlrunner {
 
         // Clean up
         mlDataProcessor.deinit();
+        free(actions);
+        free(predictions);
         initialised = false;
 
         DEBUG_PRINT("Done\n\n");
