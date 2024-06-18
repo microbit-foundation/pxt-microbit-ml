@@ -27,6 +27,21 @@ PXT_FORCE_LOCAL=1 PXT_NODOCKER=1 PXT_COMPILE_SWITCHES=csv---mbcodal npx pxt
 
 ## Build flags
 
+### Model predictions per second
+
+By default the model will run every 250 ms, to change this value the
+`ML_INFERENCE_PERIOD_MS` config can be modified.
+
+```json
+{
+    "yotta": {
+        "config": {
+            "ML_INFERENCE_PERIOD_MS": 250
+        }
+    }
+}
+```
+
 ### Built-in ML model
 
 The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:

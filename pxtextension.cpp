@@ -20,18 +20,24 @@ enum MlRunnerError {
 };
 
 // Enable/disable debug print to serial, can be set in pxt.json
-#ifndef DEVICE_ML_DEBUG_PRINT
-#define DEVICE_ML_DEBUG_PRINT 0
+#ifndef ML_DEBUG_PRINT
+#define ML_DEBUG_PRINT 0
 #endif
-#if DEVICE_ML_DEBUG_PRINT
+#if ML_DEBUG_PRINT
 #define DEBUG_PRINT(...) uBit.serial.printf(__VA_ARGS__)
 #else
 #define DEBUG_PRINT(...)
 #endif
 
+// Configure the period between ML runs, can be set in pxt.json
+#ifndef ML_INFERENCE_PERIOD_MS
+#define ML_INFERENCE_PERIOD_MS 250
+#endif
+
 namespace mlrunner {
 
     static bool initialised = false;
+    static int ml_sample_counts_per_inference = 0;
     static const uint16_t ML_CODAL_TIMER_VALUE = 1;
     static ml_actions_t *actions = NULL;
     static ml_predictions_t *predictions = NULL;
@@ -89,10 +95,11 @@ namespace mlrunner {
     void recordAccData(MicroBitEvent) {
         if (!initialised) return;
 
+        const Sample3D accSample = uBit.accelerometer.getSample();
         const float accData[3] = {
-            uBit.accelerometer.getX() / 1000.0f,
-            uBit.accelerometer.getY() / 1000.0f,
-            uBit.accelerometer.getZ() / 1000.0f,
+            accSample.x / 1000.0f,
+            accSample.y / 1000.0f,
+            accSample.z / 1000.0f,
         };
         MldpReturn_t recordDataResult = mlDataProcessor.recordData(accData, 3);
         if (recordDataResult != MLDP_SUCCESS) {
@@ -100,11 +107,10 @@ namespace mlrunner {
             return;
         }
 
-        if (mlDataProcessor.isDataReady()) {
-            // Stop firing timer events while running model and resume after
-            uBit.messageBus.ignore(MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE, &recordAccData);
+        // Run model every ml_sample_counts_per_inference number of samples
+        static unsigned int samplesTaken = 0;
+        if (!(++samplesTaken % ml_sample_counts_per_inference) && mlDataProcessor.isDataReady()) {
             runModel();
-            uBit.messageBus.listen(MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE, &recordAccData, MESSAGE_BUS_LISTENER_DROP_IF_BUSY);
         }
     }
 
@@ -183,6 +189,9 @@ namespace mlrunner {
             DEBUG_PRINT("Failed to allocate memory for predictions\n");
             uBit.panic(MlRunnerError::ErrorMemAlloc);
         }
+
+        ml_sample_counts_per_inference = ML_INFERENCE_PERIOD_MS / samplesPeriodMillisec;
+        DEBUG_PRINT("\tModel inference every: %d ms\n", ML_INFERENCE_PERIOD_MS);
 
         const MlDataProcessorConfig_t mlDataConfig = {
             .samples = samplesLen,
