@@ -70,6 +70,12 @@ namespace mlrunner {
       }
     }
   }
+
+  //% shim=mlrunner::customOnEvent
+  function customOnEvent(id: number, evid: number, handler: () => void) {
+    // The sim probably won't respect the DropIfBusy flag
+    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
+  }
 }
 // End simulator code.
 
@@ -99,7 +105,7 @@ class MlEvent {
   onEvent(body: () => void): void {
     mlrunner.eventHandlers[this.eventValue] = body;
     mlrunner.startRunning();
-    control.onEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
+    mlrunner.customOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
   }
 }
 
