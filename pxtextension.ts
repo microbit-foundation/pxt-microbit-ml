@@ -73,7 +73,7 @@ namespace mlrunner {
     export const None = new MlEvent(1, "None");
     export let actions = [None];
     export let prevAction: number = 0;
-    export let currentAction: number = 0;
+    export let currentAction: number = 1;
   }
 
   let simIsRunning = false;
@@ -188,9 +188,9 @@ namespace mlrunner {
     } else {
       Action.prevAction = simulatedAction.eventValue;
     }
-    control.waitMicros(500000);
+    basic.pause(500);
     Action.prevAction = 0;
-    Action.currentAction = 0;
+    Action.currentAction = 1;
   }
 
   function handleMessage(buffer: Buffer) {
