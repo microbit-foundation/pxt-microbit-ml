@@ -45,17 +45,8 @@ namespace mlrunner {
     control.simmessages.send("machineLearningPoc", payload, false);
   }
 
-  interface EventHandlers {
-    [key: number]: () => void;
-  }
-
-  export const eventHandlers: EventHandlers = {};
-
   function simulateAction(eventValue: number) {
-    const handler = eventHandlers[eventValue];
-    if (handler) {
-      handler();
-    }
+    control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue)
   }
 
   function handleMessage(buffer: Buffer) {
@@ -103,7 +94,6 @@ class MlEvent {
   //% blockId=mlrunner_on_ml_event
   //% block="on ML event $this"
   onEvent(body: () => void): void {
-    mlrunner.eventHandlers[this.eventValue] = body;
     mlrunner.startRunning();
     mlrunner.customOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
   }
