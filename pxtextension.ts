@@ -61,14 +61,14 @@ namespace mlrunner {
       }
     }
   }
-
-  //% shim=mlrunner::customOnEvent
-  function customOnEvent(id: number, evid: number, handler: () => void) {
-    // The sim probably won't respect the DropIfBusy flag
-    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
-  }
 }
 // End simulator code.
+
+//% shim=mlrunner::customOnEvent
+function mlRunnerCustomOnEvent(id: number, evid: number, handler: () => void, flags?: number) {
+    // The sim probably won't respect the DropIfBusy flag
+    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
+}
 
 //% fixedInstances
 //% blockNamespace=mlrunner
@@ -95,7 +95,7 @@ class MlEvent {
   //% block="on ML event $this"
   onEvent(body: () => void): void {
     mlrunner.startRunning();
-    mlrunner.customOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
+    mlRunnerCustomOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
   }
 }
 
