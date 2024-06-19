@@ -41,12 +41,24 @@ class MlEvent {
       }
       mlrunner.prevAction = this;
     };
-    mlrunner.startRunning();
+    if (!mlrunner.isRunning()) {
+      mlrunner.startRunning();
+    }
     mlRunnerCustomOnEvent(
       MlRunnerIds.MlRunnerInference,
       this.eventValue,
       wrappedBody
     );
+  }
+
+  //% blockId=mlrunner_is_ml_event
+  //% block="is %this action"
+  isEvent(): boolean {
+    if (!mlrunner.isRunning()) {
+      mlrunner.startRunning();
+      return false;
+    }
+    return this.eventValue == mlrunner.currentActionId();
   }
 }
 
@@ -106,6 +118,11 @@ namespace mlrunner {
   //% shim=mlrunner::isModelRunning
   export function isRunning(): boolean {
     return false;
+  }
+
+  //% shim=mlrunner::currentEventId
+  export function currentActionId(): number {
+    return 1;
   }
 
   // Start simulator code.
