@@ -10,3 +10,9 @@ _site
 *.tgz
 .header.json
 .simstate.json
+
+# OS
+.DS_Store
+[Dd]esktop.ini
+Thumbs.db
+ehthumbs.db

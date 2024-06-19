@@ -45,17 +45,8 @@ namespace mlrunner {
     control.simmessages.send("machineLearningPoc", payload, false);
   }
 
-  interface EventHandlers {
-    [key: number]: () => void;
-  }
-
-  export const eventHandlers: EventHandlers = {};
-
   function simulateAction(eventValue: number) {
-    const handler = eventHandlers[eventValue];
-    if (handler) {
-      handler();
-    }
+    control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue)
   }
 
   function handleMessage(buffer: Buffer) {
@@ -72,6 +63,12 @@ namespace mlrunner {
   }
 }
 // End simulator code.
+
+//% shim=mlrunner::customOnEvent
+function mlRunnerCustomOnEvent(id: number, evid: number, handler: () => void, flags?: number) {
+    // The sim probably won't respect the DropIfBusy flag
+    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
+}
 
 //% fixedInstances
 //% blockNamespace=mlrunner
@@ -97,9 +94,8 @@ class MlEvent {
   //% blockId=mlrunner_on_ml_event
   //% block="on ML event $this"
   onEvent(body: () => void): void {
-    mlrunner.eventHandlers[this.eventValue] = body;
     mlrunner.startRunning();
-    control.onEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
+    mlRunnerCustomOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
   }
 }
 

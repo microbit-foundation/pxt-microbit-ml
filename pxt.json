@@ -4,7 +4,7 @@
     "description": "Machine learning with the micro:bit experimental extension",
     "dependencies": {
         "core": "*",
-        "ml-runner-poc": "github:microbit-foundation/pxt-ml-runner-poc#v0.3.5"
+        "ml-runner-poc": "github:microbit-foundation/pxt-ml-runner-poc#v0.3.9"
     },
     "files": [
         "README.md",
@@ -38,10 +38,9 @@
     },
     "yotta": {
         "config": {
-            "codal": {
-                "MLRUNNER_USE_EXAMPLE_MODEL": 0,
-                "ML_DEBUG_PRINT": 1
-            }
+            "ML_INFERENCE_PERIOD_MS": 250,
+            "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32,
+            "ML_DEBUG_PRINT": 1
         }
     }
 }

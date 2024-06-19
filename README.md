@@ -27,6 +27,49 @@ PXT_FORCE_LOCAL=1 PXT_NODOCKER=1 PXT_COMPILE_SWITCHES=csv---mbcodal npx pxt
 
 ## Build flags
 
+### Model predictions per second
+
+By default the model will run every 250 ms, to change this value the
+`ML_INFERENCE_PERIOD_MS` config can be modified.
+
+```json
+{
+    "yotta": {
+        "config": {
+            "ML_INFERENCE_PERIOD_MS": 250
+        }
+    }
+}
+```
+
+### Model events 
+
+By default this extension configures the Model prediction events to not be
+queued for the same event.
+So if an event raised when its handler is still running it will be dropped.
+
+```json
+{
+    "yotta": {
+        "config": {
+            "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32
+        }
+    }
+}
+```
+
+The values are defined in the
+[codal-core/inc/core/CodalListener.h](https://github.com/lancaster-university/codal-core/blob/df05db9e15499bd8906618192a4d482e3836c62f/inc/core/CodalListener.h#L36-L40)
+file:
+
+```cpp
+#define MESSAGE_BUS_LISTENER_REENTRANT              0x0008
+#define MESSAGE_BUS_LISTENER_QUEUE_IF_BUSY          0x0010
+#define MESSAGE_BUS_LISTENER_DROP_IF_BUSY           0x0020
+#define MESSAGE_BUS_LISTENER_NONBLOCKING            0x0040
+#define MESSAGE_BUS_LISTENER_URGENT                 0x0080
+```
+
 ### Built-in ML model
 
 The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:
