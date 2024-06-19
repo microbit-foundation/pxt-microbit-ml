@@ -46,7 +46,10 @@ namespace mlrunner {
   }
 
   function simulateAction(eventValue: number) {
-    control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue)
+    // Set prevAction to null so that re-triggering the same action in the
+    // sim still runs the code in the action event handler.
+    prevAction = null;
+    control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
   }
 
   function handleMessage(buffer: Buffer) {
@@ -65,9 +68,14 @@ namespace mlrunner {
 // End simulator code.
 
 //% shim=mlrunner::customOnEvent
-function mlRunnerCustomOnEvent(id: number, evid: number, handler: () => void, flags?: number) {
-    // The sim probably won't respect the DropIfBusy flag
-    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
+function mlRunnerCustomOnEvent(
+  id: number,
+  evid: number,
+  handler: () => void,
+  flags?: number
+) {
+  // The sim probably won't respect the DropIfBusy flag
+  control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
 }
 
 //% fixedInstances
@@ -94,8 +102,18 @@ class MlEvent {
   //% blockId=mlrunner_on_ml_event
   //% block="on ML event $this"
   onEvent(body: () => void): void {
+    const wrappedBody = () => {
+      if (!mlrunner.prevAction || mlrunner.prevAction !== this) {
+        body();
+      }
+      mlrunner.prevAction = this;
+    };
     mlrunner.startRunning();
-    mlRunnerCustomOnEvent(MlRunnerIds.MlRunnerInference, this.eventValue, body);
+    mlRunnerCustomOnEvent(
+      MlRunnerIds.MlRunnerInference,
+      this.eventValue,
+      wrappedBody
+    );
   }
 }
 
@@ -105,6 +123,8 @@ namespace mlrunner {
     export const None = new MlEvent(1, "None");
     export let actions = [None];
   }
+
+  export let prevAction: MlEvent | null = null;
 
   /**
    * TS shim for C++ function init(), which initialize the ML model with
