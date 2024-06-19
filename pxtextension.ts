@@ -16,10 +16,12 @@ function mlRunnerCustomOnEvent(
 class MlEvent {
   eventValue: number;
   eventLabel: string;
+  hasOnEventHandler: boolean;
 
   constructor(value: number, label: string) {
     this.eventValue = value;
     this.eventLabel = label;
+    this.hasOnEventHandler = false;
   }
 
   /**
@@ -35,11 +37,13 @@ class MlEvent {
   //% blockId=mlrunner_on_ml_event
   //% block="on ML event $this"
   onEvent(body: () => void): void {
+    this.hasOnEventHandler = true;
     const wrappedBody = () => {
-      if (!mlrunner.prevAction || mlrunner.prevAction !== this) {
+      const prevAction = mlrunner.Action.prevAction;
+      mlrunner.Action.prevAction = this.eventValue;
+      if (!prevAction || prevAction !== this.eventValue) {
         body();
       }
-      mlrunner.prevAction = this;
     };
     if (!mlrunner.isRunning()) {
       mlrunner.startRunning();
@@ -68,9 +72,11 @@ namespace mlrunner {
     //% fixedInstance
     export const None = new MlEvent(1, "None");
     export let actions = [None];
+    export let prevAction: number = 0;
+    export let currentAction: number = 0;
   }
 
-  export let prevAction: MlEvent | null = null;
+  let simIsRunning = false;
 
   /**
    * TS shim for C++ function init(), which initialize the ML model with
@@ -97,6 +103,7 @@ namespace mlrunner {
       modelBlob = getModelBlob() || hex``;
     }
     initRunner(modelBlob);
+    simIsRunning = true;
   }
 
   /**
@@ -107,7 +114,7 @@ namespace mlrunner {
   //% block="stop running ML"
   //% shim=mlrunner::deinit
   export function stopRunning(): void {
-    return;
+    simIsRunning = false;
   }
 
   /**
@@ -117,12 +124,12 @@ namespace mlrunner {
   //% block="is ML running"
   //% shim=mlrunner::isModelRunning
   export function isRunning(): boolean {
-    return false;
+    return simIsRunning;
   }
 
   //% shim=mlrunner::currentEventId
   export function currentActionId(): number {
-    return 1;
+    return Action.currentAction;
   }
 
   // Start simulator code.
@@ -169,10 +176,21 @@ namespace mlrunner {
   }
 
   function simulateAction(eventValue: number) {
-    // Set prevAction to null so that re-triggering the same action in the
+    // Set prevAction to 0 so that re-triggering the same action in the
     // sim still runs the code in the action event handler.
-    prevAction = null;
-    control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
+    Action.prevAction = 0;
+    Action.currentAction = eventValue;
+    const simulatedAction = Action.actions.find(
+      (action) => action.eventValue === eventValue
+    );
+    if (simulatedAction.hasOnEventHandler) {
+      control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
+    } else {
+      Action.prevAction = simulatedAction.eventValue;
+    }
+    control.waitMicros(500000);
+    Action.prevAction = 0;
+    Action.currentAction = 0;
   }
 
   function handleMessage(buffer: Buffer) {
