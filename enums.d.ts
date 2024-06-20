@@ -13,10 +13,12 @@
     ErrorSamplesDimension = 802,
     ErrorSamplesPeriod = 803,
     ErrorInputLength = 804,
-    ErrorActions = 805,
-    ErrorMemAlloc = 806,
-    ErrorModelInference = 807,
-    ErrorDataProcessing = 808,
+    ErrorOutputLength = 805,
+    ErrorArenaSize = 806,
+    ErrorActions = 807,
+    ErrorMemAlloc = 808,
+    ErrorModelInference = 809,
+    ErrorDataProcessing = 810,
     }
 
 // Auto-generated. Do not edit. Really.

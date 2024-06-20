@@ -13,6 +13,8 @@ enum MlRunnerError {
     ErrorSamplesDimension,
     ErrorSamplesPeriod,
     ErrorInputLength,
+    ErrorOutputLength,
+    ErrorArenaSize,
     ErrorActions,
     ErrorMemAlloc,
     ErrorModelInference,
@@ -41,9 +43,12 @@ enum MlRunnerError {
 
 namespace mlrunner {
 
-    static bool initialised = false;
-    static int ml_sample_counts_per_inference = 0;
     static const uint16_t ML_CODAL_TIMER_VALUE = 1;
+    static const int ML_EVENT_NONE_ID = 1;
+
+    static bool initialised = false;
+    static int mlSampleCountsPerInference = 0;
+    static int lastPredictionEventId = -1;
     static ml_actions_t *actions = NULL;
     static ml_predictions_t *predictions = NULL;
 
@@ -94,7 +99,10 @@ namespace mlrunner {
         }
         DEBUG_PRINT("\n\n");
 
-        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictions->index + 2);
+        // Model prediction events start after the None event ID
+        uint16_t predictionEventId = predictions->index + ML_EVENT_NONE_ID + 1;
+        lastPredictionEventId = predictionEventId;
+        MicroBitEvent evt(MlRunnerIds::MlRunnerInference, predictionEventId);
     }
 
     void recordAccData(MicroBitEvent) {
@@ -112,9 +120,9 @@ namespace mlrunner {
             return;
         }
 
-        // Run model every ml_sample_counts_per_inference number of samples
+        // Run model every mlSampleCountsPerInference number of samples
         static unsigned int samplesTaken = 0;
-        if (!(++samplesTaken % ml_sample_counts_per_inference) && mlDataProcessor.isDataReady()) {
+        if (!(++samplesTaken % mlSampleCountsPerInference) && mlDataProcessor.isDataReady()) {
             runModel();
         }
     }
@@ -200,6 +208,23 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorInputLength);
         }
 
+        const int modelOutputLen = ml_getOutputLength();
+        DEBUG_PRINT("\tModel output length: %d\n", modelOutputLen);
+        if (modelOutputLen <= 0) {
+            DEBUG_PRINT("Model output length invalid\n");
+            uBit.panic(MlRunnerError::ErrorOutputLength);
+        }
+
+        const int modelArenaSize = ml_getArenaSize();
+        DEBUG_PRINT("\tModel arena size: %d bytes\n", modelArenaSize);
+        if (modelArenaSize <= 0) {
+            DEBUG_PRINT("Model arena size length invalid\n");
+            uBit.panic(MlRunnerError::ErrorArenaSize);
+        }
+
+        mlSampleCountsPerInference = ML_INFERENCE_PERIOD_MS / samplesPeriodMillisec;
+        DEBUG_PRINT("\tModel inference period: %d ms\n", ML_INFERENCE_PERIOD_MS);
+
         if (actions != NULL) {
             free(actions);
         }
@@ -224,9 +249,6 @@ namespace mlrunner {
             DEBUG_PRINT("Failed to allocate memory for predictions\n");
             uBit.panic(MlRunnerError::ErrorMemAlloc);
         }
-
-        ml_sample_counts_per_inference = ML_INFERENCE_PERIOD_MS / samplesPeriodMillisec;
-        DEBUG_PRINT("\tModel inference every: %d ms\n", ML_INFERENCE_PERIOD_MS);
 
         const MlDataProcessorConfig_t mlDataConfig = {
             .samples = samplesLen,
@@ -262,6 +284,8 @@ namespace mlrunner {
         }
         DEBUG_PRINT("Stop running the ML model... ");
 
+        initialised = false;
+
         // Stop timer event
         uBit.messageBus.ignore(MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE, &recordAccData);
         uBit.timer.cancel(MlRunnerIds::MlRunnerTimer, ML_CODAL_TIMER_VALUE);
@@ -270,7 +294,8 @@ namespace mlrunner {
         mlDataProcessor.deinit();
         free(actions);
         free(predictions);
-        initialised = false;
+        mlSampleCountsPerInference = 0;
+        lastPredictionEventId = -1;
 
         DEBUG_PRINT("Done\n\n");
     }
@@ -278,5 +303,13 @@ namespace mlrunner {
     //% blockId=mlrunner_is_running
     bool isModelRunning() {
         return initialised;
+    }
+
+    //%
+    int currentEventId() {
+        if (lastPredictionEventId == -1) {
+            return ML_EVENT_NONE_ID;
+        }
+        return lastPredictionEventId;
     }
 }

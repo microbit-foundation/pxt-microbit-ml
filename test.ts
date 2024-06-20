@@ -21,5 +21,6 @@ mlrunner.Action.None.onEvent(function () {
     basic.clearScreen()
 })
 basic.forever(function () {
-	
+    serial.writeLine("Is Shake: " + mlrunner.Action.Shake.isEvent() + "\n")
+    basic.pause(10000)
 })
