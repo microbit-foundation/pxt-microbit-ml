@@ -10,6 +10,19 @@ namespace mlrunner {
     export const Circle = new MlEvent(4, "Circle");
 
     actions = [None,Shake,Still,Circle];
+
+    control.onEvent(MlRunnerIds.MlRunnerInference, 1, () => {
+      prevAction = 1;
+    });
+    control.onEvent(MlRunnerIds.MlRunnerInference, 2, () => {
+      prevAction = 2;
+    });
+    control.onEvent(MlRunnerIds.MlRunnerInference, 3, () => {
+      prevAction = 3;
+    });
+    control.onEvent(MlRunnerIds.MlRunnerInference, 4, () => {
+      prevAction = 4;
+    });
   }
 }
 

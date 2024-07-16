@@ -39,9 +39,7 @@ class MlEvent {
   onEvent(body: () => void): void {
     this.hasOnEventHandler = true;
     const wrappedBody = () => {
-      const prevAction = mlrunner.Action.prevAction;
-      mlrunner.Action.prevAction = this.eventValue;
-      if (!prevAction || prevAction !== this.eventValue) {
+      if (mlrunner.Action.prevAction !== this.eventValue) {
         body();
       }
     };
