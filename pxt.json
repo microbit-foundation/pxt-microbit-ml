@@ -29,13 +29,6 @@
         "microbit"
     ],
     "preferredEditor": "blocksprj",
-    "extension": {
-        "namespace": "mlrunner",
-        "group": "Data",
-        "label": "Import data",
-        "url": "https://microbit-foundation.github.io/makecode-ml-editor-extension-poc/",
-        "localUrl": "http://localhost:3000/"
-    },
     "yotta": {
         "config": {
             "ML_INFERENCE_PERIOD_MS": 250,
