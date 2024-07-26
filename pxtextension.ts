@@ -17,11 +17,13 @@ class MlEvent {
   eventValue: number;
   eventLabel: string;
   hasOnEventHandler: boolean;
+  lastDuration: number;
 
   constructor(value: number, label: string) {
     this.eventValue = value;
     this.eventLabel = label;
     this.hasOnEventHandler = false;
+    this.lastDuration = 0;
   }
 
   /**
@@ -40,6 +42,12 @@ class MlEvent {
     this.hasOnEventHandler = true;
     const wrappedBody = () => {
       if (mlrunner.Action.prevAction !== this.eventValue) {
+        let now = input.runningTime();
+        mlrunner.Action.prevActionInstance.lastDuration = now - mlrunner.Action.lastActionTimestamp;
+        // FIXME: serial write added here only for debugging
+        serial.writeLine("! " + mlrunner.Action.prevActionInstance.eventLabel + " time: " + mlrunner.Action.prevActionInstance.lastDuration + "\n");
+        mlrunner.Action.lastActionTimestamp = now;
+        mlrunner.Action.prevActionInstance = this;
         body();
       }
     };
@@ -71,7 +79,9 @@ namespace mlrunner {
     export const None = new MlEvent(1, "None");
     export let actions = [None];
     export let prevAction: number = 0;
+    export let prevActionInstance: MlEvent = None;
     export let currentAction: number = 1;
+    export let lastActionTimestamp: number = 0;
   }
 
   let simIsRunning = false;
