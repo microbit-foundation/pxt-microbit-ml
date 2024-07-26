@@ -72,9 +72,9 @@ class MlEvent {
     return this.eventValue == mlrunner.currentActionId();
   }
 
-  //% blockId=mlrunner_is_on_event_stop
+  //% blockId=mlrunner_on_ml_event_stop
   //% block="on $this stop $duration"
-  //% draggableParameters="reporter"
+  //% draggableParameters="reporter"
   onStop(body: (duration: number) => void): void {
     this.onStopHandler = body;
   }
