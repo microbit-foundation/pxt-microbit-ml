@@ -9,19 +9,19 @@ namespace mlrunner {
     //% fixedInstance
     export const Circle = new MlEvent(4, "Circle");
 
-    actions = [None,Shake,Still,Circle];
+    actions = [None, Shake, Still, Circle];
 
     control.onEvent(MlRunnerIds.MlRunnerInference, 1, () => {
-      prevAction = 1;
+      maybeUpdateActionStats(None);
     });
     control.onEvent(MlRunnerIds.MlRunnerInference, 2, () => {
-      prevAction = 2;
+      maybeUpdateActionStats(Shake);
     });
     control.onEvent(MlRunnerIds.MlRunnerInference, 3, () => {
-      prevAction = 3;
+      maybeUpdateActionStats(Still);
     });
     control.onEvent(MlRunnerIds.MlRunnerInference, 4, () => {
-      prevAction = 4;
+      maybeUpdateActionStats(Circle);
     });
   }
 }
