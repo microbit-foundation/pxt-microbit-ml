@@ -1,5 +1,7 @@
+let timeStill = 0
 input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
+    serial.writeLine("Total time still: " + timeStill + "\n")
 })
 input.onButtonPressed(Button.B, function () {
     if (mlrunner.isRunning()) {
@@ -19,6 +21,10 @@ mlrunner.Action.Circle.onEvent( function () {
 })
 mlrunner.Action.None.onEvent(function () {
     basic.clearScreen()
+})
+
+mlrunner.Action.Still.onStop(function (duration) {
+    timeStill = timeStill + duration
 })
 basic.forever(function () {
     serial.writeLine("Is Shake: " + mlrunner.Action.Shake.isEvent() + "\n")
