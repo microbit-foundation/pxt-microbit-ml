@@ -1,16 +1,3 @@
-let getModelBlob: () => Buffer;
-
-//% shim=mlrunner::customOnEvent
-function mlRunnerCustomOnEvent(
-  id: number,
-  evid: number,
-  handler: () => void,
-  flags?: number
-) {
-  // The sim probably won't respect the DropIfBusy flag
-  control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
-}
-
 //% fixedInstances
 //% blockNamespace=mlrunner
 class MlEvent {
@@ -24,6 +11,32 @@ class MlEvent {
     this.eventLabel = label;
     this.lastDuration = 0;
   }
+}
+
+//% blockNamespace=mlrunner
+namespace mlactions {
+  //% fixedInstance
+  export const None = new MlEvent(1, "None");
+  export let actions = [None];
+  let prevActionInstance: MlEvent = None;
+  export let currentAction: MlEvent = None;
+  let lastActionTimestamp: number = 0;
+
+  export function maybeUpdateActionStats(currentAction: MlEvent) {
+    if (currentAction !== prevActionInstance) {
+      let now = input.runningTime();
+      prevActionInstance.lastDuration = now - lastActionTimestamp;
+
+      if (prevActionInstance.onStopHandler) {
+        prevActionInstance.onStopHandler(prevActionInstance.lastDuration);
+      }
+
+      lastActionTimestamp = now;
+      prevActionInstance = currentAction;
+    }
+  }
+
+  const deviceIsSim = control.deviceName().slice(0, 3) === "sim";
 
   /**
    * Run this code when the model detects the input label has been predicted.
@@ -36,79 +49,61 @@ class MlEvent {
    * @param body The code to run when the model predicts the label.
    */
   //% blockId=mlrunner_on_ml_event
-  //% block="on $this start"
-  onEvent(body: () => void): void {
+  //% block="on $action start"
+  export function onStart(action: MlEvent, body: () => void): void {
     const wrappedBody = () => {
-      if (
-        mlrunner.Action.prevActionInstance !== this ||
-        mlrunner.deviceIsSim()
-      ) {
+      if (prevActionInstance !== action || deviceIsSim) {
         body();
       }
-      if (
-        mlrunner.Action.prevActionInstance !== this &&
-        mlrunner.deviceIsSim()
-      ) {
-        mlrunner.Action.maybeUpdateActionStats(this);
+      if (prevActionInstance !== action && deviceIsSim) {
+        maybeUpdateActionStats(action);
       }
     };
     if (!mlrunner.isRunning()) {
       mlrunner.startRunning();
     }
-    mlRunnerCustomOnEvent(
+    mlrunner.mlRunnerCustomOnEvent(
       MlRunnerIds.MlRunnerInference,
-      this.eventValue,
+      action.eventValue,
       wrappedBody
     );
   }
 
   //% blockId=mlrunner_is_ml_event
-  //% block="is $this action"
-  isEvent(): boolean {
+  //% block="is $action action"
+  export function isAction(action: MlEvent): boolean {
     if (!mlrunner.isRunning()) {
       mlrunner.startRunning();
       return false;
     }
-    return this.eventValue == mlrunner.currentActionId();
+    return action.eventValue == mlrunner.currentActionId();
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on $this stop $duration"
+  //% block="on $action stop $duration"
   //% draggableParameters="reporter"
-  onStop(body: (duration: number) => void): void {
-    this.onStopHandler = body;
+  export function onStop(
+    action: MlEvent,
+    body: (duration: number) => void
+  ): void {
+    action.onStopHandler = body;
   }
 }
 
 //% color=#2b64c3 weight=100 icon="\uf108" block="ML Runner" advanced=false
 namespace mlrunner {
-  export namespace Action {
-    //% fixedInstance
-    export const None = new MlEvent(1, "None");
-    export let actions = [None];
-    export let prevActionInstance: MlEvent = None;
-    export let currentAction: MlEvent = None;
-    export let lastActionTimestamp: number = 0;
-
-    export function maybeUpdateActionStats(currentAction: MlEvent) {
-      if (currentAction !== prevActionInstance) {
-        let now = input.runningTime();
-        prevActionInstance.lastDuration = now - lastActionTimestamp;
-
-        if (prevActionInstance.onStopHandler) {
-          prevActionInstance.onStopHandler(prevActionInstance.lastDuration);
-        }
-
-        lastActionTimestamp = now;
-        prevActionInstance = currentAction;
-      }
-    }
-  }
-
+  export let getModelBlob: () => Buffer;
   let simIsRunning = false;
 
-  export function deviceIsSim() {
-    return control.deviceName().slice(0, 3) === "sim";
+  //% shim=mlrunner::customOnEvent
+  export function mlRunnerCustomOnEvent(
+    id: number,
+    evid: number,
+    handler: () => void,
+    flags?: number
+  ) {
+    // The sim probably won't respect the DropIfBusy flag
+    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
   }
 
   /**
@@ -162,7 +157,7 @@ namespace mlrunner {
 
   //% shim=mlrunner::currentEventId
   export function currentActionId(): number {
-    return Action.currentAction.eventValue;
+    return mlactions.currentAction.eventValue;
   }
 
   // Start simulator code.
@@ -179,7 +174,7 @@ namespace mlrunner {
   }
 
   //% shim=TD_NOOP
-  export function simulatorRegister(): void {
+  function simulatorRegister(): void {
     const msg: MlRunnerSimMessage = {
       type: "register",
     };
@@ -188,10 +183,10 @@ namespace mlrunner {
   }
 
   export function simulatorSendData(): void {
-    if (!Action.actions) {
+    if (!mlactions.actions) {
       return;
     }
-    const actionLabels = Action.actions.map((action) => ({
+    const actionLabels = mlactions.actions.map((action) => ({
       name: action.eventLabel,
       value: action.eventValue,
     }));
@@ -209,10 +204,10 @@ namespace mlrunner {
   }
 
   function simulateAction(eventValue: number) {
-    const simulatedAction = Action.actions.find(
+    const simulatedAction = mlactions.actions.find(
       (action) => action.eventValue === eventValue
     );
-    Action.currentAction = simulatedAction;
+    mlactions.currentAction = simulatedAction;
     // This will run the MLEvent onEvent block if it exists in the user's code.
     // Otherwise, control.onEvent in autogenerated.ts is fired.
     control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
@@ -230,6 +225,7 @@ namespace mlrunner {
       }
     }
   }
+
   simulatorRegister();
   simulatorSendData();
   // End simulator code.
