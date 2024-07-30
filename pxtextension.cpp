@@ -294,6 +294,8 @@ namespace mlrunner {
         mlDataProcessor.deinit();
         free(actions);
         free(predictions);
+        actions = NULL;
+        predictions = NULL;
         mlSampleCountsPerInference = 0;
         lastPredictionEventId = -1;
 
