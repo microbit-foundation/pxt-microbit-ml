@@ -82,7 +82,7 @@ namespace mlactions {
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on ML $action stop $duration"
+  //% block="on ML $action stop $duration (ms)"
   //% draggableParameters="reporter"
   //% parts="v2"
   export function onStop(
