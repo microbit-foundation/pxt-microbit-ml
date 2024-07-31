@@ -49,7 +49,7 @@ namespace mlactions {
    * @param body The code to run when the model predicts the label.
    */
   //% blockId=mlrunner_on_ml_event
-  //% block="on $action start"
+  //% block="on ML $action start"
   //% parts="v2"
   export function onStart(action: MlEvent, body: () => void): void {
     const wrappedBody = () => {
@@ -71,7 +71,7 @@ namespace mlactions {
   }
 
   //% blockId=mlrunner_is_ml_event
-  //% block="is $action action"
+  //% block="is ML $action action"
   //% parts="v2"
   export function isAction(action: MlEvent): boolean {
     if (!mlrunner.isRunning()) {
@@ -82,7 +82,7 @@ namespace mlactions {
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on $action stop $duration"
+  //% block="on ML $action stop $duration"
   //% draggableParameters="reporter"
   //% parts="v2"
   export function onStop(
