@@ -10,24 +10,22 @@ input.onButtonPressed(Button.B, function () {
     mlrunner.startRunning();
   }
 });
-mlactions.onStart(mlactions.Shake, function () {
+mlactions.onStart(mlactions.shake, function () {
   basic.showString("S");
 });
-mlactions.onStart(mlactions.Still, function () {
+mlactions.onStart(mlactions.still, function () {
   basic.showIcon(IconNames.Asleep);
 });
-mlactions.onStart(mlactions.Circle, function () {
+mlactions.onStart(mlactions.drawCircle, function () {
   basic.showString("C");
 });
-mlactions.onStart(mlactions.None, function () {
+mlactions.onStart(mlactions.unknown, function () {
   basic.clearScreen();
 });
-mlactions.onStop(mlactions.Still, function (duration) {
+mlactions.onStop(mlactions.still, function (duration) {
   timeStill += duration;
 });
 basic.forever(function () {
-  serial.writeLine(
-    "Is Shake: " + mlactions.isAction(mlactions.Shake) + "\n"
-  );
+  serial.writeLine("Is Shake: " + mlactions.isAction(mlactions.shake) + "\n");
   basic.pause(10000);
 });

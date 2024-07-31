@@ -2,26 +2,26 @@
 // Auto-generated. Do not edit.
 //% blockNamespace=mlrunner
 namespace mlactions {
-  //% fixedInstance
-  export const Shake = new MlEvent(2, "Shake");
-  //% fixedInstance
-  export const Still = new MlEvent(3, "Still");
-  //% fixedInstance
-  export const Circle = new MlEvent(4, "Circle");
+  //% fixedInstance block="shake"
+  export const shake = new MlEvent(2, "shake");
+  //% fixedInstance block="still"
+  export const still = new MlEvent(3, "still");
+  //% fixedInstance block="draw circle"
+  export const drawCircle = new MlEvent(4, "draw circle");
 
-  actions = [None, Shake, Still, Circle];
+  actions = [unknown, shake, still, drawCircle];
 
   control.onEvent(MlRunnerIds.MlRunnerInference, 1, () => {
-    maybeUpdateActionStats(None);
+    maybeUpdateActionStats(unknown);
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 2, () => {
-    maybeUpdateActionStats(Shake);
+    maybeUpdateActionStats(shake);
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 3, () => {
-    maybeUpdateActionStats(Still);
+    maybeUpdateActionStats(still);
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 4, () => {
-    maybeUpdateActionStats(Circle);
+    maybeUpdateActionStats(drawCircle);
   });
 }
 
