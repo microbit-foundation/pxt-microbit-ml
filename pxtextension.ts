@@ -73,7 +73,7 @@ class MlEvent {
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on ML $this stop $duration"
+  //% block="on ML $this stop $duration (ms)"
   //% draggableParameters="reporter"
   onStop(body: (duration: number) => void): void {
     this.onStopHandler = body;
