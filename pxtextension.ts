@@ -36,7 +36,7 @@ class MlEvent {
    * @param body The code to run when the model predicts the label.
    */
   //% blockId=mlrunner_on_ml_event
-  //% block="on $this start"
+  //% block="on ML $this start"
   onEvent(body: () => void): void {
     const wrappedBody = () => {
       if (
@@ -63,7 +63,7 @@ class MlEvent {
   }
 
   //% blockId=mlrunner_is_ml_event
-  //% block="is $this action"
+  //% block="is ML $this action"
   isEvent(): boolean {
     if (!mlrunner.isRunning()) {
       mlrunner.startRunning();
@@ -73,7 +73,7 @@ class MlEvent {
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on $this stop $duration"
+  //% block="on ML $this stop $duration"
   //% draggableParameters="reporter"
   onStop(body: (duration: number) => void): void {
     this.onStopHandler = body;
