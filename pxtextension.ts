@@ -54,7 +54,7 @@ namespace ml {
    */
   //% blockId=mlrunner_on_ml_event
   //% block="on $mlClass detected"
-  //% weight=30
+  //% weight=40
   //% parts="v2"
   export function onDetected(mlClass: MlEvent, body: () => void): void {
     const wrappedBody = () => {
@@ -79,7 +79,7 @@ namespace ml {
   //% block="on $mlClass ended after $duration (ms)"
   //% draggableParameters="reporter"
   //% parts="v2"
-  //% weight=20
+  //% weight=30
   export function onDetectedEnd(
     mlClass: MlEvent,
     body: (duration: number) => void
@@ -88,6 +88,27 @@ namespace ml {
       startRunning();
     }
     mlClass.onStopHandler = body;
+  }
+
+  //% blockId=mlrunner_ml_event_probability
+  //% block="probability (\\%) $mlClass"
+  //% weight=20
+  //% parts="v2"
+  export function getProbability(mlClass: MlEvent): number {
+    const eventValue = mlClass.eventValue;
+    if (eventValue <= 1) {
+      // `unknown` can't have a probability.
+      return 0;
+    }
+    return getProbabilityInternal(mlClass.eventValue);
+  }
+
+  //% shim=mlrunner::currentEventProbability
+  function getProbabilityInternal(eventValue: number): number {
+    if (eventValue === currentAction.eventValue) {
+      return 100;
+    }
+    return 0;
   }
 
   //% blockId=mlrunner_is_ml_event

@@ -3,6 +3,12 @@ input.onButtonPressed(Button.A, function () {
   basic.clearScreen();
   serial.writeLine("Total time still: " + timeStill + "\n");
 });
+input.onButtonPressed(Button.B, function () {
+  basic.clearScreen();
+  serial.writeLine(
+    "Probability of shake: " + ml.getProbability(ml.action.Shake) + "\n"
+  );
+});
 ml.onDetected(ml.action.Shake, function () {
   basic.showString("S");
 });
@@ -15,8 +21,8 @@ ml.onDetected(ml.action.DrawCircle, function () {
 ml.onDetected(ml.action.Unknown, function () {
   basic.clearScreen();
 });
-ml.onDetectedEnd(ml.action.Still, function (detectionDuration) {
-  timeStill += detectionDuration;
+ml.onDetectedEnd(ml.action.Still, function (duration) {
+  timeStill += duration;
 });
 basic.forever(function () {
   serial.writeLine("Is Shake: " + ml.isDetected(ml.action.Shake) + "\n");
