@@ -3,29 +3,22 @@ input.onButtonPressed(Button.A, function () {
   basic.clearScreen();
   serial.writeLine("Total time still: " + timeStill + "\n");
 });
-input.onButtonPressed(Button.B, function () {
-  if (mlrunner.isRunning()) {
-    mlrunner.stopRunning();
-  } else {
-    mlrunner.startRunning();
-  }
-});
-mlactions.onStart(mlactions.shake, function () {
+ml.onDetected(ml.action.Shake, function () {
   basic.showString("S");
 });
-mlactions.onStart(mlactions.still, function () {
+ml.onDetected(ml.action.Still, function () {
   basic.showIcon(IconNames.Asleep);
 });
-mlactions.onStart(mlactions.drawCircle, function () {
+ml.onDetected(ml.action.DrawCircle, function () {
   basic.showString("C");
 });
-mlactions.onStart(mlactions.unknown, function () {
+ml.onDetected(ml.action.Unknown, function () {
   basic.clearScreen();
 });
-mlactions.onStop(mlactions.still, function (duration) {
-  timeStill += duration;
+ml.onDetectedEnd(ml.action.Still, function (detectionDuration) {
+  timeStill += detectionDuration;
 });
 basic.forever(function () {
-  serial.writeLine("Is Shake: " + mlactions.isAction(mlactions.shake) + "\n");
+  serial.writeLine("Is Shake: " + ml.isDetected(ml.action.Shake) + "\n");
   basic.pause(10000);
 });
