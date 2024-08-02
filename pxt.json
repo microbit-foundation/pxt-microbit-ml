@@ -29,6 +29,9 @@
     "supportedTargets": [
         "microbit"
     ],
+    "disablesVariants": [
+        "mbdal"
+    ],
     "preferredEditor": "tsprj",
     "yotta": {
         "config": {

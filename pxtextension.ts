@@ -56,6 +56,7 @@ namespace ml {
   //% block="on $mlClass detected"
   //% weight=40
   //% parts="v2"
+  //% group="micro:bit (V2)"
   export function onDetected(mlClass: MlEvent, body: () => void): void {
     const wrappedBody = () => {
       if (prevActionInstance !== mlClass || deviceIsSim) {
@@ -77,9 +78,10 @@ namespace ml {
 
   //% blockId=mlrunner_on_ml_event_stop
   //% block="on $mlClass ended after $duration (ms)"
+  //% weight=30
   //% draggableParameters="reporter"
   //% parts="v2"
-  //% weight=30
+  //% group="micro:bit (V2)"
   export function onDetectedEnd(
     mlClass: MlEvent,
     body: (duration: number) => void
@@ -94,6 +96,7 @@ namespace ml {
   //% block="probability (\\%) $mlClass"
   //% weight=20
   //% parts="v2"
+  //% group="micro:bit (V2)"
   export function getProbability(mlClass: MlEvent): number {
     const eventValue = mlClass.eventValue;
     if (eventValue <= 1) {
@@ -115,6 +118,7 @@ namespace ml {
   //% block="is $mlClass detected"
   //% weight=10
   //% parts="v2"
+  //% group="micro:bit (V2)"
   export function isDetected(mlClass: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
