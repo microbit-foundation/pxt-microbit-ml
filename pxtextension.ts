@@ -118,7 +118,6 @@ namespace ml {
   //% block="is $mlClass detected"
   //% weight=10
   //% parts="v2"
-  //% group="micro:bit (V2)"
   export function isDetected(mlClass: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
