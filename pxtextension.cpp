@@ -317,7 +317,7 @@ namespace mlrunner {
 
     
     //%
-    float currentEventProbability(int value) {
+    float currentEventCertainty(int value) {
         if (lastPredictionEventId == -1) {
             return (float)0;
         }

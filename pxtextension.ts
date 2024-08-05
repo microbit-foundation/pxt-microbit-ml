@@ -16,27 +16,27 @@ class MlEvent {
 //% color=#2b64c3 weight=120 icon="\uf108" block="Machine Learning" advanced=false
 namespace ml {
   //% blockNamespace=ml
-  export namespace action {
+  export namespace event {
     //% fixedInstance block="unknown"
     export const Unknown = new MlEvent(1, "unknown");
   }
 
-  export let actions = [action.Unknown];
-  let prevActionInstance: MlEvent = action.Unknown;
-  let currentAction: MlEvent = action.Unknown;
-  let lastActionTimestamp: number = 0;
+  export let events = [event.Unknown];
+  let prevEventInstance: MlEvent = event.Unknown;
+  let currentEvent: MlEvent = event.Unknown;
+  let lastEventTimestamp: number = 0;
 
-  export function maybeUpdateActionStats(currentAction: MlEvent) {
-    if (currentAction !== prevActionInstance) {
+  export function maybeUpdateEventStats(currentEvent: MlEvent) {
+    if (currentEvent !== prevEventInstance) {
       let now = input.runningTime();
-      prevActionInstance.lastDuration = now - lastActionTimestamp;
+      prevEventInstance.lastDuration = now - lastEventTimestamp;
 
-      if (prevActionInstance.onStopHandler) {
-        prevActionInstance.onStopHandler(prevActionInstance.lastDuration);
+      if (prevEventInstance.onStopHandler) {
+        prevEventInstance.onStopHandler(prevEventInstance.lastDuration);
       }
 
-      lastActionTimestamp = now;
-      prevActionInstance = currentAction;
+      lastEventTimestamp = now;
+      prevEventInstance = currentEvent;
     }
   }
 
@@ -53,17 +53,17 @@ namespace ml {
    * @param body The code to run when the model predicts the label.
    */
   //% blockId=mlrunner_on_ml_event
-  //% block="on $mlClass detected"
+  //% block="on ML $event start"
   //% weight=40
   //% parts="v2"
   //% group="micro:bit (V2)"
-  export function onDetected(mlClass: MlEvent, body: () => void): void {
+  export function onStart(event: MlEvent, body: () => void): void {
     const wrappedBody = () => {
-      if (prevActionInstance !== mlClass || deviceIsSim) {
+      if (prevEventInstance !== event || deviceIsSim) {
         body();
       }
-      if (prevActionInstance !== mlClass && deviceIsSim) {
-        maybeUpdateActionStats(mlClass);
+      if (prevEventInstance !== event && deviceIsSim) {
+        maybeUpdateEventStats(event);
       }
     };
     if (!isRunning()) {
@@ -71,59 +71,59 @@ namespace ml {
     }
     mlRunnerCustomOnEvent(
       MlRunnerIds.MlRunnerInference,
-      mlClass.eventValue,
+      event.eventValue,
       wrappedBody
     );
   }
 
   //% blockId=mlrunner_on_ml_event_stop
-  //% block="on $mlClass ended after $duration (ms)"
+  //% block="on ML $event stop after $duration (ms)"
   //% weight=30
   //% draggableParameters="reporter"
   //% parts="v2"
   //% group="micro:bit (V2)"
-  export function onDetectedEnd(
-    mlClass: MlEvent,
+  export function onStop(
+    event: MlEvent,
     body: (duration: number) => void
   ): void {
     if (!isRunning()) {
       startRunning();
     }
-    mlClass.onStopHandler = body;
+    event.onStopHandler = body;
   }
 
-  //% blockId=mlrunner_ml_event_probability
-  //% block="probability (\\%) $mlClass"
+  //% blockId=mlrunner_ml_event_certainty
+  //% block="certainty (\\%) ML $event"
   //% weight=20
   //% parts="v2"
   //% group="micro:bit (V2)"
-  export function getProbability(mlClass: MlEvent): number {
-    const eventValue = mlClass.eventValue;
+  export function getCertainty(event: MlEvent): number {
+    const eventValue = event.eventValue;
     if (eventValue <= 1) {
-      // `unknown` can't have a probability.
+      // `unknown` can't have a certainty.
       return 0;
     }
-    return getProbabilityInternal(mlClass.eventValue);
+    return getCertaintyInternal(event.eventValue);
   }
 
-  //% shim=mlrunner::currentEventProbability
-  function getProbabilityInternal(eventValue: number): number {
-    if (eventValue === currentAction.eventValue) {
+  //% shim=mlrunner::currentEventCertainty
+  function getCertaintyInternal(eventValue: number): number {
+    if (eventValue === currentEvent.eventValue) {
       return 100;
     }
     return 0;
   }
 
   //% blockId=mlrunner_is_ml_event
-  //% block="is $mlClass detected"
+  //% block="is ML $event detected"
   //% weight=10
   //% parts="v2"
-  export function isDetected(mlClass: MlEvent): boolean {
+  export function isDetected(event: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
       return false;
     }
-    return mlClass.eventValue == currentActionId();
+    return event.eventValue == currentEventId();
   }
 
   export let getModelBlob: () => Buffer;
@@ -175,8 +175,8 @@ namespace ml {
   }
 
   //% shim=mlrunner::currentEventId
-  function currentActionId(): number {
-    return currentAction.eventValue;
+  function currentEventId(): number {
+    return currentEvent.eventValue;
   }
 
   // Start simulator code.
@@ -202,16 +202,16 @@ namespace ml {
   }
 
   export function simulatorSendData(): void {
-    if (!actions) {
+    if (!events) {
       return;
     }
-    const actionLabels = actions.map((action) => ({
-      name: action.eventLabel,
-      value: action.eventValue,
+    const eventLabels = events.map((event) => ({
+      name: event.eventLabel,
+      value: event.eventValue,
     }));
     const msg: MlRunnerSimMessage = {
       type: "data",
-      data: actionLabels,
+      data: eventLabels,
     };
     simulatorSendMessage(msg);
   }
@@ -222,11 +222,11 @@ namespace ml {
     control.simmessages.send("machineLearningPoc", payload, false);
   }
 
-  function simulateAction(eventValue: number) {
-    const simulatedAction = actions.find(
-      (action) => action.eventValue === eventValue
+  function simulateEvent(eventValue: number) {
+    const simulatedEvent = events.find(
+      (event) => event.eventValue === eventValue
     );
-    currentAction = simulatedAction;
+    currentEvent = simulatedEvent;
     // This will run the MLEvent onEvent block if it exists in the user's code.
     // Otherwise, control.onEvent in autogenerated.ts is fired.
     control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
@@ -240,7 +240,7 @@ namespace ml {
         break;
       }
       case "trigger_action": {
-        simulateAction(msg.data.value);
+        simulateEvent(msg.data.value);
       }
     }
   }

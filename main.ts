@@ -6,25 +6,25 @@ input.onButtonPressed(Button.A, function () {
 input.onButtonPressed(Button.B, function () {
   basic.clearScreen();
   serial.writeLine(
-    "Probability of shake: " + ml.getProbability(ml.action.Shake) + "\n"
+    "Probability of shake: " + ml.getCertainty(ml.event.Shake) + "\n"
   );
 });
-ml.onDetected(ml.action.Shake, function () {
+ml.onStart(ml.event.Shake, function () {
   basic.showString("S");
 });
-ml.onDetected(ml.action.Still, function () {
+ml.onStart(ml.event.Still, function () {
   basic.showIcon(IconNames.Asleep);
 });
-ml.onDetected(ml.action.DrawCircle, function () {
+ml.onStart(ml.event.DrawCircle, function () {
   basic.showString("C");
 });
-ml.onDetected(ml.action.Unknown, function () {
+ml.onStart(ml.event.Unknown, function () {
   basic.clearScreen();
 });
-ml.onDetectedEnd(ml.action.Still, function (duration) {
+ml.onStop(ml.event.Still, function (duration) {
   timeStill += duration;
 });
 basic.forever(function () {
-  serial.writeLine("Is Shake: " + ml.isDetected(ml.action.Shake) + "\n");
+  serial.writeLine("Is Shake: " + ml.isDetected(ml.event.Shake) + "\n");
   basic.pause(10000);
 });
