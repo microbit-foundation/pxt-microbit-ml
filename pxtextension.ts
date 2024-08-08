@@ -180,24 +180,26 @@ namespace ml {
   }
 
   // Start simulator code.
-  type MlRunnerSimMessageType =
+  type SimulatorMessageType =
     | "register"
     | "init"
     | "data"
     | "request_data"
-    | "trigger_action";
+    | "simulate_event";
 
-  interface MlRunnerSimMessage {
-    type: MlRunnerSimMessageType;
+  interface SimulatorMessage {
+    type: SimulatorMessageType;
     data?: any;
   }
 
+  const simChannel = "microbitML";
+
   //% shim=TD_NOOP
   function simulatorRegister(): void {
-    const msg: MlRunnerSimMessage = {
+    const msg: SimulatorMessage = {
       type: "register",
     };
-    control.simmessages.onReceived("machineLearningPoc", handleMessage);
+    control.simmessages.onReceived(simChannel, handleMessage);
     simulatorSendMessage(msg);
   }
 
@@ -209,7 +211,7 @@ namespace ml {
       name: event.eventLabel,
       value: event.eventValue,
     }));
-    const msg: MlRunnerSimMessage = {
+    const msg: SimulatorMessage = {
       type: "data",
       data: eventLabels,
     };
@@ -217,9 +219,9 @@ namespace ml {
   }
 
   //% shim=TD_NOOP
-  function simulatorSendMessage(msg: MlRunnerSimMessage): void {
+  function simulatorSendMessage(msg: SimulatorMessage): void {
     const payload = Buffer.fromUTF8(JSON.stringify(msg));
-    control.simmessages.send("machineLearningPoc", payload, false);
+    control.simmessages.send(simChannel, payload, false);
   }
 
   function simulateEvent(eventValue: number) {
@@ -233,14 +235,16 @@ namespace ml {
   }
 
   function handleMessage(buffer: Buffer) {
-    const msg: MlRunnerSimMessage = JSON.parse(buffer.toString());
+    const msg: SimulatorMessage = JSON.parse(buffer.toString());
     switch (msg.type) {
       case "request_data": {
         simulatorSendData();
         break;
       }
-      case "trigger_action": {
-        simulateEvent(msg.data.value);
+      case "simulate_event": {
+        if (typeof msg.data === "number") {
+          simulateEvent(msg.data);
+        }
       }
     }
   }
