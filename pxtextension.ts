@@ -192,7 +192,7 @@ namespace ml {
     data?: any;
   }
 
-  const simChannel = "microbitML";
+  const simChannel = "microbit-ml-v1";
 
   //% shim=TD_NOOP
   function simulatorRegister(): void {
