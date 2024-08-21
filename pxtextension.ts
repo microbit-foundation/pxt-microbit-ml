@@ -52,7 +52,7 @@ namespace ml {
    * @param mlEvent The label event that triggers this code to run.
    * @param body The code to run when the model predicts the label.
    */
-  //% blockId=mlrunner_on_ml_event
+  //% blockId=ml_on_event_start
   //% block="on ML $event start"
   //% weight=40
   //% parts="v2"
@@ -76,7 +76,7 @@ namespace ml {
     );
   }
 
-  //% blockId=mlrunner_on_ml_event_stop
+  //% blockId=ml_on_event_stop
   //% block="on ML $event stop after $duration (ms)"
   //% weight=30
   //% draggableParameters="reporter"
@@ -92,7 +92,7 @@ namespace ml {
     event.onStopHandler = body;
   }
 
-  //% blockId=mlrunner_ml_event_certainty
+  //% blockId=ml_on_event_certainty
   //% block="certainty (\\%) ML $event"
   //% weight=20
   //% parts="v2"
@@ -114,7 +114,7 @@ namespace ml {
     return 0;
   }
 
-  //% blockId=mlrunner_is_ml_event
+  //% blockId=ml_is_event_detected
   //% block="is ML $event detected"
   //% weight=10
   //% parts="v2"
@@ -146,7 +146,6 @@ namespace ml {
    *
    * @param modelBlob The model blob to initialize the ML model with.
    */
-  //% blockId=mlrunner_init
   //% shim=mlrunner::init
   function initRunner(modelBlob: Buffer): void {
     return;
