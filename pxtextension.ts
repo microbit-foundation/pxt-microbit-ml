@@ -92,9 +92,21 @@ namespace ml {
     event.onStopHandler = body;
   }
 
+  //% blockId=ml_is_event_detected
+  //% block="is ML $event detected"
+  //% weight=20
+  //% parts="v2"
+  export function isDetected(event: MlEvent): boolean {
+    if (!isRunning()) {
+      startRunning();
+      return false;
+    }
+    return event.eventValue == currentEventId();
+  }
+
   //% blockId=ml_on_event_certainty
   //% block="certainty (\\%) ML $event"
-  //% weight=20
+  //% weight=10
   //% parts="v2"
   //% group="micro:bit (V2)"
   export function getCertainty(event: MlEvent): number {
@@ -112,18 +124,6 @@ namespace ml {
       return 100;
     }
     return 0;
-  }
-
-  //% blockId=ml_is_event_detected
-  //% block="is ML $event detected"
-  //% weight=10
-  //% parts="v2"
-  export function isDetected(event: MlEvent): boolean {
-    if (!isRunning()) {
-      startRunning();
-      return false;
-    }
-    return event.eventValue == currentEventId();
   }
 
   export let getModelBlob: () => Buffer;
@@ -181,7 +181,6 @@ namespace ml {
   // Start simulator code.
   type SimulatorMessageType =
     | "register"
-    | "init"
     | "data"
     | "request_data"
     | "simulate_event";
@@ -249,6 +248,5 @@ namespace ml {
   }
 
   simulatorRegister();
-  simulatorSendData();
   // End simulator code.
 }
