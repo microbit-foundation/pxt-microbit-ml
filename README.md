@@ -1,4 +1,4 @@
-# Makecode extension for use with the micro:bit machine learning tool
+# Microsoft MakeCode extension for use with the micro:bit machine learning tool
 
 This extension is a work in progress. It supports unreleased work on the micro:bit machine learning tool.
 
