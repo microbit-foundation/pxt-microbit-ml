@@ -1,6 +1,8 @@
-# Experimental Makecode Extension to test machine learning integration with the micro:bit
+# Makecode extension for use with the micro:bit machine learning tool
 
-This extension is experimental and is being used for testing purposes.
+This extension is a work in progress. It supports unreleased work on the micro:bit machine learning tool.
+
+It is not useful separate from the machine learning tool, which creates suitable blocks based on the machine learning model you build in the tool.
 
 ## Building locally
 
