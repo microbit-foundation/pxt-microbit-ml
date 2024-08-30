@@ -1,31 +1,30 @@
-let timeStill = 0
+let timeStill = 0;
 input.onButtonPressed(Button.A, function () {
-    basic.clearScreen()
-    serial.writeLine("Total time still: " + timeStill + "\n")
-})
+  basic.clearScreen();
+  serial.writeLine("Total time still: " + timeStill + "\n");
+});
 input.onButtonPressed(Button.B, function () {
-    if (mlrunner.isRunning()) {
-        mlrunner.stopRunning()
-    } else {
-        mlrunner.startRunning()
-    }
-})
-mlrunner.Action.Shake.onEvent(function () {
-    basic.showString("S")
-})
-mlrunner.Action.Still.onEvent(function () {
-    basic.showIcon(IconNames.Asleep)
-})
-mlrunner.Action.Circle.onEvent(function () {
-    basic.showString("C")
-})
-mlrunner.Action.None.onEvent(function () {
-    basic.clearScreen()
-})
-mlrunner.Action.Still.onStop(function (duration) {
-    timeStill += duration
-})
+  basic.clearScreen();
+  serial.writeLine(
+    "Probability of shake: " + ml.getCertainty(ml.event.Shake) + "\n"
+  );
+});
+ml.onStart(ml.event.Shake, function () {
+  basic.showString("S");
+});
+ml.onStart(ml.event.Still, function () {
+  basic.showIcon(IconNames.Asleep);
+});
+ml.onStart(ml.event.DrawCircle, function () {
+  basic.showString("C");
+});
+ml.onStart(ml.event.Unknown, function () {
+  basic.clearScreen();
+});
+ml.onStop(ml.event.Still, function (duration) {
+  timeStill += duration;
+});
 basic.forever(function () {
-    serial.writeLine("Is Shake: " + mlrunner.Action.Shake.isEvent() + "\n")
-    basic.pause(10000)
-})
+  serial.writeLine("Is Shake: " + ml.isDetected(ml.event.Shake) + "\n");
+  basic.pause(10000);
+});

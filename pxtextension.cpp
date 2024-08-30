@@ -160,7 +160,7 @@ namespace mlrunner {
         pxt::registerGCPtr(handler);
     }
 
-    //% blockId=mlrunner_init
+    //%
     void init(Buffer model_str) {
 #if MICROBIT_CODAL != 1
         target_panic(PANIC_VARIANT_NOT_SUPPORTED);
@@ -273,7 +273,7 @@ namespace mlrunner {
         DEBUG_PRINT("\tModel loaded\n\n");
     }
 
-    //% blockId=mlrunner_stop_model_running
+    //%
     void deinit() {
 #if MICROBIT_CODAL != 1
         target_panic(PANIC_VARIANT_NOT_SUPPORTED);
@@ -302,7 +302,7 @@ namespace mlrunner {
         DEBUG_PRINT("Done\n\n");
     }
 
-    //% blockId=mlrunner_is_running
+    //%
     bool isModelRunning() {
         return initialised;
     }
@@ -313,5 +313,16 @@ namespace mlrunner {
             return ML_EVENT_NONE_ID;
         }
         return lastPredictionEventId;
+    }
+
+    
+    //%
+    float currentEventCertainty(int value) {
+        if (lastPredictionEventId == -1) {
+            return (float)0;
+        }
+        // The value passed in is the eventValue. For user
+        // actions, these start at 2 so this is corrected here.
+        return (predictions->prediction[value - 2] * 100);
     }
 }

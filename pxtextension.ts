@@ -1,18 +1,5 @@
-let getModelBlob: () => Buffer;
-
-//% shim=mlrunner::customOnEvent
-function mlRunnerCustomOnEvent(
-  id: number,
-  evid: number,
-  handler: () => void,
-  flags?: number
-) {
-  // The sim probably won't respect the DropIfBusy flag
-  control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
-}
-
 //% fixedInstances
-//% blockNamespace=mlrunner
+//% blockNamespace=ml
 class MlEvent {
   eventValue: number;
   eventLabel: string;
@@ -24,6 +11,36 @@ class MlEvent {
     this.eventLabel = label;
     this.lastDuration = 0;
   }
+}
+
+//% color=#2b64c3 weight=120 icon="\uf108" block="Machine Learning" advanced=false
+namespace ml {
+  //% blockNamespace=ml
+  export namespace event {
+    //% fixedInstance block="unknown"
+    export const Unknown = new MlEvent(1, "unknown");
+  }
+
+  export let events = [event.Unknown];
+  let prevEventInstance: MlEvent = event.Unknown;
+  let currentEvent: MlEvent = event.Unknown;
+  let lastEventTimestamp: number = 0;
+
+  export function maybeUpdateEventStats(currentEvent: MlEvent) {
+    if (currentEvent !== prevEventInstance) {
+      let now = input.runningTime();
+      prevEventInstance.lastDuration = now - lastEventTimestamp;
+
+      if (prevEventInstance.onStopHandler) {
+        prevEventInstance.onStopHandler(prevEventInstance.lastDuration);
+      }
+
+      lastEventTimestamp = now;
+      prevEventInstance = currentEvent;
+    }
+  }
+
+  const deviceIsSim = control.deviceName().slice(0, 3) === "sim";
 
   /**
    * Run this code when the model detects the input label has been predicted.
@@ -35,80 +52,92 @@ class MlEvent {
    * @param mlEvent The label event that triggers this code to run.
    * @param body The code to run when the model predicts the label.
    */
-  //% blockId=mlrunner_on_ml_event
-  //% block="on $this start"
-  onEvent(body: () => void): void {
+  //% blockId=ml_on_event_start
+  //% block="on ML $event start"
+  //% weight=40
+  //% parts="v2"
+  //% group="micro:bit (V2)"
+  export function onStart(event: MlEvent, body: () => void): void {
     const wrappedBody = () => {
-      if (
-        mlrunner.Action.prevActionInstance !== this ||
-        mlrunner.deviceIsSim()
-      ) {
+      if (prevEventInstance !== event || deviceIsSim) {
         body();
       }
-      if (
-        mlrunner.Action.prevActionInstance !== this &&
-        mlrunner.deviceIsSim()
-      ) {
-        mlrunner.Action.maybeUpdateActionStats(this);
+      if (prevEventInstance !== event && deviceIsSim) {
+        maybeUpdateEventStats(event);
       }
     };
-    if (!mlrunner.isRunning()) {
-      mlrunner.startRunning();
+    if (!isRunning()) {
+      startRunning();
     }
     mlRunnerCustomOnEvent(
       MlRunnerIds.MlRunnerInference,
-      this.eventValue,
+      event.eventValue,
       wrappedBody
     );
   }
 
-  //% blockId=mlrunner_is_ml_event
-  //% block="is $this action"
-  isEvent(): boolean {
-    if (!mlrunner.isRunning()) {
-      mlrunner.startRunning();
+  //% blockId=ml_on_event_stop
+  //% block="on ML $event stop after $duration (ms)"
+  //% weight=30
+  //% draggableParameters="reporter"
+  //% parts="v2"
+  //% group="micro:bit (V2)"
+  export function onStop(
+    event: MlEvent,
+    body: (duration: number) => void
+  ): void {
+    if (!isRunning()) {
+      startRunning();
+    }
+    event.onStopHandler = body;
+  }
+
+  //% blockId=ml_is_event_detected
+  //% block="is ML $event detected"
+  //% weight=20
+  //% parts="v2"
+  export function isDetected(event: MlEvent): boolean {
+    if (!isRunning()) {
+      startRunning();
       return false;
     }
-    return this.eventValue == mlrunner.currentActionId();
+    return event.eventValue == currentEventId();
   }
 
-  //% blockId=mlrunner_on_ml_event_stop
-  //% block="on $this stop $duration"
-  //% draggableParameters="reporter"
-  onStop(body: (duration: number) => void): void {
-    this.onStopHandler = body;
-  }
-}
-
-//% color=#2b64c3 weight=100 icon="\uf108" block="ML Runner" advanced=false
-namespace mlrunner {
-  export namespace Action {
-    //% fixedInstance
-    export const None = new MlEvent(1, "None");
-    export let actions = [None];
-    export let prevActionInstance: MlEvent = None;
-    export let currentAction: MlEvent = None;
-    export let lastActionTimestamp: number = 0;
-
-    export function maybeUpdateActionStats(currentAction: MlEvent) {
-      if (currentAction !== prevActionInstance) {
-        let now = input.runningTime();
-        prevActionInstance.lastDuration = now - lastActionTimestamp;
-
-        if (prevActionInstance.onStopHandler) {
-          prevActionInstance.onStopHandler(prevActionInstance.lastDuration);
-        }
-
-        lastActionTimestamp = now;
-        prevActionInstance = currentAction;
-      }
+  //% blockId=ml_on_event_certainty
+  //% block="certainty (\\%) ML $event"
+  //% weight=10
+  //% parts="v2"
+  //% group="micro:bit (V2)"
+  export function getCertainty(event: MlEvent): number {
+    const eventValue = event.eventValue;
+    if (eventValue <= 1) {
+      // `unknown` can't have a certainty.
+      return 0;
     }
+    return getCertaintyInternal(event.eventValue);
   }
 
+  //% shim=mlrunner::currentEventCertainty
+  function getCertaintyInternal(eventValue: number): number {
+    if (eventValue === currentEvent.eventValue) {
+      return 100;
+    }
+    return 0;
+  }
+
+  export let getModelBlob: () => Buffer;
   let simIsRunning = false;
 
-  export function deviceIsSim() {
-    return control.deviceName().slice(0, 3) === "sim";
+  //% shim=mlrunner::customOnEvent
+  function mlRunnerCustomOnEvent(
+    id: number,
+    evid: number,
+    handler: () => void,
+    flags?: number
+  ) {
+    // The sim probably won't respect the DropIfBusy flag
+    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
   }
 
   /**
@@ -117,7 +146,6 @@ namespace mlrunner {
    *
    * @param modelBlob The model blob to initialize the ML model with.
    */
-  //% blockId=mlrunner_init
   //% shim=mlrunner::init
   function initRunner(modelBlob: Buffer): void {
     return;
@@ -127,9 +155,7 @@ namespace mlrunner {
    * Configure the ML model, start capturing accelerometer data, and run
    * the model in the background.
    */
-  //% blockId=mlrunner_run_model_background
-  //% block="run ML model in background"
-  export function startRunning(): void {
+  function startRunning(): void {
     let modelBlob = hex``;
     // The model blob should be re-generated by the MakeCode extension
     if (typeof getModelBlob === "function") {
@@ -140,97 +166,87 @@ namespace mlrunner {
   }
 
   /**
-   * Stop running the accelerometer data capturing and ML model in the
-   * background.
-   */
-  //% blockId=mlrunner_stop_model_running
-  //% block="stop running ML"
-  //% shim=mlrunner::deinit
-  export function stopRunning(): void {
-    simIsRunning = false;
-  }
-
-  /**
    * Check if the ML model is currently running in the background.
    */
-  //% blockId=mlrunner_is_running
-  //% block="is ML running"
   //% shim=mlrunner::isModelRunning
-  export function isRunning(): boolean {
+  function isRunning(): boolean {
     return simIsRunning;
   }
 
   //% shim=mlrunner::currentEventId
-  export function currentActionId(): number {
-    return Action.currentAction.eventValue;
+  function currentEventId(): number {
+    return currentEvent.eventValue;
   }
 
   // Start simulator code.
-  type MlRunnerSimMessageType =
+  type SimulatorMessageType =
     | "register"
-    | "init"
     | "data"
     | "request_data"
-    | "trigger_action";
+    | "simulate_event";
 
-  interface MlRunnerSimMessage {
-    type: MlRunnerSimMessageType;
+  interface SimulatorMessage {
+    type: SimulatorMessageType;
     data?: any;
   }
 
+  const simChannel = "microbit-ml-v1";
+
   //% shim=TD_NOOP
-  export function simulatorRegister(): void {
-    const msg: MlRunnerSimMessage = {
+  function simulatorRegister(): void {
+    const msg: SimulatorMessage = {
       type: "register",
     };
-    control.simmessages.onReceived("machineLearningPoc", handleMessage);
+    control.simmessages.onReceived(simChannel, handleMessage);
     simulatorSendMessage(msg);
   }
 
   export function simulatorSendData(): void {
-    if (!Action.actions) {
+    if (!events) {
       return;
     }
-    const actionLabels = Action.actions.map((action) => ({
-      name: action.eventLabel,
-      value: action.eventValue,
+    const eventLabels = events.map((event) => ({
+      name: event.eventLabel,
+      value: event.eventValue,
     }));
-    const msg: MlRunnerSimMessage = {
+    const msg: SimulatorMessage = {
       type: "data",
-      data: actionLabels,
+      data: eventLabels,
     };
     simulatorSendMessage(msg);
   }
 
   //% shim=TD_NOOP
-  function simulatorSendMessage(msg: MlRunnerSimMessage): void {
+  function simulatorSendMessage(msg: SimulatorMessage): void {
     const payload = Buffer.fromUTF8(JSON.stringify(msg));
-    control.simmessages.send("machineLearningPoc", payload, false);
+    control.simmessages.send(simChannel, payload, false);
   }
 
-  function simulateAction(eventValue: number) {
-    const simulatedAction = Action.actions.find(
-      (action) => action.eventValue === eventValue
+  function simulateEvent(eventValue: number) {
+    const simulatedEvent = events.find(
+      (event) => event.eventValue === eventValue
     );
-    Action.currentAction = simulatedAction;
+    currentEvent = simulatedEvent;
     // This will run the MLEvent onEvent block if it exists in the user's code.
     // Otherwise, control.onEvent in autogenerated.ts is fired.
     control.raiseEvent(MlRunnerIds.MlRunnerInference, eventValue);
   }
 
   function handleMessage(buffer: Buffer) {
-    const msg: MlRunnerSimMessage = JSON.parse(buffer.toString());
+    const msg: SimulatorMessage = JSON.parse(buffer.toString());
     switch (msg.type) {
       case "request_data": {
         simulatorSendData();
         break;
       }
-      case "trigger_action": {
-        simulateAction(msg.data.value);
+      case "simulate_event": {
+        if (typeof msg.data === "number") {
+          simulateEvent(msg.data);
+        }
       }
     }
   }
+
   simulatorRegister();
-  simulatorSendData();
   // End simulator code.
 }
