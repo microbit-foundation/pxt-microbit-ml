@@ -4,7 +4,8 @@ class MlEvent {
   eventValue: number;
   eventLabel: string;
   lastDuration: number;
-  onStopHandler: (duration: number) => void;
+  onStopHandler: () => void;
+  onStopDetailedHandler: (duration: number) => void;
 
   constructor(value: number, label: string) {
     this.eventValue = value;
@@ -31,8 +32,12 @@ namespace ml {
       let now = input.runningTime();
       prevEventInstance.lastDuration = now - lastEventTimestamp;
 
+      if (prevEventInstance.onStopDetailedHandler) {
+        prevEventInstance.onStopDetailedHandler(prevEventInstance.lastDuration);
+      }
+
       if (prevEventInstance.onStopHandler) {
-        prevEventInstance.onStopHandler(prevEventInstance.lastDuration);
+        prevEventInstance.onStopHandler();
       }
 
       lastEventTimestamp = now;
@@ -54,7 +59,7 @@ namespace ml {
    */
   //% blockId=ml_on_event_start
   //% block="on ML $event start"
-  //% weight=40
+  //% weight=50
   //% parts="v2"
   //% group="micro:bit (V2)"
   export function onStart(event: MlEvent, body: () => void): void {
@@ -77,25 +82,38 @@ namespace ml {
   }
 
   //% blockId=ml_on_event_stop
-  //% block="on ML $event stop after $duration (ms)"
-  //% weight=30
-  //% draggableParameters="reporter"
+  //% block="on ML $event stop"
+  //% weight=40
   //% parts="v2"
   //% group="micro:bit (V2)"
-  export function onStop(
-    event: MlEvent,
-    body: (duration: number) => void
-  ): void {
+  export function onStop(event: MlEvent, body: () => void): void {
     if (!isRunning()) {
       startRunning();
     }
     event.onStopHandler = body;
   }
 
+  //% blockId=ml_on_event_stop_detailed
+  //% block="on ML $event stop $duration (ms)"
+  //% weight=30
+  //% draggableParameters="reporter"
+  //% parts="v2"
+  //% group="micro:bit (V2)"
+  export function onStopDetailed(
+    event: MlEvent,
+    body: (duration: number) => void
+  ): void {
+    if (!isRunning()) {
+      startRunning();
+    }
+    event.onStopDetailedHandler = body;
+  }
+
   //% blockId=ml_is_event_detected
   //% block="is ML $event detected"
   //% weight=20
   //% parts="v2"
+  //% group="micro:bit (V2)"
   export function isDetected(event: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
@@ -108,7 +126,6 @@ namespace ml {
   //% block="certainty (\\%) ML $event"
   //% weight=10
   //% parts="v2"
-  //% group="micro:bit (V2)"
   export function getCertainty(event: MlEvent): number {
     const eventValue = event.eventValue;
     if (eventValue <= 1) {
