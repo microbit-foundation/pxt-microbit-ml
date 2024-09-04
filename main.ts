@@ -21,7 +21,10 @@ ml.onStart(ml.event.DrawCircle, function () {
 ml.onStart(ml.event.Unknown, function () {
   basic.clearScreen();
 });
-ml.onStop(ml.event.Still, function (duration) {
+ml.onStop(ml.event.Shake, function () {
+  serial.writeLine("Stopped shaking" + "\n");
+});
+ml.onStopDetailed(ml.event.Still, function (duration) {
   timeStill += duration;
 });
 basic.forever(function () {
