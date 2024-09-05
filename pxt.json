@@ -4,7 +4,7 @@
     "description": "Machine learning extension to support the micro:bit machine learning tool",
     "dependencies": {
         "core": "*",
-        "machine-learning-runner": "github:microbit-foundation/pxt-microbit-ml-runner#v0.3.9"
+        "machine-learning-runner": "github:microbit-foundation/pxt-microbit-ml-runner#v0.4.0"
     },
     "files": [
         "README.md",
