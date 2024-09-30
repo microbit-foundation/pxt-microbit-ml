@@ -64,11 +64,11 @@ namespace ml {
   //% group="micro:bit (V2)"
   export function onStart(event: MlEvent, body: () => void): void {
     const wrappedBody = () => {
-      if (prevEventInstance !== event || deviceIsSim) {
-        body();
-      }
       if (prevEventInstance !== event && deviceIsSim) {
         maybeUpdateEventStats(event);
+      }
+      if (prevEventInstance !== event || deviceIsSim) {
+        body();
       }
     };
     if (!isRunning()) {
