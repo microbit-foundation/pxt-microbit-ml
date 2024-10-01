@@ -24,12 +24,12 @@ namespace ml {
   }
 
   export let events = [event.Unknown];
-  let prevEvent: MlEvent = event.Unknown;
+  let prevEvent: MlEvent | undefined;
   let currentEvent: MlEvent = event.Unknown;
   let lastEventTimestamp: number = 0;
 
   export function maybeUpdateEventStats(currentEvent: MlEvent) {
-    if (currentEvent !== prevEvent) {
+    if (prevEvent && currentEvent !== prevEvent) {
       let now = input.runningTime();
       prevEvent.lastDuration = now - lastEventTimestamp;
 
