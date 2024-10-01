@@ -46,6 +46,8 @@ namespace ml {
     }
   }
 
+  const deviceIsSim = control.deviceName().slice(0, 3) === "sim";
+
   /**
    * Run this code when the model detects the input label has been predicted.
    *
@@ -66,6 +68,8 @@ namespace ml {
     const wrappedBody = () => {
       if (prevEvent !== event) {
         maybeUpdateEventStats(event);
+        body();
+      } else if (deviceIsSim) {
         body();
       }
     };
