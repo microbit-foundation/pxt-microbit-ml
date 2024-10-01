@@ -13,16 +13,24 @@ namespace ml {
   events = [event.Unknown, event.Shake, event.Still, event.DrawCircle];
 
   control.onEvent(MlRunnerIds.MlRunnerInference, 1, () => {
-    maybeUpdateEventStats(event.Unknown);
+    if (!event.Unknown.onStartHandler) {
+      maybeUpdateEventStats(event.Unknown);
+    }
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 2, () => {
-    maybeUpdateEventStats(event.Shake);
+    if (!event.Shake.onStartHandler) {
+      maybeUpdateEventStats(event.Shake);
+    }
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 3, () => {
-    maybeUpdateEventStats(event.Still);
+    if (!event.Still.onStartHandler) {
+      maybeUpdateEventStats(event.Still);
+    }
   });
   control.onEvent(MlRunnerIds.MlRunnerInference, 4, () => {
-    maybeUpdateEventStats(event.DrawCircle);
+    if (!event.DrawCircle.onStartHandler) {
+      maybeUpdateEventStats(event.DrawCircle);
+    }
   });
 
   getModelBlob = (): Buffer => {

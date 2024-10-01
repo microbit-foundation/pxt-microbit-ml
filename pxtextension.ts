@@ -4,6 +4,7 @@ class MlEvent {
   eventValue: number;
   eventLabel: string;
   lastDuration: number;
+  onStartHandler: () => void;
   onStopHandler: () => void;
   onStopDetailedHandler: (duration: number) => void;
 
@@ -23,29 +24,27 @@ namespace ml {
   }
 
   export let events = [event.Unknown];
-  let prevEventInstance: MlEvent = event.Unknown;
+  let prevEvent: MlEvent = event.Unknown;
   let currentEvent: MlEvent = event.Unknown;
   let lastEventTimestamp: number = 0;
 
   export function maybeUpdateEventStats(currentEvent: MlEvent) {
-    if (currentEvent !== prevEventInstance) {
+    if (currentEvent !== prevEvent) {
       let now = input.runningTime();
-      prevEventInstance.lastDuration = now - lastEventTimestamp;
+      prevEvent.lastDuration = now - lastEventTimestamp;
 
-      if (prevEventInstance.onStopDetailedHandler) {
-        prevEventInstance.onStopDetailedHandler(prevEventInstance.lastDuration);
+      if (prevEvent.onStopDetailedHandler) {
+        prevEvent.onStopDetailedHandler(prevEvent.lastDuration);
       }
 
-      if (prevEventInstance.onStopHandler) {
-        prevEventInstance.onStopHandler();
+      if (prevEvent.onStopHandler) {
+        prevEvent.onStopHandler();
       }
 
       lastEventTimestamp = now;
-      prevEventInstance = currentEvent;
+      prevEvent = currentEvent;
     }
   }
-
-  const deviceIsSim = control.deviceName().slice(0, 3) === "sim";
 
   /**
    * Run this code when the model detects the input label has been predicted.
@@ -63,11 +62,10 @@ namespace ml {
   //% parts="v2"
   //% group="micro:bit (V2)"
   export function onStart(event: MlEvent, body: () => void): void {
+    event.onStartHandler = body;
     const wrappedBody = () => {
-      if (prevEventInstance !== event && deviceIsSim) {
+      if (prevEvent !== event) {
         maybeUpdateEventStats(event);
-      }
-      if (prevEventInstance !== event || deviceIsSim) {
         body();
       }
     };
