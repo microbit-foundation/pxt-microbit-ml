@@ -24,13 +24,18 @@ namespace ml {
   }
 
   export let events = [event.Unknown];
-  let prevEvent: MlEvent = event.Unknown;
+  let prevEvent: MlEvent | undefined;
   let currentEvent: MlEvent = event.Unknown;
   let lastEventTimestamp: number = 0;
 
   export function maybeUpdateEventStats(currentEvent: MlEvent) {
+    const now = input.runningTime();
+    if (!prevEvent) {
+      lastEventTimestamp = now;
+      prevEvent = currentEvent;
+      return;
+    }
     if (currentEvent !== prevEvent) {
-      let now = input.runningTime();
       prevEvent.lastDuration = now - lastEventTimestamp;
 
       if (prevEvent.onStopDetailedHandler) {
@@ -45,8 +50,6 @@ namespace ml {
       prevEvent = currentEvent;
     }
   }
-
-  const deviceIsSim = control.deviceName().slice(0, 3) === "sim";
 
   /**
    * Run this code when the model detects the input label has been predicted.
@@ -68,8 +71,6 @@ namespace ml {
     const wrappedBody = () => {
       if (prevEvent !== event) {
         maybeUpdateEventStats(event);
-        body();
-      } else if (deviceIsSim) {
         body();
       }
     };
