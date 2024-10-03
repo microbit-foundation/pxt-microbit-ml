@@ -1,6 +1,6 @@
 {
     "name": "machine-learning",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "description": "Machine learning extension to support the micro:bit machine learning tool",
     "dependencies": {
         "core": "*",
