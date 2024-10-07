@@ -8,7 +8,7 @@ export default defineConfig({
     ? "/makecode-microbit-ml-simulator/"
     : undefined,
   build: {
-    outDir: "build",
+    outDir: "dist",
     sourcemap: true,
   },
   plugins: [react()],
