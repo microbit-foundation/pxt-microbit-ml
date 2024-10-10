@@ -34,7 +34,7 @@
         "config": {
             "ML_INFERENCE_PERIOD_MS": 250,
             "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32,
-            "ML_DEBUG_PRINT": 1
+            "ML_DEBUG_PRINT": 0
         }
     }
 }
