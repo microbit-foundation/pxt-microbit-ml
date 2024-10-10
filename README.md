@@ -10,8 +10,8 @@ Ensure you have the required toolchain to build for V1 and V2
 (arm-none-eabi-gcc, python, yotta, cmake, ninja, srec_cat) or docker.
 
 ```bash
-git clone https://github.com/microbit-foundation/pxt-ml-extension-poc
-cd pxt-ml-extension-poc
+git clone https://github.com/microbit-foundation/pxt-microbit-ml
+cd pxt-microbit-ml
 npm install pxt --no-save
 npx pxt target microbit --no-save
 npx pxt install
@@ -75,7 +75,7 @@ file:
 ### Built-in ML model
 
 The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:
-https://github.com/microbit-foundation/pxt-ml-runner-poc#built-in-ml-model
+https://github.com/microbit-foundation/pxt-microbit-ml-runner#built-in-ml-model
 
 ### Debug messages
 
