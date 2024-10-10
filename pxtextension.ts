@@ -262,6 +262,7 @@ namespace ml {
     }
   }
 
-  simulatorRegister();
+  // Temporarily remove call to register sim until approved by MakeCode.
+  // simulatorRegister();
   // End simulator code.
 }
