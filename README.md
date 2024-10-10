@@ -1,8 +1,6 @@
-# Microsoft MakeCode extension for use with the micro:bit machine learning tool
+# Microsoft MakeCode extension for use with micro:bit CreateAI
 
-This extension is a work in progress. It supports unreleased work on the micro:bit machine learning tool.
-
-It is not useful separate from the machine learning tool, which creates suitable blocks based on the machine learning model you build in the tool.
+This extension is leveraged by micro:bit CreateAI which creates suitable blocks based on the machine learning model you build in the app. It is not useful separate from micro:bit CreateAI.
 
 ## Building locally
 
@@ -10,8 +8,8 @@ Ensure you have the required toolchain to build for V1 and V2
 (arm-none-eabi-gcc, python, yotta, cmake, ninja, srec_cat) or docker.
 
 ```bash
-git clone https://github.com/microbit-foundation/pxt-ml-extension-poc
-cd pxt-ml-extension-poc
+git clone https://github.com/microbit-foundation/pxt-microbit-ml
+cd pxt-microbit-ml
 npm install pxt --no-save
 npx pxt target microbit --no-save
 npx pxt install
@@ -36,15 +34,15 @@ By default the model will run every 250 ms, to change this value the
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_INFERENCE_PERIOD_MS": 250
-        }
+  "yotta": {
+    "config": {
+      "ML_INFERENCE_PERIOD_MS": 250
     }
+  }
 }
 ```
 
-### Model events 
+### Model events
 
 By default this extension configures the Model prediction events to not be
 queued for the same event.
@@ -52,11 +50,11 @@ So if an event raised when its handler is still running it will be dropped.
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32
-        }
+  "yotta": {
+    "config": {
+      "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32
     }
+  }
 }
 ```
 
@@ -75,7 +73,7 @@ file:
 ### Built-in ML model
 
 The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:
-https://github.com/microbit-foundation/pxt-ml-runner-poc#built-in-ml-model
+https://github.com/microbit-foundation/pxt-microbit-ml-runner#built-in-ml-model
 
 ### Debug messages
 
@@ -84,14 +82,13 @@ pxt.json file:
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_DEBUG_PRINT": 1
-        }
+  "yotta": {
+    "config": {
+      "ML_DEBUG_PRINT": 1
     }
+  }
 }
 ```
-
 
 ## License
 
