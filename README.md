@@ -1,8 +1,6 @@
-# Microsoft MakeCode extension for use with the micro:bit machine learning tool
+# Microsoft MakeCode extension for use with micro:bit CreateAI
 
-This extension is a work in progress. It supports unreleased work on the micro:bit machine learning tool.
-
-It is not useful separate from the machine learning tool, which creates suitable blocks based on the machine learning model you build in the tool.
+This extension is leveraged by micro:bit CreateAI which creates suitable blocks based on the machine learning model you build in the app. It is not useful separate from micro:bit CreateAI.
 
 ## Building locally
 
@@ -36,15 +34,15 @@ By default the model will run every 250 ms, to change this value the
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_INFERENCE_PERIOD_MS": 250
-        }
+  "yotta": {
+    "config": {
+      "ML_INFERENCE_PERIOD_MS": 250
     }
+  }
 }
 ```
 
-### Model events 
+### Model events
 
 By default this extension configures the Model prediction events to not be
 queued for the same event.
@@ -52,11 +50,11 @@ So if an event raised when its handler is still running it will be dropped.
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32
-        }
+  "yotta": {
+    "config": {
+      "ML_EVENT_LISTENER_DEFAULT_FLAGS": 32
     }
+  }
 }
 ```
 
@@ -84,14 +82,13 @@ pxt.json file:
 
 ```json
 {
-    "yotta": {
-        "config": {
-            "ML_DEBUG_PRINT": 1
-        }
+  "yotta": {
+    "config": {
+      "ML_DEBUG_PRINT": 1
     }
+  }
 }
 ```
-
 
 ## License
 
