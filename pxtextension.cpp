@@ -26,9 +26,13 @@ enum MlRunnerError {
 #define ML_DEBUG_PRINT 0
 #endif
 #if ML_DEBUG_PRINT
-#define DEBUG_PRINT(...) uBit.serial.printf(__VA_ARGS__)
+#define DEBUG_PREFIX "[ML] "
+#define DEBUG_PRINT(...)     uBit.serial.printf(DEBUG_PREFIX __VA_ARGS__)
+#define DEBUG_PRINT_RAW(...) uBit.serial.printf(__VA_ARGS__)
 #else
+#define DEBUG_PREFIX ""
 #define DEBUG_PRINT(...)
+#define DEBUG_PRINT_RAW(...)
 #endif
 
 // Configure the period between ML runs, can be set in pxt.json
@@ -47,6 +51,7 @@ namespace mlrunner {
     static const int ML_EVENT_NONE_ID = 1;
 
     static bool initialised = false;
+    static int samplesPeriodMillisec = 0;
     static int mlSampleCountsPerInference = 0;
     static int lastPredictionEventId = -1;
     static ml_actions_t *actions = NULL;
@@ -83,21 +88,20 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorModelInference);
         }
 
-        DEBUG_PRINT("Prediction (%d ms): ", uBit.systemTime() - time_start);
+        DEBUG_PRINT("P (%d ms): ", uBit.systemTime() - time_start);
         if (predictions->index >= 0) {
-            DEBUG_PRINT("%d - %s\n",
-                        predictions->index,
-                        actions->action[predictions->index].label);
+            DEBUG_PRINT_RAW("%d %s\t\t",
+                            predictions->index,
+                            actions->action[predictions->index].label);
         } else {
-            DEBUG_PRINT("None\n");
+            DEBUG_PRINT_RAW("None\t\t");
         }
-        DEBUG_PRINT("\tIndividual:");
         for (size_t i = 0; i < actions->len; i++) {
-            DEBUG_PRINT(" %s[%d]",
-                        actions->action[i].label,
-                        (int)(predictions->prediction[i] * 100));
+            DEBUG_PRINT_RAW(" %s[%d]",
+                            actions->action[i].label,
+                            (int)(predictions->prediction[i] * 100));
         }
-        DEBUG_PRINT("\n\n");
+        DEBUG_PRINT_RAW("\n\n");
 
         // Model prediction events start after the None event ID
         uint16_t predictionEventId = predictions->index + ML_EVENT_NONE_ID + 1;
@@ -107,6 +111,15 @@ namespace mlrunner {
 
     void recordAccData(MicroBitEvent) {
         if (!initialised) return;
+
+#if ML_DEBUG_PRINT
+        static uint32_t lastSampleTime = 0;
+        uint32_t now = uBit.systemTime();
+        if ((now - lastSampleTime) != (uint32_t)samplesPeriodMillisec) {
+            DEBUG_PRINT("Sample period drift: %d ms\n", now - lastSampleTime);
+        }
+        lastSampleTime = now;
+#endif
 
         const Sample3D accSample = uBit.accelerometer.getSample();
         const float accData[3] = {
@@ -194,7 +207,7 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorSamplesDimension);
         }
 
-        const int samplesPeriodMillisec = ml_getSamplesPeriod();
+        samplesPeriodMillisec = ml_getSamplesPeriod();
         DEBUG_PRINT("\tModel samples period: %d ms\n", samplesPeriodMillisec);
         if (samplesPeriodMillisec <= 0) {
             DEBUG_PRINT("Model samples period invalid\n");
@@ -241,7 +254,7 @@ namespace mlrunner {
         DEBUG_PRINT("\tActions (%d):\n", actions->len);
         for (size_t i = 0; i < actions->len; i++) {
             DEBUG_PRINT("\t\tAction '%s' ", actions->action[i].label);
-            DEBUG_PRINT("threshold = %d %%\n", (int)(actions->action[i].threshold * 100));
+            DEBUG_PRINT_RAW("threshold = %d %%\n", (int)(actions->action[i].threshold * 100));
         }
 
         predictions = ml_allocatePredictions();
@@ -282,7 +295,7 @@ namespace mlrunner {
             DEBUG_PRINT("Attempting to stop running ML, but was already stopped.\n");
             return;
         }
-        DEBUG_PRINT("Stop running the ML model... ");
+        DEBUG_PRINT("Stop running the ML model...\n");
 
         initialised = false;
 
