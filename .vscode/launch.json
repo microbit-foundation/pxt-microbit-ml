@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "(attach) micro:bit OpenOCD",
+            "cwd": "${workspaceFolder}",
+            "executable": "built/codal/build/MICROBIT",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+              "interface/cmsis-dap.cfg",
+              "target/nrf52.cfg"
+            ],
+            "interface": "swd",
+            "svdFile": "built/codal/libraries/codal-nrf52/nrfx/mdk/nrf52833.svd",
+            "preAttachCommands": [],
+            "openOCDLaunchCommands": [
+              "adapter speed 8000"
+            ]
+        }
+    ]
+}
