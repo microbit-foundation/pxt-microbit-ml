@@ -73,7 +73,9 @@ namespace mlrunner {
 
     void runModel() {
         if (!initialised) return;
-        unsigned int time_start = uBit.systemTime();
+#if ML_DEBUG_PRINT
+        const unsigned int time_start = system_timer_current_time_us();
+#endif
 
         float *modelData = mlDataProcessor.getProcessedData();
         if (modelData == NULL) {
@@ -88,7 +90,8 @@ namespace mlrunner {
             uBit.panic(MlRunnerError::ErrorModelInference);
         }
 
-        DEBUG_PRINT("P (%d ms): ", uBit.systemTime() - time_start);
+#if ML_DEBUG_PRINT
+        DEBUG_PRINT("P (%d us): ", system_timer_current_time_us() - time_start);
         if (predictions->index >= 0) {
             DEBUG_PRINT_RAW("%d %s\t\t",
                             predictions->index,
@@ -101,7 +104,8 @@ namespace mlrunner {
                             actions->action[i].label,
                             (int)(predictions->prediction[i] * 100));
         }
-        DEBUG_PRINT_RAW("\n\n");
+        DEBUG_PRINT_RAW("\n");
+#endif
 
         // Model prediction events start after the None event ID
         uint16_t predictionEventId = predictions->index + ML_EVENT_NONE_ID + 1;
