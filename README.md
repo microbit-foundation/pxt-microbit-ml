@@ -70,11 +70,6 @@ file:
 #define MESSAGE_BUS_LISTENER_URGENT                 0x0080
 ```
 
-### Built-in ML model
-
-The `MLRUNNER_USE_EXAMPLE_MODEL` flag can be configured as described in:
-https://github.com/microbit-foundation/pxt-microbit-ml-runner#built-in-ml-model
-
 ### Debug messages
 
 To enable debug print from this extension, add the following into your
