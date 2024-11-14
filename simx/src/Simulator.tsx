@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import "./simulator.css";
 
 type MessageType = "register" | "data" | "request_data" | "simulate_event";
@@ -20,11 +20,15 @@ interface EventData {
 }
 
 const simChannel = "microbit-foundation/pxt-microbit-ml";
-const defaultEvent: EventData = { name: "unknown", value: 1 };
 const textDecoder = new TextDecoder();
 const textEncoder = new TextEncoder();
 
 const Simulator = () => {
+  const intl = useIntl();
+  const defaultEvent: EventData = {
+    name: intl.formatMessage({ id: "unknown-event-label" }),
+    value: 1,
+  };
   const [events, setEvents] = useState<EventData[]>([defaultEvent]);
   const [selectedEvent, setSelectedEvent] = useState<number>(
     defaultEvent.value
