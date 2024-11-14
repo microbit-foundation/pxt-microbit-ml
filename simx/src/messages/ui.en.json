@@ -4,5 +4,11 @@
       "type": 0,
       "value": "ML event:"
     }
+  ],
+  "unknown-event-label": [
+    {
+      "type": 0,
+      "value": "unknown"
+    }
   ]
 }
