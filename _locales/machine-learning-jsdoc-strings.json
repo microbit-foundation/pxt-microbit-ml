@@ -1,0 +1,7 @@
+{
+  "mlrunner.customOnEvent": "Register a TypeScript function to run when an event is raised.\n* This custom version of the MakeCode onEvent function is needed due to:\nhttps://github.com/microsoft/pxt-microbit/issues/5709\n*",
+  "mlrunner.customOnEvent|param|flags": "The specified event flags are ignored and configured via pxt.json.",
+  "mlrunner.customOnEvent|param|handler": "The function to call when the event is detected.",
+  "mlrunner.customOnEvent|param|src": "The ID of the component to listen to.",
+  "mlrunner.customOnEvent|param|value": "The event value to listen to from that component."
+}
