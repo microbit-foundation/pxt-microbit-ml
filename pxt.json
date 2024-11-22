@@ -8,6 +8,7 @@
   },
   "files": [
     "README.md",
+    "docs/on-start.md",
     "shims.d.ts",
     "enums.d.ts",
     "pxtextension.ts",
