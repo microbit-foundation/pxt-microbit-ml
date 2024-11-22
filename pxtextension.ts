@@ -56,7 +56,6 @@ namespace ml {
   //% weight=50
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
   export function onStart(event: MlEvent, body: () => void): void {
     event.onStartHandler = body;
     const wrappedBody = () => {
@@ -80,7 +79,6 @@ namespace ml {
   //% weight=40
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
   export function onStop(event: MlEvent, body: () => void): void {
     if (!isRunning()) {
       startRunning();
@@ -94,7 +92,6 @@ namespace ml {
   //% draggableParameters="reporter"
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
   export function onStopDetailed(
     event: MlEvent,
     body: (duration: number) => void
@@ -110,7 +107,6 @@ namespace ml {
   //% weight=20
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
   export function isDetected(event: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
@@ -123,7 +119,6 @@ namespace ml {
   //% block="certainty (\\%) ML $event"
   //% weight=10
   //% parts="v2"
-  //% help=none
   export function getCertainty(event: MlEvent): number {
     const eventValue = event.eventValue;
     if (eventValue <= 1) {
