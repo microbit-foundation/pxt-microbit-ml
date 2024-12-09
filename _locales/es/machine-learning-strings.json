@@ -1,0 +1,13 @@
+{
+  "ml.event.Unknown|block": "ES - unknown",
+  "ml.getCertainty|block": "ES - certainty (\\%) ML $event",
+  "ml.isDetected|block": "ES - is ML $event detected",
+  "ml.onStart|block": "ES - on ML $event start",
+  "ml.onStopDetailed|block": "ES - on ML $event stop $duration (ms)",
+  "ml.onStop|block": "ES - on ML $event stop",
+  "mlrunner|block": "ES - mlrunner",
+  "{id:category}Ml": "ES - Ml",
+  "{id:category}MlEvent": "ES - MlEvent",
+  "{id:category}Mlrunner": "ES - Mlrunner",
+  "{id:group}micro:bit (V2)": "ES - micro:bit (V2)"
+}
