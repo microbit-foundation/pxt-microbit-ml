@@ -4,7 +4,6 @@ Start an [event handler](https://makecode.microbit.org/---docs#doc:reference/eve
 
 ```sig
 ml.onStart(ml.event.Unknown, function () {
-    basic.showString("?")
 })
 ```
 
