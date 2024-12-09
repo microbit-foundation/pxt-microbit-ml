@@ -56,7 +56,7 @@ namespace ml {
   //% weight=50
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
+  //% help=github:machine-learning/docs/on-ml-start
   export function onStart(event: MlEvent, body: () => void): void {
     event.onStartHandler = body;
     const wrappedBody = () => {
