@@ -24,5 +24,5 @@ console.log(contents)
 * [write file](./write-file)
 
 ```package
-my-custom-extension=github:username/extension-repo
+machine-learning=github:microbit-foundation/pxt-microbit-ml
 ```
