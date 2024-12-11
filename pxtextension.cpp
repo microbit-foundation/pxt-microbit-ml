@@ -40,11 +40,6 @@ enum MlRunnerError {
 #define ML_INFERENCE_PERIOD_MS 250
 #endif
 
-// Configure the default flags for the model event listeners, can be set in pxt.json
-#ifndef ML_EVENT_LISTENER_DEFAULT_FLAGS
-#define ML_EVENT_LISTENER_DEFAULT_FLAGS MESSAGE_BUS_LISTENER_DROP_IF_BUSY
-#endif
-
 namespace mlrunner {
 
     static const uint16_t ML_CODAL_TIMER_VALUE = 1;
@@ -142,39 +137,6 @@ namespace mlrunner {
         if (!(++samplesTaken % mlSampleCountsPerInference) && mlDataProcessor.isDataReady()) {
             runModel();
         }
-    }
-
-    /**
-     * Execute a function from TypeScript land.
-     *
-     * @param e The event data is ignored 
-     * @param action TypeScript function to run without any arguments.
-     */
-    void runHandler(MicroBitEvent e, void *action) {
-        runAction0((Action)action);
-    }
-
-    /*************************************************************************/
-    /* TypeScript exported functions                                         */
-    /*************************************************************************/
-    /**
-     * Register a TypeScript function to run when an event is raised.
-     *
-     * This custom version of the MakeCode onEvent function is needed due to:
-     * https://github.com/microsoft/pxt-microbit/issues/5709
-     * 
-     *
-     * @param src The ID of the component to listen to.
-     * @param value The event value to listen to from that component.
-     * @param handler The function to call when the event is detected.
-     * @param flags The specified event flags are ignored and configured via pxt.json.
-     */
-    //%
-    void customOnEvent(int src, int value, Action handler, int flags = 0) {
-        uBit.messageBus.ignore(src, value, runHandler);
-        uBit.messageBus.listen(src, value, runHandler, handler, ML_EVENT_LISTENER_DEFAULT_FLAGS);
-        pxt::incr(handler);
-        pxt::registerGCPtr(handler);
     }
 
     //%

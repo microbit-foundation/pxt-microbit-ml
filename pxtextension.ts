@@ -68,10 +68,12 @@ namespace ml {
     if (!isRunning()) {
       startRunning();
     }
-    mlRunnerCustomOnEvent(
+    // The sim probably won't respect the DropIfBusy flag.
+    control.onEvent(
       MlRunnerIds.MlRunnerInference,
       event.eventValue,
-      wrappedBody
+      wrappedBody,
+      EventFlags.DropIfBusy
     );
   }
 
@@ -143,17 +145,6 @@ namespace ml {
 
   export let getModelBlob: () => Buffer;
   let simIsRunning = false;
-
-  //% shim=mlrunner::customOnEvent
-  function mlRunnerCustomOnEvent(
-    id: number,
-    evid: number,
-    handler: () => void,
-    flags?: number
-  ) {
-    // The sim probably won't respect the DropIfBusy flag
-    control.onEvent(id, evid, handler, EventFlags.DropIfBusy);
-  }
 
   /**
    * TS shim for C++ function init(), which initialize the ML model with
