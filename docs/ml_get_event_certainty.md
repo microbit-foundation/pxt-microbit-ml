@@ -6,7 +6,7 @@ Gets the latest certainty value for an ML action.
 ml.getCertainty(ml.event.Unknown)
 ```
 
-The ML model runs several times a second and calculates a certainty value for each action. The estimated action is the action with the highest certainty (an action is not considered when its certainty is below the recognition point). Some programs may want to access the certainty values directly, for example to display or log them. Most programs can use the estimated action instead of certainty values.
+The ML model runs several times a second and calculates a certainty value for each action. The estimated action is the action with the highest certainty. An action cannot be the estimated action when its certainty is below the recognition point. Some programs may need to use the certainty values directly, for example to display or log them. Most programs can use the estimated action instead of certainty values.
 
 ## Parameters
 
