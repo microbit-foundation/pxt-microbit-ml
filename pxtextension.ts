@@ -53,8 +53,8 @@ namespace ml {
 
   /**
    * Do something when an ML event is detected.
-   * 
-   * @param event one of the actions the machine learning model was trained on.
+   * @param event one of the actions the machine learning model was trained on
+   * @param body code to execute
    */
   //% blockId=ml_on_event_start
   //% block="on ML $event start"
