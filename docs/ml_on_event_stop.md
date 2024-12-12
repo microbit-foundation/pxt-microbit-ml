@@ -17,7 +17,7 @@ For example, if your start event handler for an action starts music playing in t
 
 ## Example
 
-This example uses the special `unknown` option and stops playing a musical melody when any other action has a certainty above the recognition point.
+This example uses the special `unknown` option and stops playing a musical melody when the estimated action changes to any other action.
 
 ```blocks
 ml.onStop(ml.event.Unknown, function () {
