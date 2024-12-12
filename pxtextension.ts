@@ -82,6 +82,11 @@ namespace ml {
     );
   }
 
+  /**
+   * Do something when an ML event is no longer detected.
+   * @param event one of the actions the machine learning model was trained on
+   * @param body code to execute
+   */
   //% blockId=ml_on_event_stop
   //% block="on ML $event stop"
   //% weight=40
@@ -95,6 +100,11 @@ namespace ml {
     event.onStopHandler = body;
   }
 
+  /**
+   * Do something when an ML event is no longer detected.
+   * @param event one of the actions the machine learning model was trained on
+   * @param body code to execute
+   */
   //% blockId=ml_on_event_stop_detailed
   //% block="on ML $event stop $duration (ms)"
   //% weight=30
@@ -112,6 +122,10 @@ namespace ml {
     event.onStopDetailedHandler = body;
   }
 
+  /**
+   * Tests if an ML event is currently detected.
+   * @param event one of the actions the machine learning model was trained on
+   */
   //% blockId=ml_is_event_detected
   //% block="is ML $event detected"
   //% weight=20
@@ -126,6 +140,10 @@ namespace ml {
     return event.eventValue == currentEventId();
   }
 
+  /**
+   * Get the certainty of an ML event in percent.
+   * @param event one of the actions the machine learning model was trained on
+   */
   //% blockId=ml_on_event_certainty
   //% block="certainty (\\%) ML $event"
   //% weight=10

@@ -1,1 +1,15 @@
-{}
+{
+  "ml.getCertainty": "Get the certainty of an ML event in percent.",
+  "ml.getCertainty|param|event": "one of the actions the machine learning model was trained on",
+  "ml.isDetected": "Tests if an ML event is currently detected.",
+  "ml.isDetected|param|event": "one of the actions the machine learning model was trained on",
+  "ml.onStart": "Do something when an ML event is detected.",
+  "ml.onStart|param|body": "code to execute",
+  "ml.onStart|param|event": "one of the actions the machine learning model was trained on",
+  "ml.onStop": "Do something when an ML event is no longer detected.",
+  "ml.onStopDetailed": "Do something when an ML event is no longer detected.",
+  "ml.onStopDetailed|param|body": "code to execute",
+  "ml.onStopDetailed|param|event": "one of the actions the machine learning model was trained on",
+  "ml.onStop|param|body": "code to execute",
+  "ml.onStop|param|event": "one of the actions the machine learning model was trained on"
+}
