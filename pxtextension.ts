@@ -51,12 +51,17 @@ namespace ml {
     }
   }
 
+  /**
+   * Do something when an ML event is detected.
+   * 
+   * @param event one of the actions the machine learning model was trained on.
+   */
   //% blockId=ml_on_event_start
   //% block="on ML $event start"
   //% weight=50
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
+  //% help=github:machine-learning/docs/ml_on_event_start
   export function onStart(event: MlEvent, body: () => void): void {
     event.onStartHandler = body;
     const wrappedBody = () => {
@@ -82,7 +87,7 @@ namespace ml {
   //% weight=40
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
+  //% help=github:machine-learning/docs/ml_on_event_stop
   export function onStop(event: MlEvent, body: () => void): void {
     if (!isRunning()) {
       startRunning();
@@ -96,7 +101,7 @@ namespace ml {
   //% draggableParameters="reporter"
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
+  //% help=github:machine-learning/docs/ml_on_event_stop_detailed
   export function onStopDetailed(
     event: MlEvent,
     body: (duration: number) => void
@@ -112,7 +117,7 @@ namespace ml {
   //% weight=20
   //% parts="v2"
   //% group="micro:bit (V2)"
-  //% help=none
+  //% help=github:machine-learning/docs/ml_is_event_detected
   export function isDetected(event: MlEvent): boolean {
     if (!isRunning()) {
       startRunning();
@@ -125,7 +130,7 @@ namespace ml {
   //% block="certainty (\\%) ML $event"
   //% weight=10
   //% parts="v2"
-  //% help=none
+  //% help=github:machine-learning/docs/ml_get_event_certainty
   export function getCertainty(event: MlEvent): number {
     const eventValue = event.eventValue;
     if (eventValue <= 1) {
