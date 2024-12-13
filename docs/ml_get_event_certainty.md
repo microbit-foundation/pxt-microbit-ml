@@ -18,7 +18,7 @@ The ML model runs several times a second and calculates a certainty value for ea
 
 ## Example
 
-This example displays the ML model's certainty that the current action is `unknown` every second.
+This example displays the ML model's certainty, in percent, that the current action is `clapping` every second.
 
 ```blocks
 loops.everyInterval(1000, function () {

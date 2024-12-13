@@ -20,7 +20,7 @@ Some programs will be easier to write using the “on ML start” and “on ML s
 
 ## Example
 
-This example will show a tick icon on the LED display if the estimated action is `unknown` at the time the conditional statement is checked.
+This example will show a tick icon on the LED display if the estimated action is `clapping` at the time the conditional statement is checked.
 
 ```blocks
 basic.forever(function () {

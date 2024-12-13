@@ -19,7 +19,7 @@ The event handler is passed a `duration` parameter. The duration is the [number]
 
 ## Example
 
-This example uses the special `unknown` option and shows the duration that `unknown` was the estimated action for in seconds when the estimated action changes to any other action.
+This example shows on the LED display, in seconds, how long the estimated action was `clapping`, when the estimated action changes from `clapping` to any other action.
 
 ```blocks
 ml.onStopDetailed(ml.event.Clapping, function (duration) {

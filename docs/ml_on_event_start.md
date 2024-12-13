@@ -15,7 +15,7 @@ The ML model updates its estimated action several times a second, but this event
 
 ## Example
 
-This example uses the special `unknown` value and plays a musical melody in the background when no action has a certainty above the recognition point.
+This example plays a musical melody in the background when the action `clapping` has a certainty above the recognition point.
 
 ```blocks
 ml.onStart(ml.event.Clapping, function () {
