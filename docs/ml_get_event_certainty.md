@@ -27,5 +27,5 @@ loops.everyInterval(1000, function () {
 ```
 
 ```package
-machine-learning=github:microbit-foundation/pxt-microbit-ml
+machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```

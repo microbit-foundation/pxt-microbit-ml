@@ -28,5 +28,5 @@ ml.onStopDetailed(ml.event.Unknown, function (duration) {
 ```
 
 ```package
-machine-learning=github:microbit-foundation/pxt-microbit-ml
+machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```
