@@ -11,12 +11,11 @@ When an action changes, the stop event handler for the previous action will run,
 
 For example, if your start event handler for an action starts music playing in the background, you could use a stop event handler to stop it.
 
-The event handler is passed a `duration` parameter. The duration is the number of milliseconds since this action became the estimated action. You can use the duration parameter in your code, for example displaying it or using a variable to keep a running total.
+The event handler is passed a `duration` parameter. The duration is the [number](/types/number) of milliseconds since this action became the estimated action. You can use the duration parameter in your code, for example displaying it or using a variable to keep a running total.
 
 ## Parameters
 
 - **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
-- **duration**: the [number](/types/number) of milliseconds the action was the estimated action.
 
 ## Example
 
