@@ -1,5 +1,5 @@
 {
-  "ml.getCertainty": "Get the certainty of an ML event in percent.",
+  "ml.getCertainty": "Get the certainty of an ML event in percent (0 to 100).",
   "ml.getCertainty|param|event": "one of the actions the machine learning model was trained on",
   "ml.isDetected": "Tests if an ML event is currently detected.",
   "ml.isDetected|param|event": "one of the actions the machine learning model was trained on",
