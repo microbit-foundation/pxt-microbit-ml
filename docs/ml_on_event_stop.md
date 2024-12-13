@@ -20,11 +20,12 @@ For example, if your start event handler for an action starts music playing in t
 This example uses the special `unknown` option and stops playing a musical melody when the estimated action changes to any other action.
 
 ```blocks
-ml.onStop(ml.event.Unknown, function () {
+ml.onStop(ml.event.Clapping, function () {
     music.stopMelody(MelodyStopOptions.All)
 })
 ```
 
 ```package
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
 machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```

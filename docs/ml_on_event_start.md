@@ -18,11 +18,12 @@ The ML model updates its estimated action several times a second, but this event
 This example uses the special `unknown` value and plays a musical melody in the background when no action has a certainty above the recognition point.
 
 ```blocks
-ml.onStart(ml.event.Unknown, function () {
+ml.onStart(ml.event.Clapping, function () {
     music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)
 })
 ```
 
 ```package
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
 machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```

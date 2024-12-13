@@ -22,11 +22,12 @@ The event handler is passed a `duration` parameter. The duration is the [number]
 This example uses the special `unknown` option and shows the duration that `unknown` was the estimated action for in seconds when the estimated action changes to any other action.
 
 ```blocks
-ml.onStopDetailed(ml.event.Unknown, function (duration) {
+ml.onStopDetailed(ml.event.Clapping, function (duration) {
     basic.showNumber(duration / 1000)
 })
 ```
 
 ```package
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
 machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```

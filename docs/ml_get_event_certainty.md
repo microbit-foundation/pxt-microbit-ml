@@ -22,10 +22,11 @@ This example displays the ML model's certainty that the current action is `unkno
 
 ```blocks
 loops.everyInterval(1000, function () {
-    basic.showNumber(ml.getCertainty(ml.event.Unknown))
+    basic.showNumber(ml.getCertainty(ml.event.Clapping))
 })
 ```
 
 ```package
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
 machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.2
 ```
