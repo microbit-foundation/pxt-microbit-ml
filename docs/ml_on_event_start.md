@@ -1,6 +1,6 @@
 # on ML start
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when when the ML model’s estimated action changes to the action you select.
+Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes to the action you select.
 
 ```sig
 ml.onStart(ml.event.Unknown, function () {
