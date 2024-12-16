@@ -8,7 +8,7 @@ ml.isDetected(ml.event.Unknown)
 
 The ML model updates its estimated action several times a second. This function compares the latest value of the estimated value to the action you choose. Use the boolean value to make logical decisions in your program.
 
-Some programs will be easier to write using the “on ML start” and “on ML stop” event handlers instead.
+Some programs will be easier to write using the [on ML start](./ml_on_event_start.md) and [on ML stop](./ml_on_event_stop.md) event handlers instead.
 
 ## Parameters
 
