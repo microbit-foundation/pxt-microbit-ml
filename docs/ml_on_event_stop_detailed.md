@@ -1,6 +1,6 @@
 # on ML stop
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes to the action you select.
+Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes from the action you select.
 
 ```sig
 ml.onStopDetailed(ml.event.Unknown, function (duration) {
