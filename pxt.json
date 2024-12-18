@@ -1,6 +1,6 @@
 {
     "name": "machine-learning",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Machine learning extension to support micro:bit CreateAI",
     "dependencies": {
         "core": "*",
