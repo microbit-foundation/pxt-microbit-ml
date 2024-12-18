@@ -141,7 +141,7 @@ namespace ml {
   }
 
   /**
-   * Get the certainty of an ML event in percent.
+   * Get the certainty of an ML event in percent (0 to 100).
    * @param event one of the actions the machine learning model was trained on
    */
   //% blockId=ml_on_event_certainty
