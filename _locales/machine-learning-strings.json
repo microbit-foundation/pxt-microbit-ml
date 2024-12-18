@@ -5,6 +5,7 @@
   "ml.onStart|block": "on ML $event start",
   "ml.onStopDetailed|block": "on ML $event stop $duration (ms)",
   "ml.onStop|block": "on ML $event stop",
+  "ml|block": "Machine Learning",
   "{id:category}Ml": "Ml",
   "{id:category}MlEvent": "MlEvent",
   "{id:group}micro:bit (V2)": "micro:bit (V2)"
