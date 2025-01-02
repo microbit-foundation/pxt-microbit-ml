@@ -23,9 +23,13 @@ for language in $languages; do
     lower="${language,,}"
     prefix="${1}/${language}"
     cp "${prefix}/ui.en.json" "simx/lang/ui.${lower}.json"
+
     mkdir -p "_locales/${language}"
-    cp "${prefix}/machine-learning-jsdoc-strings.json" "_locales/${language}/machine-learning-jsdoc-strings.json"
-    cp "${prefix}/machine-learning-strings.json" "_locales/${language}/machine-learning-strings.json"
+    cp "${prefix}/machine-learning-jsdoc-strings.json" "_locales/${language}"
+    cp "${prefix}/machine-learning-strings.json" "_locales/${language}"
+
+    mkdir -p "docs/_locales/${language}"
+    cp -r "${prefix}/docs/." "docs/_locales/${language}"
 done
 
 cd simx
