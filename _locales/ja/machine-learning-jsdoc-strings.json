@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "ML イベントの確実性をパーセント (0 ～ 100) で取得します。",
+  "ml.getCertainty|param|event": "機械学習モデルが訓練された動きの１つ",
+  "ml.isDetected": "MLイベントが現在検出されたかのテスト",
+  "ml.isDetected|param|event": "機械学習モデルが訓練された動きの１つ",
+  "ml.onStart": "MLイベントが検出されたときに何かを行います。",
+  "ml.onStart|param|body": "実行するプログラム",
+  "ml.onStart|param|event": "機械学習モデルが訓練された動きの１つ",
+  "ml.onStop": "MLイベントが検出されなくなったときに何かを行います。",
+  "ml.onStopDetailed": "MLイベントが検出されなくなったときに何かを行います。",
+  "ml.onStopDetailed|param|body": "実行するプログラム",
+  "ml.onStopDetailed|param|event": "機械学習モデルが訓練された動きの１つ",
+  "ml.onStop|param|body": "実行するプログラム",
+  "ml.onStop|param|event": "機械学習モデルが訓練された動きの１つ"
+}

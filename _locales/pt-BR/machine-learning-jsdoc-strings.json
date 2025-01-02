@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Obtenha a probabilidade de um evento de ML em porcentagem (0 a 100).",
+  "ml.getCertainty|param|event": "uma das ações em que o modelo de aprendizado de máquina foi treinado",
+  "ml.isDetected": "Testa se um evento de ML está sendo detectado no momento.",
+  "ml.isDetected|param|event": "uma das ações em que o modelo de aprendizado de máquina foi treinado",
+  "ml.onStart": "Faz algo quando um evento de ML é detectado.",
+  "ml.onStart|param|body": "código a ser executado",
+  "ml.onStart|param|event": "uma das ações em que o modelo de aprendizado de máquina foi treinado",
+  "ml.onStop": "Faz algo quando um evento de ML não for mais detectado.",
+  "ml.onStopDetailed": "Faz algo quando um evento de ML não for mais detectado.",
+  "ml.onStopDetailed|param|body": "código a ser executado",
+  "ml.onStopDetailed|param|event": "uma das ações em que o modelo de aprendizado de máquina foi treinado",
+  "ml.onStop|param|body": "código a ser executado",
+  "ml.onStop|param|event": "uma das ações em que o modelo de aprendizado de máquina foi treinado"
+}

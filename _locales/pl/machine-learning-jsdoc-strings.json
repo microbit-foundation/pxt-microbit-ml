@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Uzyskaj pewność zdarzenia ML w procentach (od 0 do 100).",
+  "ml.getCertainty|param|event": "jedna z czynności, na które został wytrenowany model nauczania maszynowego",
+  "ml.isDetected": "Testuje, czy zdarzenie ML jest obecnie wykryte.",
+  "ml.isDetected|param|event": "jedna z czynności, na które został wytrenowany model nauczania maszynowego",
+  "ml.onStart": "Zrób coś, gdy wykryto zdarzenie ML",
+  "ml.onStart|param|body": "kod do wykonania",
+  "ml.onStart|param|event": "jedna z czynności, na które został wytrenowany model nauczania maszynowego",
+  "ml.onStop": "Zrób coś, gdy zdarzenie ML nie jest już wykrywane.",
+  "ml.onStopDetailed": "Zrób coś, gdy zdarzenie ML nie jest już wykrywane.",
+  "ml.onStopDetailed|param|body": "kod do wykonania",
+  "ml.onStopDetailed|param|event": "jedna z czynności, na które został wytrenowany model nauczania maszynowego",
+  "ml.onStop|param|body": "kod do wykonania",
+  "ml.onStop|param|event": "jedna z czynności, na które został wytrenowany model nauczania maszynowego"
+}

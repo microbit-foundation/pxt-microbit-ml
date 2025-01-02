@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Verkrijg de zekerheid van een ML-evenement in procenten (0 tot 100).",
+  "ml.getCertainty|param|event": "een van de acties waar het machine-learningmodel op is getraind",
+  "ml.isDetected": "Test of een ML-gebeurtenis momenteel is gedetecteerd.",
+  "ml.isDetected|param|event": "een van de acties waar het machine-learningmodel op is getraind",
+  "ml.onStart": "Doe iets wanneer een ML-gebeurtenis is gedetecteerd.",
+  "ml.onStart|param|body": "code om uit te voeren",
+  "ml.onStart|param|event": "een van de acties waar het machine-learningmodel op is getraind",
+  "ml.onStop": "Doe iets wanneer een ML-gebeurtenis niet meer wordt gedetecteerd.",
+  "ml.onStopDetailed": "Doe iets wanneer een ML-gebeurtenis niet meer wordt gedetecteerd.",
+  "ml.onStopDetailed|param|body": "code om uit te voeren",
+  "ml.onStopDetailed|param|event": "een van de acties waar het machine-learningmodel op is getraind",
+  "ml.onStop|param|body": "code om uit te voeren",
+  "ml.onStop|param|event": "een van de acties waar het machine-learningmodel op is getraind"
+}

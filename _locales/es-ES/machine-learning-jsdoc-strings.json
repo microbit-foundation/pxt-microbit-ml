@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Obtiene la certeza de un evento ML en porcentaje (0 a 100).",
+  "ml.getCertainty|param|event": "una de las acciones con las que el modelo de aprendizaje automático fue entrenado",
+  "ml.isDetected": "Comprueba si se ha detectado un evento ML.",
+  "ml.isDetected|param|event": "una de las acciones con las que el modelo de aprendizaje automático fue entrenado",
+  "ml.onStart": "Hace algo cuando se detecta un evento ML.",
+  "ml.onStart|param|body": "código a ejecutar",
+  "ml.onStart|param|event": "una de las acciones con las que el modelo de aprendizaje automático fue entrenado",
+  "ml.onStop": "Hace algo cuando ya no se detecta un evento ML.",
+  "ml.onStopDetailed": "Hace algo cuando ya no se detecta un evento ML.",
+  "ml.onStopDetailed|param|body": "código a ejecutar",
+  "ml.onStopDetailed|param|event": "una de las acciones con las que el modelo de aprendizaje automático fue entrenado",
+  "ml.onStop|param|body": "código a ejecutar",
+  "ml.onStop|param|event": "una de las acciones con las que el modelo de aprendizaje automático fue entrenado"
+}

@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "ML 이벤트의 확실성을 백분율(0~100)로 표시합니다.",
+  "ml.getCertainty|param|event": "기계 학습 모델이 학습한 행동 중 하나",
+  "ml.isDetected": "ML 이벤트가 현재 감지되는지 테스트합니다.",
+  "ml.isDetected|param|event": "기계 학습 모델이 학습한 행동 중 하나",
+  "ml.onStart": "ML 이벤트가 감지되면 무언가를 합니다.",
+  "ml.onStart|param|body": "실행할 코드",
+  "ml.onStart|param|event": "기계 학습 모델이 학습한 행동 중 하나",
+  "ml.onStop": "ML 이벤트가 더 이상 감지되지 않으면 무언가를 합니다.",
+  "ml.onStopDetailed": "ML 이벤트가 더 이상 감지되지 않으면 무언가를 합니다.",
+  "ml.onStopDetailed|param|body": "실행할 코드",
+  "ml.onStopDetailed|param|event": "기계 학습 모델이 학습한 행동 중 하나",
+  "ml.onStop|param|body": "실행할 코드",
+  "ml.onStop|param|event": "기계 학습 모델이 학습한 행동 중 하나"
+}
