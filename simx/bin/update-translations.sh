@@ -2,7 +2,7 @@
 #
 # Partial automation of updating translations.
 #
-# New languages adding below and code change in settings.tsx
+# New languages adding below and code change in TranslationProvider.tsx.
 # 
 
 set -euxo pipefail
@@ -12,12 +12,12 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-languages=""
+languages="es-ES ja ko nl pl pt-BR zh-TW"
 
 mkdir -p crowdin/translated
 for language in $languages; do
     lower="${language,,}"
-    prefix="${1}/${language}/new/apps/makecode-ml-simulator"
+    prefix="${1}/${language}"
     cp "${prefix}/ui.en.json" "lang/ui.${lower}.json"
 done
 npm run i18n:compile
