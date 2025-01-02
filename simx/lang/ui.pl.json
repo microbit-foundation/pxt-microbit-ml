@@ -1,0 +1,10 @@
+{
+  "select-label": {
+    "defaultMessage": "Wydarzenie ML:",
+    "description": "Label for the simulator event select input"
+  },
+  "unknown-event-label": {
+    "defaultMessage": "nieznany",
+    "description": "Label the default ML event"
+  }
+}
