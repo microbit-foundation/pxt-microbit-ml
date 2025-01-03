@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 #
-# Partial automation of updating sim and extension translations.
-#
-# Updates sim and extension translations. 
+# Partial automation of updating translations.
 # 
 # New languages require code change in below and in simx/src/messages/TranslationProvider.tsx.
 #
