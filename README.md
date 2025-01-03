@@ -57,6 +57,18 @@ pxt.json file:
 }
 ```
 
+## Translations
+
+We manage translations via Crowdin.
+
+#### Incorporting changes from Crowdin
+
+Use [update-translations.sh](../bin/update-translations.sh).
+
+Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
+
+The script will update the extension UI and sim strings.
+
 ## License
 
 This software made available under the MIT open source license.
