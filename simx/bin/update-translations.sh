@@ -14,7 +14,6 @@ fi
 
 languages="es-ES ja ko nl pl pt-BR zh-TW"
 
-mkdir -p crowdin/translated
 for language in $languages; do
     lower="${language,,}"
     prefix="${1}/${language}"
