@@ -22,7 +22,7 @@ ml.onStopDetailed(ml.event.Unknown, function (duration) {
 此範例在 LED 顯示器上以秒為單位顯示出當預估動作從「拍手」改變成任何其他動作時預估動作為「拍手」有多長的時間。
 
 ```blocks
-機器學習.onStopDetailed(機器學習.event.Clapping, function (duration) {
+ml.onStopDetailed(ml.event.Clapping, function (duration) {
     basic.showNumber(duration / 1000)
 })
 ```

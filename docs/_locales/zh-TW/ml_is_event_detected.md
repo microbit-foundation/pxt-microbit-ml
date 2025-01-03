@@ -24,7 +24,7 @@ ml.isDetected(ml.event.Unknown)
 
 ```blocks
 basic.forever(function () {
-    if (機器學習.isDetected(機器學習.event.Clapping)) {
+    if (ml.isDetected(ml.event.Clapping)) {
         basic.showIcon(IconNames.Yes)
     }
 })

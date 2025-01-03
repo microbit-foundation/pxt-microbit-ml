@@ -3,7 +3,7 @@
 啟動一個 [event handler](/reference/event-handler)（發生某件事情時將會執行的程式的一部分）。 當機器學習模型的預估動作從您選擇的動作改變時，這個處理程式將會執行。
 
 ```sig
-機器學習.onStop(機器學習.event.Unknown, function () {
+ml.onStop(ml.event.Unknown, function () {
 })
 ```
 

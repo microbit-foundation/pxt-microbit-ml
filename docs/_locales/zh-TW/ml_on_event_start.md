@@ -18,7 +18,7 @@ ml.onStart(ml.event.Unknown, function () {
 當「拍手」動作具有高於辨識點的確定性時，這個範例會在背景中播放音樂旋律。
 
 ```blocks
-機器學習.onStart(機器學習.event.Clapping, function () {
+ml.onStart(ml.event.Clapping, function () {
     music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)
 })
 ```
