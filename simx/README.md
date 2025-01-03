@@ -31,14 +31,6 @@ We use react-intl from [FormatJS](https://formatjs.io/) to manage user interface
 
 In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
 
-#### Incorporting changes from Crowdin
-
-Use [update-translations.sh](../bin/update-translations.sh).
-
-Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
-
-The script will update the UI strings.
-
 #### Updating files in Crowdin
 
 The UI files are updated manually. Please download the existing files and diff locally to ensure the changes are as expected.

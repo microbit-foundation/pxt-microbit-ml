@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "不明",
+  "ml.getCertainty|block": "確実性(\\%) ML $event",
+  "ml.isDetected|block": "ML が $event を検出したとき",
+  "ml.onStart|block": "ML の $event が開始したとき",
+  "ml.onStopDetailed|block": "ML $event を $duration (ms)停止",
+  "ml.onStop|block": "ML $event が停止したとき",
+  "ml|block": "機械学習",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "以百分比（0 至 100）獲取機器學習事件的確定性。",
+  "ml.getCertainty|param|event": "機器學習模型所受訓練的動作其中之一",
+  "ml.isDetected": "測試目前是否偵測到機器學習事件發生。",
+  "ml.isDetected|param|event": "機器學習模型所受訓練的動作其中之一",
+  "ml.onStart": "當偵測到機器學習事件時執行某些操作。\n\n",
+  "ml.onStart|param|body": "程式碼執行",
+  "ml.onStart|param|event": "機器學習模型所受訓練的動作其中之一",
+  "ml.onStop": "當不再偵測到機器學習事件時執行某些操作。",
+  "ml.onStopDetailed": "當不再偵測到機器學習事件時執行某些操作。",
+  "ml.onStopDetailed|param|body": "程式碼執行",
+  "ml.onStopDetailed|param|event": "機器學習模型所受訓練的動作其中之一",
+  "ml.onStop|param|body": "程式碼執行",
+  "ml.onStop|param|event": "機器學習模型所受訓練的動作其中之一"
+}

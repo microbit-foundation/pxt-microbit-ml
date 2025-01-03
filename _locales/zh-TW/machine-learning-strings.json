@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "未知",
+  "ml.getCertainty|block": "確定性 (\\%) ML $event",
+  "ml.isDetected|block": "是否偵測到 ML $event",
+  "ml.onStart|block": "ML $event 開始時",
+  "ml.onStopDetailed|block": "ML $event 停止時 $duration（毫秒）",
+  "ml.onStop|block": "ML $event 停止時",
+  "ml|block": "機器學習",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

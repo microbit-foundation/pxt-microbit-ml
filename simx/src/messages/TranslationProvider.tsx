@@ -6,6 +6,13 @@
 import { ReactNode } from "react";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import enMessages from "./ui.en.json";
+import esesMessages from "./ui.es-es.json";
+import jaMessages from "./ui.ja.json";
+import koMessages from "./ui.ko.json";
+import nlMessages from "./ui.nl.json";
+import plMessages from "./ui.pl.json";
+import ptbrMessages from "./ui.pt-br.json";
+import zhtwMessages from "./ui.zh-tw.json";
 
 type Messages = Record<string, string> | Record<string, MessageFormatElement[]>;
 
@@ -22,6 +29,48 @@ const supportedLanguages: Language[] = [
     name: "English",
     enName: "English",
     messages: enMessages,
+  },
+  {
+    id: "es-es",
+    name: "Español",
+    enName: "Spanish",
+    messages: esesMessages,
+  },
+  {
+    id: "ja",
+    name: "日本語",
+    enName: "Japanese",
+    messages: jaMessages,
+  },
+  {
+    id: "ko",
+    name: "한국어",
+    enName: "Korean",
+    messages: koMessages,
+  },
+  {
+    id: "nl",
+    name: "Nederlands",
+    enName: "Dutch",
+    messages: nlMessages,
+  },
+  {
+    id: "pl",
+    name: "Polski",
+    enName: "Polish",
+    messages: plMessages,
+  },
+  {
+    id: "pt-br",
+    name: "Português (Brasil)",
+    enName: "Portuguese (Brazil)",
+    messages: ptbrMessages,
+  },
+  {
+    id: "zh-tw",
+    name: "繁體中文",
+    enName: "Chinese (Traditional)",
+    messages: zhtwMessages,
   },
 ];
 

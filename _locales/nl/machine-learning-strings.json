@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "onbekend",
+  "ml.getCertainty|block": "zekerheid (\\%) ML $event",
+  "ml.isDetected|block": "is ML $event gedetecteerd",
+  "ml.onStart|block": "op ML $event start",
+  "ml.onStopDetailed|block": "op ML $event stop $duration (ms)",
+  "ml.onStop|block": "op ML $event stop",
+  "ml|block": "Machine Learning",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

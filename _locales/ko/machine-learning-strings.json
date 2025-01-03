@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "알 수 없음",
+  "ml.getCertainty|block": "확실성 (\\%) ML $event",
+  "ml.isDetected|block": "ML $event가 감지되었나요?",
+  "ml.onStart|block": "ML $event 시작 시",
+  "ml.onStopDetailed|block": "ML $event 중지 시 $duration(ms)",
+  "ml.onStop|block": "ML $event 중지 시",
+  "ml|block": "기계 학습",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

@@ -1,0 +1,14 @@
+{
+  "select-label": [
+    {
+      "type": 0,
+      "value": "ML 이벤트:"
+    }
+  ],
+  "unknown-event-label": [
+    {
+      "type": 0,
+      "value": "알 수 없음"
+    }
+  ]
+}
