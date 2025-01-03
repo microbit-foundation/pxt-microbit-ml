@@ -4,8 +4,8 @@
 #
 # Updates sim and extension translations. 
 # 
-# New languages require code change in:
-# 1. Sim to add languate in simx/src/messages/TranslationProvider.tsx.
+# New languages require code change below and in:
+# 1. Sim to add language in simx/src/messages/TranslationProvider.tsx.
 # 2. Extension config to include the file path in pxt.json.
 #
 
