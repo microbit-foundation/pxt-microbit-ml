@@ -1,25 +1,25 @@
-# on ML stop
+# ML 上で停止
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes from the action you select.
+[イベント管理](/参照/イベント管理)（何かが起こったときに実行されるプログラムの一部）を開始する。 このハンドラは、ML モデルの推定アクションが、あなたが選択したアクションから変更されたときに動作します。
 
 ```sig
 ml.onStopDetailed(ml.event.Unknown, function (duration) {
 })
 ```
 
-When an action changes, the stop event handler for the previous action will run, followed by the start event handler for the next action.
+アクションが変更されると、前のアクションのイベント停止処理が実行され、続いて次のアクションに向けたイベント開始処理が実行される。
 
-For example, if your start event handler for an action starts music playing in the background, you could use a stop event handler to stop it.
+例えば、あるアクションの開始イベントハンドラがバックグラウンドで音楽再生を開始した場合、停止イベントハンドラを使って停止させることができる。
 
-The event handler is passed a `duration` parameter. The duration is the [number](/types/number) of milliseconds since this action became the estimated action. You can use the duration parameter in your code, for example displaying it or using a variable to keep a running total.
+イベントハンドラには「持続時間」パラメータが渡される。 持続時間は、このアクションが推定アクションになってからのミリ秒の[数値](/型/数値)である。 例えば、duration パラメータを表示したり、実行中の合計を保持するために変数を使用するなど、コード内で使用することができます。
 
 ## パラメータ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表す。
 
 ## 例
 
-This example shows on the LED display, in seconds, how long the estimated action was `clapping`, when the estimated action changes from `clapping` to any other action.
+この例では、推定動作が`拍手`から他の動作に変わったときに、推定動作が「拍手」していた時間を秒単位で LED ディスプレイに表示します。
 
 ```blocks
 ml.onStopDetailed(ml.event.Clapping, function (duration) {

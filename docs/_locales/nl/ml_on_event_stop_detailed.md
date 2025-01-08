@@ -1,4 +1,4 @@
-# op ML  stop
+# op ML stop
 
 Start een [event handler](/reference/event-handler) (deel van het programma dat wordt uitgevoerd wanneer er iets gebeurt). Deze handler werkt wanneer de ingeschatte actie van het ML-model verandert in de actie die je selecteert.
 

@@ -1,21 +1,21 @@
-# MLが開始したとき
+# ML が開始したとき
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes to the action you select.
+[イベント管理](/参照/イベント管理)（何かが起こったときに実行されるプログラムの一部）を開始する。 このハンドラは、ML モデルの推定アクションが、あなたが選択したアクションに変更されたときに動作します。
 
 ```sig
 ml.onStart(ml.event.Unknown, function () {
 })
 ```
 
-The ML model updates its estimated action several times a second, but this event handler only runs when the estimated action changes.
+ML モデルは 1 秒間に数回推定行動を更新するが、このイベント処理機能は推定行動が変化したときだけ実行される。
 
 ## パラメータ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表す。
 
 ## 例
 
-This example plays a musical melody in the background when the action `clapping` has a certainty above the recognition point.
+この例では、「拍手」というアクションが認識点以上の確度を持っているとき、バックグランドで音楽のメロディーを再生する。
 
 ```blocks
 ml.onStart(ml.event.Clapping, function () {

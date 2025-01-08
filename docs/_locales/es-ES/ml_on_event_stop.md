@@ -1,6 +1,6 @@
 # al detenerse el ML
 
-Inicia un [manejador de eventos](/reference/event-handler) (parte del programa que se ejecutará cuando algo suceda). Este controlador funciona cuando la acción estimada del modelo ML cambia respecto a la acción que seleccionaste.
+Inicia un [controlador de eventos](/reference/event-handler) (parte del programa que se ejecutará cuando algo suceda). Este controlador funciona cuando la acción estimada del modelo ML cambia respecto a la acción que seleccionaste.
 
 ```sig
 ml.onStop(ml.event.Unknown, function () {

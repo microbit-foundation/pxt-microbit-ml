@@ -1,4 +1,4 @@
-# certainty (%) ML
+# zekerheid (%) ML
 
 Haalt de laatste zekerheidswaarde op voor een ML actie.
 
