@@ -1,4 +1,4 @@
-# certainty (%) ML
+# Confianza (%) ML
 
 Obtiene el último valor de certeza de una acción ML.
 

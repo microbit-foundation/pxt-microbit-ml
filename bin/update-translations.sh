@@ -3,6 +3,7 @@
 # Partial automation of updating sim and extension translations.
 #
 # Updates sim and extension translations. 
+# May need to check extension doc package versions are correct after an update.
 # 
 # New languages require code change below and in:
 # 1. Sim to add language in simx/src/messages/TranslationProvider.tsx.

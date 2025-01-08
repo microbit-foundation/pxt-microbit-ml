@@ -1,4 +1,4 @@
-# op ML  stop
+# op ML stop
 
 Start een [event handler](/reference/event-handler) (deel van het programma dat wordt uitgevoerd wanneer er iets gebeurt). Deze handler werkt wanneer de ingeschatte actie van het ML-model verandert in de actie die je selecteert.
 
@@ -26,6 +26,6 @@ ml.onStop(ml.event.Clapping, function () {
 ```
 
 ```package
-machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-stubs#v0.0.1
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
 machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.4
 ```

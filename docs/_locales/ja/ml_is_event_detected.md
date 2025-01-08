@@ -1,26 +1,26 @@
-# is ML detected
+# は ML によって検知されました
 
-Checks if an ML action is the estimated action.
+ML のアクションが推定されたアクションかどうかをチェックする。
 
 ```sig
 ml.isDetected(ml.event.Unknown)
 ```
 
-The ML model updates its estimated action several times a second. This function returns `true` if the chosen action is currently estimated. Use the boolean value to make logical decisions in your program.
+ML モデルは 1 秒間に数回、推定された行動を更新する。 この関数は、選択されたアクションが現在推定されている場合、「真」を返す。 ブーリアン値を使って、プログラムで論理的な判断を下す。
 
-Some programs will be easier to write using the “on ML start” and “on ML stop” event handlers instead.
+いくつかのプログラムは、「ML で開始」 と 「ML で停止」 イベント取扱機能を使った方が書きやすいでしょう。
 
 ## パラメータ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表す。
 
-## Returns
+## 戻る
 
-- a [boolean](/types/boolean) value that is `true` if the ML action is the estimated action, `false` if the ML action is not the estimated action.
+- [ブーリアン](/型/ブーリアン)値で、ML アクションが推定されたアクションであれば 「真」、推定されたアクションでなければ 「偽」となります。
 
 ## 例
 
-This example will show a tick icon on the LED display if the estimated action is `clapping` at the time the conditional statement is checked.
+この例では、条件文がチェックされた時点で、推定されるアクションが`clapping`であれば、LED ディスプレイにティックアイコンを表示する。
 
 ```blocks
 basic.forever(function () {

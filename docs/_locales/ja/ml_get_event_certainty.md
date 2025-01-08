@@ -1,28 +1,27 @@
-# certainty (%) ML
+# 確実性(%)メーリングリスト
 
-MLの動きの確実性の値を取得します。
+ML の動きの確実性の値を取得します。
 
 ```sig
 ml.getCertainty(ml.event.Unknown)
 ```
 
-MLモデルは1秒間に数回実行され、各アクションの確実性の値を算出します。 推定した動きは、最も高い確実性を持つ動きです。 An action cannot be the estimated action when its certainty is below the recognition point. Some programs may need to use the certainty values directly, for example to display or log them. Most programs can use the estimated action instead of certainty values.
+ML モデルは 1 秒間に数回実行され、各アクションの確実性の値を算出します。 推定した動きは、最も高い確実性を持つ動きです。 アクションの確実性が認識点を下回る場合、そのアクションを推定アクションとすることはできない。 プログラムによっては、例えば確かな値を表示したりログに記録したりするために、その値を直接使う必要があるかもしれない。 ほとんどのプログラムでは、確実な値の代わりに推定アクションを使うことができる。
 
 ## パラメータ
 
-- **event**: one of the actions the machine learning model was trained on.
+- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。
 
-## Returns
+## 戻る
 
-- a percentage as a [number](/types/number) from 0 to 100, representing the ML model’s certainty that this is the action being performed. The certainty for `unknown` is always 0.
+- パーセンテージは 0 から 100 までの[数値](/types/number)で、ML モデルがこのアクションが実行されることを確信する度合いを表す。 「不明」の確実性は常に 0 である。
 
 ## 例
 
-This example displays the ML model's certainty, in percent, that the current action is `clapping` every second.
+この例では、現在のアクションが 1 秒ごとに`拍手`しているという ML モデルの確信度をパーセントで表示しています。
 
 ```blocks
-loops.everyInterval(1000, function () {
-    basic.showNumber(ml.getCertainty(ml.event.Clapping))
+loops.everyInterval(1000, function () {basic.showNumber(ml.getCertainty(ml.event.Clapping))
 })
 ```
 

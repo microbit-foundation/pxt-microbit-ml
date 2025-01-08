@@ -1,23 +1,23 @@
-# on ML stop
+# ML 上で停止
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes from the action you select.
+[イベント管理](/参照/イベント管理)（何かが起こったときに実行されるプログラムの一部）を開始する。 このハンドラは、ML モデルの推定アクションが、あなたが選択したアクションから変更されたときに動作します。
 
 ```sig
 ml.onStop(ml.event.Unknown, function () {
 })
 ```
 
-When an action changes, the stop event handler for the previous action will run, followed by the start event handler for the next action.
+アクションが変更されると、前のアクションのイベント停止処理が実行され、続いて次のアクションに向けたイベント開始処理が実行される。
 
-For example, if your start event handler for an action starts music playing in the background, you could use a stop event handler to stop it.
+例えば、あるアクションのイベント開始処理がバックグラウンドで音楽再生を開始した場合、イベント停止処理を使って停止させることができる。
 
 ## パラメータ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表す。
 
 ## 例
 
-This example stops playing a musical melody when the estimated action changes from `clapping` to any other action.
+この例では、推定されるアクションが「拍手」から他のアクションに変わったときに、音楽のメロディーの再生を止める。
 
 ```blocks
 ml.onStop(ml.event.Clapping, function () {

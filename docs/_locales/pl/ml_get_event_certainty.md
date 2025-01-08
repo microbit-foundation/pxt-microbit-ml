@@ -1,4 +1,4 @@
-# certainty (%) ML
+# pewność (%) ML
 
 Pobiera najnowszą wartość pewności dla działania ML
 
