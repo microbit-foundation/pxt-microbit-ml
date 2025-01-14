@@ -1,4 +1,4 @@
-# na zatrzymanie ML
+# przy ML stop
 
 Rozpocznij [obsługę zdarzeń](/reference/event-handler) (część programu, która uruchomi się, gdy coś się stanie). Ten moduł obsługi działa, gdy szacowane działanie modelu ML zmieni się na działanie wybrane przez Ciebie.
 

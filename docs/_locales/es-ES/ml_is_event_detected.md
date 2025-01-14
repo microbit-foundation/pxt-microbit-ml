@@ -1,4 +1,4 @@
-# is ML detected
+# se ha detectado ML
 
 Comprueba si una acción ML es la acción estimada.
 
@@ -12,7 +12,7 @@ Algunos programas serán más fáciles de escribir utilizando los manejadores de
 
 ## Parámetros
 
-- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `unknown` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
+- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `desconocido` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
 
 ## Devuelve
 
@@ -20,7 +20,7 @@ Algunos programas serán más fáciles de escribir utilizando los manejadores de
 
 ## Ejemplo
 
-Este ejemplo mostrará un icono de tic en la pantalla LED si la acción estimada es `aplaudiendo` en el momento en que se comprueba la sentencia condicional.
+Este ejemplo mostrará un icono de tic en la pantalla LED si la acción estimada es `clapping` en el momento en que se comprueba la sentencia condicional.
 
 ```blocks
 basic.forever(function () {

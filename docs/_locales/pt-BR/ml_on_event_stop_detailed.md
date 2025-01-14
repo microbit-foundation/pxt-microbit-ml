@@ -1,4 +1,4 @@
-# on ML stop
+# no término ML
 
 Inicie um [manipulador de eventos](/reference/event-handler) (parte do programa que será executada quando algo acontecer). Este manipulador funciona quando a ação estimada pelo modelo de ML muda da ação que você selecionou.
 

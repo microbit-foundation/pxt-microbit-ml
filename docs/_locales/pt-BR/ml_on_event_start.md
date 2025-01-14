@@ -1,4 +1,4 @@
-# on ML start
+# no início do ML
 
 Inicie um [manipulador de evento](/reference/event-handler) (parte do programa que será executada quando algo acontecer). Este manipulador de evento é disparado quando a ação estimada pelo modelo de ML muda para a ação que você selecionou.
 

@@ -1,6 +1,6 @@
-# al detenerse el ML
+# en ML parada
 
-Inicia un [controlador de eventos](/reference/event-handler) (parte del programa que se ejecutará cuando algo suceda). Este controlador funciona cuando la acción estimada del modelo ML cambia respecto a la acción que seleccionaste.
+Inicia un [manejador de eventos](/reference/event-handler) (parte del programa que se ejecutará cuando algo suceda). Este controlador funciona cuando la acción estimada del modelo ML cambia respecto a la acción que seleccionaste.
 
 ```sig
 ml.onStop(ml.event.Unknown, function () {
@@ -13,7 +13,7 @@ Por ejemplo, si el controlador de eventos de inicio de una acción inicia la rep
 
 ## Parámetros
 
-- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `unknown` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
+- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `desconocido` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
 
 ## Ejemplo
 
