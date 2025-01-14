@@ -1,4 +1,4 @@
-# is ML detected
+# o ML foi detectado
 
 Verifica se uma ação de ML é a ação estimada.
 

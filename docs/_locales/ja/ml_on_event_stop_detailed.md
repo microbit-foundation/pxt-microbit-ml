@@ -1,4 +1,4 @@
-# ML 上で停止
+# ML を停止
 
 [イベント管理](/参照/イベント管理)（何かが起こったときに実行されるプログラムの一部）を開始する。 このハンドラは、ML モデルの推定アクションが、あなたが選択したアクションから変更されたときに動作します。
 
@@ -19,7 +19,7 @@ ml.onStopDetailed(ml.event.Unknown, function (duration) {
 
 ## 例
 
-この例では、推定動作が`拍手`から他の動作に変わったときに、推定動作が「拍手」していた時間を秒単位で LED ディスプレイに表示します。
+この例では、推定動作が `clapping` から他の動作に変わったときに、推定動作が `clapping`していた時間を秒単位で LED ディスプレイに表示します。
 
 ```blocks
 ml.onStopDetailed(ml.event.Clapping, function (duration) {

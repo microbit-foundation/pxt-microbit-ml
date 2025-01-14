@@ -1,4 +1,4 @@
-# Confianza (%) ML
+# Certeza (%) ML
 
 Obtiene el último valor de certeza de una acción ML.
 
@@ -14,7 +14,7 @@ El modelo ML se ejecuta varias veces por segundo y calcula un valor de certeza p
 
 ## Devuelve
 
-- un porcentaje como [número](/types/number) de 0 a 100, que representa la certeza del modelo ML de que ésta es la acción que se está realizando. La certeza para "unknown" es siempre 0.
+- un porcentaje como [número](/types/number) de 0 a 100, que representa la certeza del modelo ML de que ésta es la acción que se está realizando. La certeza para `desconocido` es siempre 0.
 
 ## Ejemplo
 

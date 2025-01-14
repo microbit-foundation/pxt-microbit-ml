@@ -1,4 +1,4 @@
-# on ML start
+# al iniciar ML
 
 Inicia un [manejador de eventos](/reference/event-handler) (parte del programa que se ejecutará cuando algo suceda). Este manejador funciona cuando la acción estimada del modelo ML cambia a la acción que tú seleccionas.
 
@@ -11,11 +11,11 @@ El modelo ML actualiza su acción estimada varias veces por segundo, pero este c
 
 ## Parámetros
 
-- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `unknown` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
+- **evento**: una de las acciones en las que se ha entrenado el modelo de aprendizaje automático. El valor especial `desconocido` representa el caso en que ninguna acción tiene una certeza superior al punto de reconocimiento.
 
 ## Ejemplo
 
-Este ejemplo reproduce una melodía musical de fondo cuando la acción «aplaudir» tiene una certeza superior al punto de reconocimiento.
+Este ejemplo reproduce una melodía musical de fondo cuando la acción `clapping` tiene una certeza superior al punto de reconocimiento.
 
 ```blocks
 ml.onStart(ml.event.Clapping, function () {
