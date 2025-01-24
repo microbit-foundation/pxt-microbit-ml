@@ -26,16 +26,16 @@ interface Language {
 
 const supportedLanguages: Language[] = [
   {
-    id: "ca",
-    name: "Català",
-    enName: "Catalan",
-    messages: caMessages,
-  },
-  {
     id: "en",
     name: "English",
     enName: "English",
     messages: enMessages,
+  },
+  {
+    id: "ca",
+    name: "Català",
+    enName: "Catalan",
+    messages: caMessages,
   },
   {
     id: "es-es",
