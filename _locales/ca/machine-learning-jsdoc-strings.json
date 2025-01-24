@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Obté la certesa d'un esdeveniment ML en percentatge (de 0 a 100).",
+  "ml.getCertainty|param|event": "una de les accions en què es va entrenar el model d'aprenentatge automàtic",
+  "ml.isDetected": "Comprova si actualment es detecta un esdeveniment de ML.",
+  "ml.isDetected|param|event": "una de les accions en què es va entrenar el model d'aprenentatge automàtic",
+  "ml.onStart": "Fes alguna cosa quan es detecti un esdeveniment ML.",
+  "ml.onStart|param|body": "programa a executar",
+  "ml.onStart|param|event": "una de les accions en què es va entrenar el model d'aprenentatge automàtic",
+  "ml.onStop": "Fes alguna cosa quan ja no es detecti un esdeveniment de ML.",
+  "ml.onStopDetailed": "Fes alguna cosa quan ja no es detecti un esdeveniment de ML.",
+  "ml.onStopDetailed|param|body": "programa a executar",
+  "ml.onStopDetailed|param|event": "una de les accions en què es va entrenar el model d'aprenentatge automàtic",
+  "ml.onStop|param|body": "programa a executar",
+  "ml.onStop|param|event": "una de les accions en què es va entrenar el model d'aprenentatge automàtic"
+}

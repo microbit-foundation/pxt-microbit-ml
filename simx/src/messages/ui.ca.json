@@ -1,0 +1,14 @@
+{
+  "select-label": [
+    {
+      "type": 0,
+      "value": "Esdeveniment ML:"
+    }
+  ],
+  "unknown-event-label": [
+    {
+      "type": 0,
+      "value": "desconegut"
+    }
+  ]
+}

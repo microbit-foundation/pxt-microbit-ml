@@ -5,6 +5,7 @@
  */
 import { ReactNode } from "react";
 import { IntlProvider, MessageFormatElement } from "react-intl";
+import caMessages from "./ui.ca.json";
 import enMessages from "./ui.en.json";
 import esesMessages from "./ui.es-es.json";
 import jaMessages from "./ui.ja.json";
@@ -24,6 +25,12 @@ interface Language {
 }
 
 const supportedLanguages: Language[] = [
+  {
+    id: "ca",
+    name: "Català",
+    enName: "Catalan",
+    messages: caMessages,
+  },
   {
     id: "en",
     name: "English",
