@@ -1,6 +1,6 @@
 # a aturada de ML
 
-Inicieu un [gestor d'esdeveniments](/reference/event-handler) (part del programa que s'executarà quan passi alguna cosa). This handler works when the ML model’s estimated action changes from the action you select.
+Inicieu un [gestor d'esdeveniments](/reference/event-handler) (part del programa que s'executarà quan passi alguna cosa). Aquest controlador funciona quan l'acció estimada del model ML canvia de l'acció que seleccionis.
 
 ```sig
 ml.onStop(ml.event.Unknown, function () {
