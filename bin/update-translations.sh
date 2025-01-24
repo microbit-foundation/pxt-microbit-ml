@@ -17,7 +17,7 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-languages="es-ES ja ko nl pl pt-BR zh-TW"
+languages="ca es-ES ja ko nl pl pt-BR zh-TW"
 
 for language in $languages; do
     lower="${language,,}"
