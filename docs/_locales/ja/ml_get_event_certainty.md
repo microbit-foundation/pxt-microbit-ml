@@ -27,5 +27,5 @@ loops.everyInterval(1000, function () {basic.showNumber(ml.getCertainty(ml.event
 
 ```package
 machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
-machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.4
+machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.8
 ```
