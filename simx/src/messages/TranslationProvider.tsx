@@ -83,7 +83,7 @@ const supportedLanguages: Language[] = [
 
 const getLanguageFromQuery = (): string => {
   const searchParams = new URLSearchParams(window.location.search);
-  const l = searchParams.get("language");
+  const l = searchParams.get("language")?.toLowerCase();
   const supportedLanguage = supportedLanguages.find((x) => x.id === l);
   return supportedLanguage?.id || supportedLanguages[0].id;
 };
