@@ -8,6 +8,7 @@ import { IntlProvider, MessageFormatElement } from "react-intl";
 import caMessages from "./ui.ca.json";
 import enMessages from "./ui.en.json";
 import esesMessages from "./ui.es-es.json";
+import frMessages from "./ui.fr.json";
 import jaMessages from "./ui.ja.json";
 import koMessages from "./ui.ko.json";
 import nlMessages from "./ui.nl.json";
@@ -42,6 +43,12 @@ const supportedLanguages: Language[] = [
     name: "Español",
     enName: "Spanish",
     messages: esesMessages,
+  },
+  {
+    id: "fr",
+    name: "Français",
+    enName: "French",
+    messages: frMessages,
   },
   {
     id: "ja",

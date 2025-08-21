@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "inconnu",
+  "ml.getCertainty|block": "certitude (\\%) ML $event",
+  "ml.isDetected|block": "ML $event détecté",
+  "ml.onStart|block": "au démarrage de ML $event",
+  "ml.onStopDetailed|block": "à l'arrêt de ML $event $duration (ms)",
+  "ml.onStop|block": "à l'arrêt de ML $event",
+  "ml|block": "Apprentissage automatique",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

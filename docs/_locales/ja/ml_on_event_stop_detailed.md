@@ -1,6 +1,6 @@
-# ML が停止したとき
+# ML  が停止したとき
 
-[イベント](/reference/event-handler)（何かが起こったときに実行されるプログラムの一部）を開始しましょう。 この関数は、ML モデルの推定アクションが、あなたが選択したアクションから変更されたときに動作します。
+[イベント](/reference/event-handler)（何かが起こったときに実行されるプログラムの一部）を開始しましょう。 この関数は、MLモデルの推定アクションが、あなたが選択したアクションから変更されたときに動作します。
 
 ```sig
 ml.onStopDetailed(ml.event.Unknown, function (duration) {
@@ -15,11 +15,11 @@ ml.onStopDetailed(ml.event.Unknown, function (duration) {
 
 ## パラメータ
 
-- **イベント**：機械学習モデルがトレーニングされたアクションの 1 つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表します。
+- **イベント**：機械学習モデルがトレーニングされたアクションの1つ。 特別な値「不明」は、認識点以上の確実性を持つアクションがない場合を表します。
 
 ## 例
 
-この例では、推定動作が `clapping` から他の動作に変わったときに、推定動作が `clapping`していた時間を秒単位で LED ディスプレイに表示します。
+この例では、推定動作が `clapping` から他の動作に変わったときに、推定動作が `clapping`していた時間を秒単位でLEDディスプレイに表示します。
 
 ```blocks
 ml.onStopDetailed(ml.event.Clapping, function (duration) {
