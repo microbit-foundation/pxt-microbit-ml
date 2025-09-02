@@ -1,4 +1,4 @@
-# ML a été détecté
+# ML détecté
 
 Vérifie si une action ML est l'action estimée.
 
@@ -12,11 +12,11 @@ Certains programmes seront plus faciles à écrire en utilisant les gestionnaire
 
 ## Paramètres
 
-- **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
+ - **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
 
 ## Retours
 
-- une valeur [boolean](/types/boolean) qui est `true` si l'action ML est l'action estimée, `false` si l'action ML n'est pas l'action estimée.
+ - une valeur [boolean](/types/boolean) qui est `true` si l'action ML est l'action estimée, `false` si l'action ML n'est pas l'action estimée.
 
 ## Exemple
 

@@ -15,7 +15,7 @@ Un paramètre `durée` est passé au gestionnaire d'événement. La durée est l
 
 ## Paramètres
 
-- **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
+ - **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
 
 ## Exemple
 
