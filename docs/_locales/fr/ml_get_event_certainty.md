@@ -10,11 +10,11 @@ Le modèle ML s'exécute plusieurs fois par seconde et calcule une valeur de cer
 
 ## Paramètres
 
- - **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé.
+- **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé.
 
 ## Retours
 
- - un pourcentage en [nombre](/types/number) de 0 à 100, représentant la certitude du modèle ML que c'est l'action en cours. La certitude pour `inconnu` est toujours 0.
+- un pourcentage en [nombre](/types/number) de 0 à 100, représentant la certitude du modèle ML que c'est l'action en cours. La certitude pour `inconnu` est toujours 0.
 
 ## Exemple
 

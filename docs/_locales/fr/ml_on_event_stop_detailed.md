@@ -1,6 +1,6 @@
 # à l'arrêt de ML
 
-Démarrer un [gestionnaire d'événements] (/reference/event-handler) (partie du programme qui s'exécutera quand quelque chose se passe). Ce gestionnaire fonctionne lorsque l'action estimée du modèle ML change de l'action que vous sélectionnez.
+Démarrer un [gestionnaire d'événements](/reference/event-handler) (partie du programme qui s'exécutera quand quelque chose se passe). Ce gestionnaire fonctionne lorsque l'action estimée du modèle ML change de l'action que vous sélectionnez.
 
 ```sig
 ml.onStopDetailed(ml.event.Unknown, function (duration) {
@@ -15,7 +15,7 @@ Un paramètre `durée` est passé au gestionnaire d'événement. La durée est l
 
 ## Paramètres
 
- - **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
+- **événement** : une des actions sur lesquelles le modèle d'apprentissage automatique a été formé. La valeur spéciale `unknown` représente le cas où aucune action n'a une certitude au-dessus du point de reconnaissance.
 
 ## Exemple
 
