@@ -32,5 +32,5 @@ basic.forever(function () {
 
 ```package
 machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
-machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.8
+machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.13
 ```
