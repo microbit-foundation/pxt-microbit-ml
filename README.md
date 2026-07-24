@@ -57,6 +57,45 @@ pxt.json file:
 }
 ```
 
+## Simulator extension
+
+The `simx/` directory contains a simulator extension (simx) that MakeCode
+shows in an iframe alongside the micro:bit simulator when a project uses this
+extension.
+
+### How it's deployed
+
+The [build-simx workflow](./.github/workflows/build-simx.yml) builds `simx/`
+and commits the output to the `gh-pages` branch. That branch is the deployment
+artifact: the MakeCode backend clones it directly (it does not use the GitHub
+Pages site) and serves the files from its own origin, e.g.
+<https://trg-microbit.userpxt.io/simx/microbit-foundation/pxt-microbit-ml/-/index.html>.
+
+The commit it serves is pinned by a sha in
+[pxt-microbit's targetconfig.json](https://github.com/microsoft/pxt-microbit/blob/master/targetconfig.json),
+under `packages.approvedRepoLib["microbit-foundation/pxt-microbit-ml"].simx`.
+Later pushes to `gh-pages` have no effect on users until the pin is updated,
+so the branch history must keep the pinned commit reachable (no force-pushes).
+
+To release an update:
+
+1. Land the change on `main`, then manually run the "Build Simulator
+   Extension" workflow against `main` (workflow_dispatch). Only dispatch runs
+   publish: the workflow's tag-push runs skip the publish step, which is
+   gated on `main`.
+2. Note the new commit sha on `gh-pages`.
+3. PR pxt-microbit updating `simx.sha` to that commit. It may need to target
+   the live release branch as well as `master`.
+4. Once merged there's no MakeCode release to wait for, but allow for caching:
+   the config is CDN-cached and editors cache it locally for up to a day.
+
+### Local development
+
+Run `npm run dev` in `simx/` (Vite serves on port 5173, matching the `devUrl`
+in targetconfig.json), then open a locally served MakeCode editor with `?simxdev`
+appended to the URL. The iframe then loads from the dev server instead of the
+deployed build.
+
 ## Translations
 
 We manage translations via Crowdin.
