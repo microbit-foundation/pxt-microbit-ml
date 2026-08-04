@@ -1,0 +1,12 @@
+{
+  "ml.event.Unknown|block": "không xác định",
+  "ml.getCertainty|block": "certainty (\\%) ML $event",
+  "ml.isDetected|block": "is ML $event detected",
+  "ml.onStart|block": "khi ML $event bắt đầu\n",
+  "ml.onStopDetailed|block": "on ML $event stop $duration (ms)",
+  "ml.onStop|block": "on ML $event stop",
+  "ml|block": "Machine Learning",
+  "{id:category}Ml": "Ml",
+  "{id:category}MlEvent": "MlEvent",
+  "{id:group}micro:bit (V2)": "micro:bit (V2)"
+}

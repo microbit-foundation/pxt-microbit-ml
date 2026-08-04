@@ -11,9 +11,11 @@ import esesMessages from "./ui.es-es.json";
 import frMessages from "./ui.fr.json";
 import jaMessages from "./ui.ja.json";
 import koMessages from "./ui.ko.json";
+import loMessages from "./ui.lo.json";
 import nlMessages from "./ui.nl.json";
 import plMessages from "./ui.pl.json";
 import ptbrMessages from "./ui.pt-br.json";
+import viMessages from "./ui.vi.json";
 import zhtwMessages from "./ui.zh-tw.json";
 
 type Messages = Record<string, string> | Record<string, MessageFormatElement[]>;
@@ -63,6 +65,12 @@ const supportedLanguages: Language[] = [
     messages: koMessages,
   },
   {
+    id: "lo",
+    name: "ພາສາລາວ",
+    enName: "Lao",
+    messages: loMessages,
+  },
+  {
     id: "nl",
     name: "Nederlands",
     enName: "Dutch",
@@ -79,6 +87,12 @@ const supportedLanguages: Language[] = [
     name: "Português (Brasil)",
     enName: "Portuguese (Brazil)",
     messages: ptbrMessages,
+  },
+  {
+    id: "vi",
+    name: "Tiếng việt",
+    enName: "Vietnamese",
+    messages: viMessages,
   },
   {
     id: "zh-tw",
