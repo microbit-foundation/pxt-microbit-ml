@@ -2,12 +2,8 @@
 #
 # Partial automation of updating sim and extension translations.
 #
-# Updates sim and extension translations. 
-# May need to check extension doc package versions are correct after an update.
-# 
-# New languages require code change below and in:
-# 1. Sim to add language in simx/src/messages/TranslationProvider.tsx.
-# 2. Extension config to include the file path in pxt.json.
+# Adding a language, and the version the help pages pin, need changes by hand.
+# See the Translations section of the README.
 #
 
 set -euxo pipefail

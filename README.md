@@ -100,13 +100,63 @@ deployed build.
 
 We manage translations via Crowdin.
 
-#### Incorporting changes from Crowdin
+### Incorporating changes from Crowdin
 
 Use [update-translations.sh](./bin/update-translations.sh).
 
 Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
 
 The script will update the extension UI and sim strings.
+
+### Adding a new language
+
+The script only copies the languages listed in it, and neither pxt nor the simx
+finds new files on its own, so three changes go alongside the sync:
+
+1. `languages` in [update-translations.sh](./bin/update-translations.sh).
+2. `supportedLanguages` in
+   [simx/src/messages/TranslationProvider.tsx](./simx/src/messages/TranslationProvider.tsx),
+   plus the matching import — the simx bundles its messages rather than loading
+   them on demand.
+3. The `files` list in [pxt.json](./pxt.json), for both the `_locales/<lang>/`
+   strings and the `docs/_locales/<lang>/` help pages. pxt only ships listed
+   files.
+
+Use the language ids MakeCode uses (`availableLocales` in pxt-microbit's
+pxtarget.json), otherwise the editor will never ask for them.
+
+### Extension version in the help pages
+
+The `package` blocks in `docs/ml_*.md` and their `docs/_locales/` translations
+pin this extension by tag:
+
+```package
+machine-learning-help-stubs=github:microbit-foundation/pxt-microbit-ml-help-stubs#v0.0.1
+machine-learning=github:microbit-foundation/pxt-microbit-ml#v1.0.13
+```
+
+That's what makes the example snippets render as blocks, and the pinned version
+is where those blocks get their translations, so it needs bumping for new or
+updated ones to show. It necessarily trails the current version: bump it to the
+latest tag, then release again to publish that change (see #45 followed by
+v1.0.14).
+
+## Releasing
+
+MakeCode consumes the extension by git tag; there are no GitHub releases. Past
+releases are a lone commit bumping `version` in [pxt.json](./pxt.json), tagged
+`vX.Y.Z`, which is what `pxt bump` produces.
+
+No pxt-microbit change is needed per release — its `approvedRepoLib` entry pins
+the repo rather than a version. Two things do need doing by hand:
+
+1. If `simx/` changed, deploy it as described under
+   [Simulator extension](#simulator-extension). The tag alone doesn't publish
+   it, and a translation update always changes the simx.
+2. Update `extensionURL` in micro:bit CreateAI's
+   [src/makecode/utils.ts](https://github.com/microbit-foundation/ml-trainer/blob/main/src/makecode/utils.ts)
+   to the new tag. That one constant covers both the projects it generates and
+   upgrading imported ones.
 
 ## License
 
