@@ -1,12 +1,12 @@
-# Độ tin cậy (%) (ML)
+# độ tin cậy (%) (ML)
 
-Lấy giá trị độ chắc chắn mới nhất cho một hành động học máy (ML).
+Lấy giá trị độ tin cậy mới nhất cho một hành động học máy (ML).
 
 ```sig
 ml.getCertainty(ml.event.Unknown)
 ```
 
-Mô hình học máy được chạy nhiều lần mỗi giây để tính toán độ tin cậy cho từng hành động. Hành động mà mô hình dự đoán là hành động có độ tin cậy cao nhất. Hành động sẽ không được mô hình chọn làm hành động dự đoán nếu độ tin cậy của nó thấp hơn ngưỡng nhận dạng. Một số chương trình có thể cần truy cập trực tiếp các giá trị độ tin cậy, chẳng hạn để hiển thị hoặc ghi lại chúng trong log. Phần lớn các chương trình chỉ cần dùng hành động mà mô hình dự đoán, thay vì làm việc trực tiếp với các giá trị độ tin cậy.
+Mô hình học máy được chạy nhiều lần mỗi giây để tính toán độ tin cậy cho từng hành động. Hành động mà mô hình dự đoán là hành động có độ tin cậy cao nhất. Hành động sẽ không được mô hình chọn làm hành động dự đoán nếu độ tin cậy thấp hơn ngưỡng nhận dạng. Một số chương trình có thể cần truy cập trực tiếp các giá trị độ tin cậy, chẳng hạn để hiển thị hoặc ghi lại trong nhật ký. Phần lớn các chương trình chỉ cần dùng hành động mà mô hình dự đoán, thay vì làm việc trực tiếp với các giá trị độ tin cậy.
 
 ## Các thông số
 

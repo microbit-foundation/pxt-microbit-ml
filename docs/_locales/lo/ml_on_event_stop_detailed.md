@@ -1,25 +1,25 @@
-# on ML stop
+# ເມື່ອ ML ຢຸດ
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes from the action you select.
+ເລີ່ມຕົ້ນ  [event handler](/reference/event-handler) (ສ່ວນໜຶ່ງຂອງໂປຣແກຣມທີ່ຈະເຮັດວຽກເມື່ອມີສິ່ງໃດໜຶ່ງເກີດຂຶ້ນ). ຕົວຈັດການນີ້ຈະເຮັດວຽກເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນຂອງໂມເດວ ML ປ່ຽນອອກຈາກການກະທຳທີ່ທ່ານເລືອກ.
 
 ```sig
 ml.onStopDetailed(ml.event.Unknown, function (duration) {
 })
 ```
 
-When an action changes, the stop event handler for the previous action will run, followed by the start event handler for the next action.
+ເມື່ອການກະທຳປ່ຽນແປງ, ຕົວຈັດການເຫດການຂອງການກະທຳກ່ອນໜ້າຈະເຮັດວຽກກ່ອນ ແລະ ຈາກນັ້ນຕົວຈັດການເຫດການເລີ່ມຕົ້ນຂອງການກະທຳໃໝ່ຈະເຮັດວຽກຕາມມາ.
 
-For example, if your start event handler for an action starts music playing in the background, you could use a stop event handler to stop it.
+ຕົວຢ່າງ: ຖ້າຕົວຈັດການເຫດການເລີ່ມຕົ້ນຂອງການກະທຳໃດໜຶ່ງເລີ່ມເປີດເພງຢູ່ເບື້ອງຫຼັງ, ທ່ານສາມາດໃຊ້ຕົວຈັດການເຫດການຢຸດເພື່ອຢຸດມັນໄດ້.
 
-The event handler is passed a `duration` parameter. The duration is the [number](/types/number) of milliseconds since this action became the estimated action. You can use the duration parameter in your code, for example displaying it or using a variable to keep a running total.
+ຕົວຈັດການເຫດການຈະຮັບພາລາມິເຕີ 'ໄລຍະເວລາ' ມາດ້ວຍ. ໄລຍະເວລາແມ່ນ  [number](/types/number) ເປັນຈຳນວນມິນລິວິນາທີ ນັບຕັ້ງແຕ່ການກະທຳນີ້ກາຍເປັນການກະທຳທີ່ຖືກຄາດຄະເນ. ທ່ານສາມາດໃຊ້ພາລາມິເຕີໄລຍະເວລາໃນໂຄດຂອງທ່ານໄດ້ ຍົກຕົວຢ່າງ: ສະແດງມັນ ຫຼື ໃຊ້ຕົວແປເພື່ອເກັບຜົນລວມແບບຕໍ່ເນື່ອງ.
 
-## Parameters
+## ພາລາມິເຕີ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **ເຫດການ** ໜຶ່ງໃນການກະທຳທີ່ໂມເດວການຮຽນຮູ້ຂອງເຄື່ອງຈັກທີ່ຖືກຝຶກມາ. ຄ່າພິເສດ `ບໍ່ຮູ້ຈັກ` ແທນກໍລະນີທີ່ບໍ່ມີການກະທຳໃດມີຄ່າຄວາມແນ່ນອນສູງກວ່າຈຸດການຮັບຮູ້.
 
-## Example
+## ຕົວຢ່າງ
 
-This example shows on the LED display, in seconds, how long the estimated action was `clapping`, when the estimated action changes from `clapping` to any other action.
+ຕົວຢ່າງນີ້ຈະສະແດງໃນໜ້າຈໍ LED ເປັນວິນາທີ ວ່າການກະທຳທີ່ຖືກຄາດຄະເນເປັນ 'ການຕົບມື' ດົນປານໃດ ເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນປ່ຽນຈາກ 'ການຕົບມື' ໄປເປັນການກະທຳອື່ນ.
 
 ```blocks
 ml.onStopDetailed(ml.event.Clapping, function (duration) {

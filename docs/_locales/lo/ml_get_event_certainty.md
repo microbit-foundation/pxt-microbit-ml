@@ -1,24 +1,24 @@
-# certainty (%) ML
+# ຄວາມແນ່ນອນ (%) ຂອງ ML
 
-Gets the latest certainty value for an ML action.
+ໄດ້ຮັບຄ່າຄວາມແນ່ນອນລ່າສຸດສຳລັບການກະທຳ ML ໜຶ່ງ.
 
 ```sig
 ml.getCertainty(ml.event.Unknown)
 ```
 
-The ML model runs several times a second and calculates a certainty value for each action. The estimated action is the action with the highest certainty. An action cannot be the estimated action when its certainty is below the recognition point. Some programs may need to use the certainty values directly, for example to display or log them. Most programs can use the estimated action instead of certainty values.
+ໂມເດວ ML ຈະຮັນຫຼາຍຄັ້ງຕໍ່ວິນາທີ ແລະ ຄຳນວນຄ່າຄວາມແນ່ນອນສຳລັບແຕ່ລະການກະທຳ. ການກະທຳທີ່ຄາດຄະເນ (estimated action) ແມ່ນການກະທຳທີ່ມີຄ່າຄວາມແນ່ນອນສູງທີ່ສຸດ. ການກະທຳຈະບໍ່ຖືກນັບເປັນການກະທຳທີ່ຄາດຄະເນ ຖ້າຄວາມແນ່ນອນຂອງມັນຕ່ຳກວ່າຈຸດການຮັບຮູ້. ບາງໂປຣແກຣມອາດຈຳເປັນຕ້ອງໃຊ້ຄ່າຄວາມແນ່ນອນໂດຍກົງ ເຊັ່ນ: ເພື່ອສະແດງ ຫຼື ບັນທຶກມັນ. ໂປຣແກຣມສ່ວນໃຫຍ່ສາມາດໃຊ້ການກະທຳທີ່ຄາດຄະເນແທນຄ່າຄວາມແນ່ນອນໄດ້.
 
-## Parameters
+## ພາລາມິເຕີ
 
-- **event**: one of the actions the machine learning model was trained on.
+- **ເຫດການ** ໜຶ່ງໃນການກະທຳທີ່ໂມເດວການຮຽນຮູ້ຂອງເຄື່ອງຈັກທີ່ຖືກຝຶກມາ.
 
-## Returns
+## ສົ່ງຄືນ
 
-- a percentage as a [number](/types/number) from 0 to 100, representing the ML model’s certainty that this is the action being performed. The certainty for `unknown` is always 0.
+- ເປີເຊັນເປັນ [number](/types/number) ຈາກ 0 ຫາ 100 ທີ່ສະແດງຄວາມແນ່ນອນຂອງໂມເດວ ML ວ່ານີ້ແມ່ນການກະທຳທີ່ກຳລັງຖືກເຮັດຢູ່. ຄວາມແນ່ນອນສຳລັບ `ບໍ່ຮູ້ຈັກ` ຈະເປັນ 0 ສະເໝີ.
 
-## Example
+## ຕົວຢ່າງ
 
-This example displays the ML model's certainty, in percent, that the current action is `clapping` every second.
+ຕົວຢ່າງນີ້ສະແດງຄ່າຄວາມແນ່ນອນຂອງໂມເດວ ML ເປັນເປີເຊັນ ວ່າການກະທຳປັດຈຸບັນແມ່ນ `ການຕົບມື`  ໂດຍສະແດງທຸກວິນາທີ.
 
 ```blocks
 loops.everyInterval(1000, function () {

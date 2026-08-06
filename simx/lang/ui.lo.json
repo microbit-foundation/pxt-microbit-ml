@@ -1,6 +1,6 @@
 {
   "select-label": {
-    "defaultMessage": "ML event:",
+    "defaultMessage": "ເຫດການ ML:",
     "description": "Label for the simulator event select input"
   },
   "unknown-event-label": {

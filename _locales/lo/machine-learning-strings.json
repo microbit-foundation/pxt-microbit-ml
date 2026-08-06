@@ -1,11 +1,11 @@
 {
   "ml.event.Unknown|block": "ບໍ່ຮູ້ຈັກ",
-  "ml.getCertainty|block": "certainty (\\%) ML $event",
-  "ml.isDetected|block": "is ML $event detected",
-  "ml.onStart|block": "ໃນ ML ເມື່ອ $event ເລີ່ມຕົ້ນ\n",
-  "ml.onStopDetailed|block": "on ML $event stop $duration (ms)",
-  "ml.onStop|block": "on ML $event stop",
-  "ml|block": "Machine Learning",
+  "ml.getCertainty|block": "ຄວາມແນ່ນອນ (\\%) ML $event",
+  "ml.isDetected|block": "ການກວດພົບເຫດການ ML $event ກຳລັງຖືກກວດພົບຢູ່ບໍ",
+  "ml.onStart|block": "ໃນ ML ເມື່ອ $event ເລີ່ມຕົ້ນ",
+  "ml.onStopDetailed|block": "ເມື່ອ ML $event ຢຸດ ຫຼັງຈາກ $duration (ມິນລິວິນາທີ)",
+  "ml.onStop|block": "ເມື່ອ ML $event ຢຸດ",
+  "ml|block": "ການຮຽນຮູ້ຂອງເຄື່ອງ",
   "{id:category}Ml": "Ml",
   "{id:category}MlEvent": "MlEvent",
   "{id:group}micro:bit (V2)": "micro:bit (V2)"

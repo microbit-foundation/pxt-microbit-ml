@@ -1,26 +1,26 @@
-# is ML detected
+# ກວດພົບ ML ຫຼືບໍ່
 
-Checks if an ML action is the estimated action.
+ກວດສອບວ່າການກະທຳ ML ແມ່ນການກະທຳທີ່ຖືກຄາດຄະເນຫຼືບໍ່.
 
 ```sig
 ml.isDetected(ml.event.Unknown)
 ```
 
-The ML model updates its estimated action several times a second. This function returns `true` if the chosen action is currently estimated. Use the boolean value to make logical decisions in your program.
+ໂມເດວ ML ຈະອັບເດດການກະທຳທີ່ຄາດຄະເນຫຼາຍຄັ້ງຕໍ່ວິນາທີ. ຟັງຊັນນີ້ຈະສົ່ງຄ່າ `ຈິງ` ຖ້າການກະທຳທີ່ເລືອກກຳລັງຖືກຄາດຄະເນຢູ່. ໃຊ້ຄ່າບູລີນ ເພື່ອຕັດສິນໃຈແບບເຫດຜົນໃນໂປຣແກຣມຂອງທ່ານ.
 
-Some programs will be easier to write using the “on ML start” and “on ML stop” event handlers instead.
+ບາງໂປຣແກຣມຈະຂຽນງ່າຍກວ່າ ໂດຍໃຊ້ “ເມື່ອ ML ເລີ່ມຕົ້ນ” ແລະ “ເມື່ອ ML ຢຸດ” ແທນຕົວຈັດການເຫດການ.
 
-## Parameters
+## ພາລາມິເຕີ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **ເຫດການ** ໜຶ່ງໃນການກະທຳທີ່ໂມເດວການຮຽນຮູ້ຂອງເຄື່ອງຈັກທີ່ຖືກຝຶກມາ. ຄ່າພິເສດ `ບໍ່ຮູ້ຈັກ` ແທນກໍລະນີທີ່ບໍ່ມີການກະທຳໃດມີຄ່າຄວາມແນ່ນອນສູງກວ່າຈຸດການຮັບຮູ້.
 
-## Returns
+## ສົ່ງຄືນ
 
-- a [boolean](/types/boolean) value that is `true` if the ML action is the estimated action, `false` if the ML action is not the estimated action.
+- ຄ່າ [boolean](/types/boolean) ທີ່ເປັນ `ຈິງ` ຖ້າການກະທຳ ML ແມ່ນການກະທຳທີ່ຖືກຄາດຄະເນ, ແລະເປັນ `ບໍ່ຈິງ` ຖ້າການກະທຳ ML ບໍ່ແມ່ນການກະທຳທີ່ຖືກຄາດຄະເນ.
 
-## Example
+## ຕົວຢ່າງ
 
-This example will show a tick icon on the LED display if the estimated action is `clapping` at the time the conditional statement is checked.
+ຕົວຢ່າງນີ້ຈະສະແດງໄອຄອນຖືກໝາຍຕິກຢູ່ໜ້າຈໍ LED ຖ້າການກະທຳທີ່ຖືກຄາດຄະເນແມ່ນ `ການຕົບມື` ໃນເວລາທີ່ກວດສອບເງື່ອນໄຂ.
 
 ```blocks
 basic.forever(function () {

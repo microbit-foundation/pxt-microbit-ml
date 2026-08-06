@@ -1,21 +1,21 @@
-# on ML start
+# ເມື່ອ ML ເລີ່ມຕົ້ນ
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes to the action you select.
+ເລີ່ມຕົ້ນ  [event handler](/reference/event-handler) (ສ່ວນໜຶ່ງຂອງໂປຣແກຣມທີ່ຈະເຮັດວຽກເມື່ອມີສິ່ງໃດໜຶ່ງເກີດຂຶ້ນ). ຕົວຈັດການນີ້ຈະເຮັດວຽກເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນຂອງໂມເດວ ML ປ່ຽນໄປເປັນການກະທຳທີ່ທ່ານເລືອກ.
 
 ```sig
 ml.onStart(ml.event.Unknown, function () {
 })
 ```
 
-The ML model updates its estimated action several times a second, but this event handler only runs when the estimated action changes.
+ໂມເດວ ML ຈະອັບເດດການກະທຳທີ່ຖືກຄາດຄະເນຫຼາຍຄັ້ງຕໍ່ວິນາທີ ແຕ່ຕົວຈັດການເຫດການນີ້ຈະເຮັດວຽກກໍ່ຕໍ່ເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນປ່ຽນແປງເທົ່ານັ້ນ.
 
-## Parameters
+## ພາລາມິເຕີ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **ເຫດການ** ໜຶ່ງໃນການກະທຳທີ່ໂມເດວການຮຽນຮູ້ຂອງເຄື່ອງຈັກທີ່ຖືກຝຶກມາ. ຄ່າພິເສດ `ບໍ່ຮູ້ຈັກ` ແທນກໍລະນີທີ່ບໍ່ມີການກະທຳໃດມີຄ່າຄວາມແນ່ນອນສູງກວ່າຈຸດການຮັບຮູ້.
 
-## Example
+## ຕົວຢ່າງ
 
-This example plays a musical melody in the background when the action `clapping` has a certainty above the recognition point.
+ຕົວຢ່າງນີ້ຈະເປີດເພງທຳນອງດົນຕີຢູ່ເບື້ອງຫຼັງ ເມື່ອການກະທຳ 'ການຕົບມື' ມີຄ່າຄວາມແນ່ນອນສູງກວ່າຈຸດການຮັບຮູ້.
 
 ```blocks
 ml.onStart(ml.event.Clapping, function () {

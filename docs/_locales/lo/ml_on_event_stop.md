@@ -1,23 +1,23 @@
-# on ML stop
+# ເມື່ອ ML ຢຸດ
 
-Start an [event handler](/reference/event-handler) (part of the program that will run when something happens). This handler works when the ML model’s estimated action changes from the action you select.
+ເລີ່ມຕົ້ນ  [event handler](/reference/event-handler) (ສ່ວນໜຶ່ງຂອງໂປຣແກຣມທີ່ຈະເຮັດວຽກເມື່ອມີສິ່ງໃດໜຶ່ງເກີດຂຶ້ນ). ຕົວຈັດການນີ້ຈະເຮັດວຽກເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນຂອງໂມເດວ ML ປ່ຽນອອກຈາກການກະທຳທີ່ທ່ານເລືອກ.
 
 ```sig
 ml.onStop(ml.event.Unknown, function () {
 })
 ```
 
-When an action changes, the stop event handler for the previous action will run, followed by the start event handler for the next action.
+ເມື່ອການກະທຳປ່ຽນແປງ, ຕົວຈັດການເຫດການຢຸດຂອງການກະທຳກ່ອນໜ້າຈະເຮັດວຽກກ່ອນ ແລະ ຈາກນັ້ນຕົວຈັດການເຫດການເລີ່ມຕົ້ນຂອງການກະທຳໃໝ່ຈະເຮັດວຽກຕາມມາ.
 
-For example, if your start event handler for an action starts music playing in the background, you could use a stop event handler to stop it.
+ຕົວຢ່າງ: ຖ້າຕົວຈັດການເຫດການເລີ່ມຕົ້ນຂອງການກະທຳໃດໜຶ່ງເລີ່ມເປີດເພງຢູ່ເບື້ອງຫຼັງ, ທ່ານສາມາດໃຊ້ຕົວຈັດການເຫດການຢຸດເພື່ອຢຸດມັນໄດ້.
 
-## Parameters
+## ພາລາມິເຕີ
 
-- **event**: one of the actions the machine learning model was trained on. The special value `unknown` represents the case where no action has a certainty above the recognition point.
+- **ເຫດການ** ໜຶ່ງໃນການກະທຳທີ່ໂມເດວການຮຽນຮູ້ຂອງເຄື່ອງຈັກທີ່ຖືກຝຶກມາ. ຄ່າພິເສດ `ບໍ່ຮູ້ຈັກ` ແທນກໍລະນີທີ່ບໍ່ມີການກະທຳໃດມີຄ່າຄວາມແນ່ນອນສູງກວ່າຈຸດການຮັບຮູ້.
 
-## Example
+## ຕົວຢ່າງ
 
-This example stops playing a musical melody when the estimated action changes from `clapping` to any other action.
+ຕົວຢ່າງນີ້ຈະຢຸດເປີດເພງທຳນອງດົນຕີ ເມື່ອການກະທຳທີ່ຖືກຄາດຄະເນປ່ຽນຈາກ 'ການຕົບມື' ໄປເປັນການກະທຳອື່ນ.
 
 ```blocks
 ml.onStop(ml.event.Clapping, function () {
