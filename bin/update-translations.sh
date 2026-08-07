@@ -13,7 +13,7 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-languages="ca es-ES fr ja ko nl pl pt-BR zh-TW"
+languages="ca es-ES fr ja ko lo nl pl pt-BR vi zh-TW"
 
 for language in $languages; do
     lower="${language,,}"
@@ -26,6 +26,14 @@ for language in $languages; do
 
     mkdir -p "docs/_locales/${language}"
     cp -r "${prefix}/docs/." "docs/_locales/${language}"
+done
+
+# The docs' package pin is part of the translated content, but the copy in
+# Crowdin is far behind what we release, so realign each translated doc with
+# its English original.
+for doc in docs/ml_*.md; do
+    pin=$(grep -m1 '^machine-learning=' "${doc}")
+    perl -pi -e "s{^machine-learning=.*}{${pin}}" "docs/_locales"/*/"$(basename "${doc}")"
 done
 
 cd simx

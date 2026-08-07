@@ -1,0 +1,15 @@
+{
+  "ml.getCertainty": "Lấy độ tin cậy của một sự kiện ML theo phần trăm (0 đến 100).",
+  "ml.getCertainty|param|event": "một trong những hành động mà mô hình học máy đã được huấn luyện để nhận dạng",
+  "ml.isDetected": "Kiểm tra xem một sự kiện ML có đang được phát hiện tại thời điểm hiện tại hay không.",
+  "ml.isDetected|param|event": "một trong những hành động mà mô hình học máy đã được huấn luyện để nhận dạng",
+  "ml.onStart": "Thực hiện một hành động khi một sự kiện ML được phát hiện.",
+  "ml.onStart|param|body": "mã lệnh để thực thi",
+  "ml.onStart|param|event": "một trong những hành động mà mô hình học máy đã được huấn luyện để nhận dạng",
+  "ml.onStop": "Thực hiện hành động khi không còn phát hiện sự kiện ML nữa.",
+  "ml.onStopDetailed": "Thực hiện hành động khi không còn phát hiện sự kiện ML nữa.",
+  "ml.onStopDetailed|param|body": "mã lệnh để thực thi",
+  "ml.onStopDetailed|param|event": "một trong những hành động mà mô hình học máy đã được huấn luyện để nhận dạng",
+  "ml.onStop|param|body": "mã lệnh để thực thi",
+  "ml.onStop|param|event": "một trong những hành động mà mô hình học máy đã được huấn luyện để nhận dạng"
+}
