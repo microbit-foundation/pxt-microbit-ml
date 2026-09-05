@@ -98,22 +98,48 @@ deployed build.
 
 ## Translations
 
-We manage translations via Crowdin.
+We manage translations via Crowdin, using
+[`@microbit/i18n-tools`](https://github.com/microbit-foundation/ui/tree/main/packages/i18n-tools)
+configured in [i18n.config.mjs](./i18n.config.mjs). The tool is installed in
+`simx/`, the repo's Node project, and its npm scripts there (`i18n:download`,
+`i18n:upload`, `i18n:status`, `i18n:tidy`, `i18n:compile`) point at that
+config.
 
 ### Incorporating changes from Crowdin
 
-Use [update-translations.sh](./bin/update-translations.sh).
+Run `npm run i18n:download` in `simx` with a Crowdin personal access token in
+`CROWDIN_PERSONAL_TOKEN`. It downloads the extension strings, help pages and
+simulator UI strings for the configured languages, restoring each help page's
+package pin from the English original (see below). The translations-download
+workflow does the same weekly and opens a pull request.
 
-Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
+The simulator's compiled catalogs in `simx/src/messages/` are generated output:
+gitignored and compiled on install and before `dev` and `build`. Its
+`simx/lang/ui.<lang>.json` files hold only what Crowdin has translated; the
+compile falls back to English for the rest.
 
-The script will update the extension UI and sim strings.
+### Sending English to Crowdin
+
+Nothing uploads to Crowdin on its own. MakeCode's own translation pipeline
+covers the editor and its bundled packages, not GitHub extensions, so the
+English for this repo is sent by hand, in two steps.
+
+1. The extension's block and JSDoc strings are extracted by pxt. After changing
+   a block label or a docstring, run `pxt gendocs --locs` (after the usual
+   `pxt target microbit` and `pxt install`) and commit the regenerated
+   `_locales/machine-learning-strings.json` and
+   `_locales/machine-learning-jsdoc-strings.json`.
+2. Run the translations-upload workflow (or `npm run i18n:upload` in `simx`).
+   It uploads those two files, the help pages in `docs/ml_*.md` and the
+   simulator's `simx/lang/ui.en.json`, showing what changes first. Tick "keep
+   translations" for a correction translators need not revisit.
 
 ### Adding a new language
 
-The script only copies the languages listed in it, and neither pxt nor the simx
-finds new files on its own, so three changes go alongside the sync:
+Neither pxt nor the simx finds new files on its own, so three changes go
+alongside the sync:
 
-1. `languages` in [update-translations.sh](./bin/update-translations.sh).
+1. `languages` in [i18n.config.mjs](./i18n.config.mjs).
 2. `supportedLanguages` in
    [simx/src/messages/TranslationProvider.tsx](./simx/src/messages/TranslationProvider.tsx),
    plus the matching import — the simx bundles its messages rather than loading
@@ -140,6 +166,15 @@ is where those blocks get their translations, so it needs bumping for new or
 updated ones to show. It necessarily trails the current version: bump it to the
 latest tag, then release again to publish that change (see #45 followed by
 v1.0.14).
+
+Crowdin treats that line as a string, so a bump would otherwise change the
+source of every page and unsettle its translation. Instead the copy in Crowdin
+reads `#{version_placeholder_do_not_translate}`: the upload puts the
+placeholder in and the download restores the tag from the English page (both
+in [i18n.config.mjs](./i18n.config.mjs)), so bumping the pin needs no upload.
+Each language's translation of that line should be the placeholder too; when
+the line does change, upload without "keep translations" and enter the
+placeholder as its translation in Crowdin.
 
 ## Releasing
 

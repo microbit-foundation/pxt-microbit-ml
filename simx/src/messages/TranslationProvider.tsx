@@ -7,16 +7,16 @@ import { ReactNode } from "react";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import caMessages from "./ui.ca.json";
 import enMessages from "./ui.en.json";
-import esesMessages from "./ui.es-es.json";
+import esesMessages from "./ui.es-ES.json";
 import frMessages from "./ui.fr.json";
 import jaMessages from "./ui.ja.json";
 import koMessages from "./ui.ko.json";
 import loMessages from "./ui.lo.json";
 import nlMessages from "./ui.nl.json";
 import plMessages from "./ui.pl.json";
-import ptbrMessages from "./ui.pt-br.json";
+import ptbrMessages from "./ui.pt-BR.json";
 import viMessages from "./ui.vi.json";
-import zhtwMessages from "./ui.zh-tw.json";
+import zhtwMessages from "./ui.zh-TW.json";
 
 type Messages = Record<string, string> | Record<string, MessageFormatElement[]>;
 
@@ -41,7 +41,7 @@ const supportedLanguages: Language[] = [
     messages: caMessages,
   },
   {
-    id: "es-es",
+    id: "es-ES",
     name: "Español",
     enName: "Spanish",
     messages: esesMessages,
@@ -83,7 +83,7 @@ const supportedLanguages: Language[] = [
     messages: plMessages,
   },
   {
-    id: "pt-br",
+    id: "pt-BR",
     name: "Português (Brasil)",
     enName: "Portuguese (Brazil)",
     messages: ptbrMessages,
@@ -95,7 +95,7 @@ const supportedLanguages: Language[] = [
     messages: viMessages,
   },
   {
-    id: "zh-tw",
+    id: "zh-TW",
     name: "繁體中文",
     enName: "Chinese (Traditional)",
     messages: zhtwMessages,
@@ -104,8 +104,12 @@ const supportedLanguages: Language[] = [
 
 const getLanguageFromQuery = (): string => {
   const searchParams = new URLSearchParams(window.location.search);
+  // Matched case-insensitively; the ids and catalog files take canonical
+  // BCP 47 casing, as MakeCode's do.
   const l = searchParams.get("language")?.toLowerCase();
-  const supportedLanguage = supportedLanguages.find((x) => x.id === l);
+  const supportedLanguage = supportedLanguages.find(
+    (x) => x.id.toLowerCase() === l
+  );
   return supportedLanguage?.id || supportedLanguages[0].id;
 };
 

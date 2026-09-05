@@ -1,0 +1,8 @@
+{
+  "select-label": {
+    "defaultMessage": "ML 事件："
+  },
+  "unknown-event-label": {
+    "defaultMessage": "未知"
+  }
+}
