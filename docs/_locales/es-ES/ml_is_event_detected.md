@@ -18,7 +18,7 @@ Algunos programas serán más fáciles de escribir utilizando los manejadores de
 
 - un valor [booleano](/types/boolean) que es `cierto` si la acción ML es la acción estimada, `falso` si la acción ML no es la acción estimada.
 
-## Example
+## Ejemplo
 
 Este ejemplo mostrará un icono de tic en la pantalla LED si la acción estimada es `clapping` en el momento en que se comprueba la sentencia condicional.
 
