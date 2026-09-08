@@ -1,0 +1,41 @@
+name: translations-upload
+
+# Replaces the English in Crowdin: the extension's block and JSDoc strings
+# (regenerate with `pxt gendocs --locs` first), the help pages and the
+# simulator's UI strings. Run when the copy is ready to translate; tick "keep
+# translations" for a correction translators need not revisit.
+on:
+  workflow_dispatch:
+    inputs:
+      keep_translations:
+        description: Keep translations of strings whose English text changed
+        type: boolean
+        default: false
+      dry_run:
+        description: Show what would change without uploading
+        type: boolean
+        default: false
+
+concurrency:
+  group: translations-upload
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+          cache: npm
+          cache-dependency-path: simx/package-lock.json
+      - run: npm install -g npm@11 --registry=https://registry.npmjs.org
+      - run: npm ci
+        working-directory: simx
+      - run: npm run i18n:upload -- ${{ inputs.keep_translations && '--keep-translations' || '' }} ${{ inputs.dry_run && '--dry-run' || '' }}
+        working-directory: simx
+        env:
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}

@@ -1,10 +1,8 @@
 {
   "select-label": {
-    "defaultMessage": "ML 이벤트:",
-    "description": "Label for the simulator event select input"
+    "defaultMessage": "ML 이벤트:"
   },
   "unknown-event-label": {
-    "defaultMessage": "알 수 없음",
-    "description": "Label the default ML event"
+    "defaultMessage": "알 수 없음"
   }
 }

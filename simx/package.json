@@ -9,18 +9,24 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run i18n:compile && tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "i18n:compile": "node bin/tidy-lang.cjs && formatjs compile-folder --ast lang src/messages"
+    "i18n:compile": "microbit-i18n compile --config ../i18n.config.mjs",
+    "predev": "npm run i18n:compile",
+    "postinstall": "npm run i18n:compile",
+    "i18n:tidy": "microbit-i18n tidy --config ../i18n.config.mjs",
+    "i18n:download": "microbit-i18n download --config ../i18n.config.mjs",
+    "i18n:upload": "microbit-i18n upload --config ../i18n.config.mjs",
+    "i18n:status": "microbit-i18n status --config ../i18n.config.mjs"
   },
   "dependencies": {
-    "@formatjs/cli": "^6.2.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intl": "^6.6.8"
   },
   "devDependencies": {
+    "@microbit/i18n-tools": "^0.2.1",
     "@types/node": "^22.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
