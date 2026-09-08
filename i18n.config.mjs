@@ -24,13 +24,13 @@ const languages = [
   "zh-TW",
 ];
 
-// Each help page's `package` block pins this extension by tag, and Crowdin
-// treats that line as a string, so a release would change the source and
-// unsettle every translation. Crowdin holds a placeholder instead: the
-// upload puts it in, the download restores the tag from the English page.
-const pinLine = /^machine-learning=github:microbit-foundation\/pxt-microbit-ml#.*$/m;
-const pinPlaceholder =
-  "machine-learning=github:microbit-foundation/pxt-microbit-ml#{version_placeholder_do_not_translate}";
+// Each help page's `package` block pins this extension and its help stubs by
+// tag (`name=github:owner/repo#tag`), and Crowdin treats those lines as
+// strings, so a release would change the source and unsettle every
+// translation. Crowdin holds a placeholder instead: the upload puts it in,
+// the download restores each line from the English page by its name.
+const pinLine = /^([\w-]+=github:[\w-]+\/[\w-]+)#.*$/gm;
+const pinPlaceholder = "$1#{version_placeholder_do_not_translate}";
 
 /** @type {import("@microbit/i18n-tools").Config} */
 export default {
@@ -69,10 +69,16 @@ export default {
       beforeUpload: (text) => text.replace(pinLine, pinPlaceholder),
       afterDownload: (text, { name }) => {
         const english = path.join(root, "docs", name);
-        const pin = fs.existsSync(english)
-          ? pinLine.exec(fs.readFileSync(english, "utf-8"))?.[0]
-          : undefined;
-        return pin ? text.replace(pinLine, pin) : text;
+        if (!fs.existsSync(english)) {
+          return text;
+        }
+        const pins = new Map(
+          [...fs.readFileSync(english, "utf-8").matchAll(pinLine)].map((m) => [
+            m[1],
+            m[0],
+          ])
+        );
+        return text.replace(pinLine, (line, name) => pins.get(name) ?? line);
       },
     },
   ],
