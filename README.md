@@ -105,34 +105,8 @@ configured in [i18n.config.mjs](./i18n.config.mjs). The tool is installed in
 `i18n:upload`, `i18n:status`, `i18n:tidy`, `i18n:compile`) point at that
 config.
 
-### Incorporating changes from Crowdin
-
-Run `npm run i18n:download` in `simx` with a Crowdin personal access token in
-`CROWDIN_PERSONAL_TOKEN`. It downloads the extension strings, help pages and
-simulator UI strings for the configured languages, restoring each help page's
-package pin from the English original (see below). The translations-download
-workflow does the same weekly and opens a pull request.
-
-The simulator's compiled catalogs in `simx/src/messages/` are generated output:
-gitignored and compiled on install and before `dev` and `build`. Its
-`simx/lang/ui.<lang>.json` files hold only what Crowdin has translated; the
-compile falls back to English for the rest.
-
-### Sending English to Crowdin
-
-Nothing uploads to Crowdin on its own. MakeCode's own translation pipeline
-covers the editor and its bundled packages, not GitHub extensions, so the
-English for this repo is sent by hand, in two steps.
-
-1. The extension's block and JSDoc strings are extracted by pxt. After changing
-   a block label or a docstring, run `pxt gendocs --locs` (after the usual
-   `pxt target microbit` and `pxt install`) and commit the regenerated
-   `_locales/machine-learning-strings.json` and
-   `_locales/machine-learning-jsdoc-strings.json`.
-2. Run the translations-upload workflow (or `npm run i18n:upload` in `simx`).
-   It uploads those two files, the help pages in `docs/ml_*.md` and the
-   simulator's `simx/lang/ui.en.json`, showing what changes first. Tick "keep
-   translations" for a correction translators need not revisit.
+Use the GitHub workflows to download or upload translations. The download
+workflow runs on a weekly schedule.
 
 ### Adding a new language
 
