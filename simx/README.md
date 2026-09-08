@@ -25,24 +25,14 @@ Builds the app for production to the `build` folder.
 
 ## Translations
 
-We manage translations via Crowdin.
+We use react-intl from [FormatJS](https://formatjs.io/) for user interface
+strings. In development, add strings to `lang/ui.en.json` and run
+`npm run i18n:compile` to update the catalogs the app loads; `dev` and `build`
+do this for you.
 
-We use react-intl from [FormatJS](https://formatjs.io/) to manage user interface strings. These are stored in this repository.
-
-In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
-
-#### Updating files in Crowdin
-
-The UI files are updated manually. Please download the existing files and diff locally to ensure the changes are as expected.
-
-### Adding a new language
-
-This process assumes the language is already in Crowdin and has at least some translations.
-
-Steps:
-
-1. Add the language to the update script.
-2. Update `supportedLanguages` in [TranslationProvider.tsx](../src/messages/TranslationProvider.tsx).
+Crowdin sync, uploading English and adding a language are covered by the
+Translations section of the [repository README](../README.md), since the
+extension's own strings and help pages go through the same tool.
 
 ## Deployments
 
