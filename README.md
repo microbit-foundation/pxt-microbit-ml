@@ -141,14 +141,14 @@ updated ones to show. It necessarily trails the current version: bump it to the
 latest tag, then release again to publish that change (see #45 followed by
 v1.0.14).
 
-Crowdin treats that line as a string, so a bump would otherwise change the
+Crowdin treats those lines as strings, so a bump would otherwise change the
 source of every page and unsettle its translation. Instead the copy in Crowdin
-reads `#{version_placeholder_do_not_translate}`: the upload puts the
-placeholder in and the download restores the tag from the English page (both
-in [i18n.config.mjs](./i18n.config.mjs)), so bumping the pin needs no upload.
-Each language's translation of that line should be the placeholder too; when
-the line does change, upload without "keep translations" and enter the
-placeholder as its translation in Crowdin.
+reads `#{version_placeholder_do_not_translate}` in place of each tag: the
+upload puts the placeholder in and the download restores the lines from the
+English page (both in [i18n.config.mjs](./i18n.config.mjs)), so bumping a pin
+needs no upload. Each language's translation of those lines should be the
+placeholder too; when a line does change, upload without "keep translations"
+and enter the placeholder as its translation in Crowdin.
 
 ## Releasing
 
