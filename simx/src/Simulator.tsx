@@ -11,7 +11,14 @@ type MessageType = "register" | "data" | "request_data" | "simulate_event";
 
 interface Message {
   type: MessageType;
-  data?: any;
+  data?: unknown;
+}
+
+// Envelope MakeCode uses for simulator messages in both directions.
+interface MessagePacket {
+  type: "messagepacket";
+  channel: string;
+  data: Uint8Array;
 }
 
 interface EventData {
@@ -68,7 +75,7 @@ const Simulator = () => {
   );
 
   const handleMessagePacket = useCallback(
-    (message: any) => {
+    (message: MessagePacket) => {
       const data = textDecoder.decode(new Uint8Array(message.data));
       const msg = JSON.parse(data) as Message;
       switch (msg.type) {
@@ -96,12 +103,10 @@ const Simulator = () => {
   // locally with React StrictMode.
   const ignore = useRef(false);
   useEffect(() => {
-    const listener = (ev: MessageEvent<any>) => {
-      if (ev.data?.channel === simChannel) {
-        switch (ev.data?.type) {
-          case "messagepacket":
-            return handleMessagePacket(ev.data);
-        }
+    const listener = (ev: MessageEvent<unknown>) => {
+      const data = ev.data as Partial<MessagePacket> | null | undefined;
+      if (data?.channel === simChannel && data.type === "messagepacket") {
+        handleMessagePacket(data as MessagePacket);
       }
     };
     window.addEventListener("message", listener);
