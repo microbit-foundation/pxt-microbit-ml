@@ -1,6 +1,6 @@
 # ML  開始時
 
-啟動一個 [event handler](/reference/event-handler)（發生某件事情時將會執行的程式的一部分）。 當機器學習模型的預估動作變更為您選擇的動作時，這個處理程式將會執行。
+啟動一個 [event handler](/reference/event-handler)（發生某件事情時將會執行的程式的一部分）。當機器學習模型的預估動作變更為您選擇的動作時，這個處理程式將會執行。
 
 ```sig
 ml.onStart(ml.event.Unknown, function () {
@@ -11,7 +11,7 @@ ml.onStart(ml.event.Unknown, function () {
 
 ## 參數
 
-- **事件**：機器學習模型所受訓練的動作其中之一。 特殊值「未知」代表沒有任何動作具有高於辨識點的確定性的情況。
+- **事件**：機器學習模型所受訓練的動作其中之一。特殊值「未知」代表沒有任何動作具有高於辨識點的確定性的情況。
 
 ## 範例
 
